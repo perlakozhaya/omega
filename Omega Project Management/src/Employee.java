@@ -1,31 +1,23 @@
 
 public class Employee {
-	private int employeeId;
-	private String employeeName; 
+	private String employeeCode;
 	private String employeeJob;
 	private double wagePerHour;
 	
-	public Employee(int employeeId, String employeeName, String employeeJob) {
-		this.employeeId = employeeId;
-		this.employeeName = employeeName;
+	public Employee(String employeeName, String employeeJob) {
+		this.employeeCode = employeeName;
 		
 		if(JobList.hasSpecialty(employeeJob)) {
 			this.employeeJob = employeeJob;
 			wagePerHour = JobList.getWagePerHour(employeeJob);
 		}
 	}
-	
-	public int getEmployeeId() {
-		return employeeId;
+
+	public String getEmployeeCode() {
+		return employeeCode;
 	}
-	public void setEmployeeId(int employeeId) {
-		this.employeeId = employeeId;
-	}
-	public String getEmployeeName() {
-		return employeeName;
-	}
-	public void setEmployeeName(String employeeName) {
-		this.employeeName = employeeName;
+	public void setEmployeeCode(String employeeName) {
+		this.employeeCode = employeeName;
 	}
 	public String getEmployeeJob() {
 		return employeeJob;

@@ -37,8 +37,5 @@ public class JobList {
             throw new IllegalArgumentException("Specialty not found");
         }
     }
-
-    public static Map<String, Double> getAllSpecialties() {
-        return new HashMap<>(jobs);
-    }
+    
 }

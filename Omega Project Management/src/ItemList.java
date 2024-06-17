@@ -38,7 +38,4 @@ public class ItemList {
         }
     }
 
-    public static Map<String, Double> getAllItems() {
-        return new HashMap<>(items);
-    }
 }

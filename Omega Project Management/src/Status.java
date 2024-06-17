@@ -1,6 +1,6 @@
 abstract class Status{
-	final protected String excute = "EXCUTE";
-	final protected String running = "RUNNIG";
+	final protected String execute = "EXECUTE";
+	final protected String running = "RUNNING";
 	final protected String done = "DONE";
 	
 	String currentStatus;
@@ -10,7 +10,7 @@ abstract class Status{
 	
 	void changeStatus() {
 		switch(currentStatus) {
-		case excute: 
+		case execute: 
 			currentStatus = running;
 			break;
 		case running:
