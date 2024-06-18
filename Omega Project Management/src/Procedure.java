@@ -2,13 +2,15 @@ import java.util.*;
 
 public class Procedure extends Status {
 	private String procedureName;
-	private float durationPerHour;
+	private double duration;
+//	private Set<Logistic> logistics;
+	
 	Set<ProcedureDetail> procedureDetails;
 	
-	public Procedure(String procedureName,float durationPerHour, String status) {
+	public Procedure(String procedureName,float duration, String status) {
 		super(status);
 		this.procedureName = procedureName;
-		this.durationPerHour = durationPerHour;
+		this.duration = duration;
 		procedureDetails = new TreeSet<ProcedureDetail>();
 	}
 	
@@ -23,13 +25,12 @@ public class Procedure extends Status {
 		this.procedureName = procedureName;
 	}
 
-	public float getDurationPerHour() {
-		return durationPerHour;
+	public double getduration() {
+		return duration;
 	}
 
-	public void setDurationPerHour(float durationPerHour) {
-		this.durationPerHour = durationPerHour;
+	public void setduration(double duration) {
+		this.duration = duration;
 	}
 
 }
-//fi 3ena des cout logistique

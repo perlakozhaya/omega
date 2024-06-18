@@ -11,6 +11,6 @@ public class ProcedureEmployee extends ProcedureDetail {
 
 	@Override
 	public double procedureCost() {
-		return employee.getWagePerHour() * hours;
+		return employee.getSpecialty().getWagePerHour() * hours;
 	}
 }

@@ -1,14 +1,14 @@
 public class Test {
 	
 	public static void main(String[] args) {	
-		JobList.addJob("job1", 10);
-		JobList.addJob("job2", 20);
+		Specialty s1 = new Specialty("s1", 10);
+		Specialty s2 = new Specialty("s2", 20);
 		
 		ItemList.addItem("item1", 1.1);
 		ItemList.addItem("item2", 2.2);
 		
-		Employee emp1 = new Employee("emp_1", "job1");
-		Employee emp2 = new Employee("emp_2", "job2");
+		Employee emp1 = new Employee("emp_1", s1);
+		Employee emp2 = new Employee("emp_2", s2);
 		
 		Procedure p1 = new Procedure("p1", 10, "DONE");
 		Procedure p2 = new Procedure("p2", 10, "RUNNING");
