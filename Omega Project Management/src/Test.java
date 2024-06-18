@@ -15,12 +15,15 @@ public class Test {
 		Procedure p2 = new Procedure("p2", 10, "RUNNING");
 		
 		ProcedureEmployee pe1 = new ProcedureEmployee(emp1, 6, p1);
-		ProcedureEmployee pe2 = new ProcedureEmployee(emp1, 4, p1);
+		ProcedureEmployee pe2 = new ProcedureEmployee(emp2, 4, p1);
+		p1.getEmployees().add(pe1);
+		p1.getEmployees().add(pe2);
+		ProcedureEmployee pe3 = new ProcedureEmployee(emp1, 4, p2);
 		
 		ProcedureItem pi1 = new ProcedureItem("item1", 6.0, p1);
 		ProcedureItem pi2 = new ProcedureItem("item2", 4.0, p1);
 
-		System.out.println(pe2.procedureCost());
+		System.out.println(p1.employeesCost());
 	}
 
 }

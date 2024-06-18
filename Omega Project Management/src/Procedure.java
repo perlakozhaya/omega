@@ -1,10 +1,10 @@
 import java.util.*;
 
-public class Procedure extends Status {
+public class Procedure extends Status implements Comparable<Procedure> {
 	private String procedureName;
 	private double duration;
-//	private Set<Logistic> logistics;
 	
+	private Set<Logistic> logistics;
 	private Set<ProcedureItem> items;
 	private Set<ProcedureEmployee> employees;
 	
@@ -13,13 +13,20 @@ public class Procedure extends Status {
 		this.procedureName = procedureName;
 		this.duration = duration;
 		
-		items = new TreeSet<ProcedureItem>();
 		employees = new TreeSet<ProcedureEmployee>();
+		items = new TreeSet<ProcedureItem>();
+	}
+	
+	public double employeesCost() {
+		double total = 0.0;
+		Iterator<ProcedureEmployee> i = employees.iterator();
+		while(i.hasNext()) {
+			total += i.next().employeeCost();
+		}
+		return total;
 	}
 	
 	
-	//----------------------------------------------------
-	//getters and setters
 	public String getProcedureName() {
 		return procedureName;
 	}
@@ -28,21 +35,17 @@ public class Procedure extends Status {
 		this.procedureName = procedureName;
 	}
 
-	public double getduration() {
+	public double getDuration() {
 		return duration;
 	}
 
-	public void setduration(double duration) {
+	public void setDuration(double duration) {
 		this.duration = duration;
 	}
 
-
-	
 	public Set<ProcedureItem> getItems() {
 		return items;
 	}
-	
-
 
 	public void setItems(Set<ProcedureItem> items) {
 		this.items = items;
@@ -54,6 +57,19 @@ public class Procedure extends Status {
 
 	public void setEmployees(Set<ProcedureEmployee> employees) {
 		this.employees = employees;
+	}
+	
+	public Set<Logistic> getLogistics() {
+		return logistics;
+	}
+
+	public void setLogistics(Set<Logistic> logistics) {
+		this.logistics = logistics;
+	}
+
+	@Override
+	public int compareTo(Procedure p) {
+		return procedureName.compareTo(p.procedureName);
 	}
 
 }

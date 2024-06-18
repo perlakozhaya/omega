@@ -1,5 +1,5 @@
 
-public class ProcedureItem{
+public class ProcedureItem implements Comparable<ProcedureItem> {
 	private Procedure procedure;
 	private String itemName;
 	private double costPerUnit;
@@ -49,6 +49,11 @@ public class ProcedureItem{
 
 	public void setProcedure(Procedure procedure) {
 		this.procedure = procedure;
+	}
+
+	@Override
+	public int compareTo(ProcedureItem pi) {
+		return this.procedure.compareTo(pi.procedure);
 	}
 }
 
