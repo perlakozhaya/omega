@@ -34,7 +34,5 @@ public class Specialty {
         } else {
             throw new IllegalArgumentException("specialtyName not found");
         }
-    }
-
-    
+    }   
 }
