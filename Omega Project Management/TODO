@@ -1,1 +1,35 @@
-. many Employyes can work on same Procedure
+Employee:	String nameCode
+			double workedHours
+			Specialty	--->	static MAP < String , double >
+								String specialtyName
+			
+			- cost();	//workedHours * wagePerHour{from the MAP}
+			
+Item:	static MAP < String , double > 
+		String itemName
+		double quantity
+		
+		- cost();	// quantity * pricePerUnit{from the MAP} 
+_________________________________________________________
+
+					Procedure
+						
+VARIABLES:
+
+String 			procedureID
+double 			duration //in hours
+Set<Employee> 	employees
+Set<Item> 		items
+
+METHODS:
+
+add/remove(Employyee e)
+add/remove(Item i)
+
+changeStatus()	//from the abstract class Status 
+
+setters()/getters() 
+
+totalEmployeesCost()
+totalItemsCost()
+procedureCost()
