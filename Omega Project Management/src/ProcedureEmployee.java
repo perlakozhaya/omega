@@ -1,5 +1,5 @@
 
-public class ProcedureEmployee{
+public class ProcedureEmployee implements Comparable<ProcedureEmployee> {
 	Procedure procedure;
 	private Employee employee; 
 	private double hours;
@@ -10,7 +10,12 @@ public class ProcedureEmployee{
 		this.hours = hours; 
 	}
 
-	public double procedureCost() {
+	public double employeeCost() {
 		return employee.getSpecialty().getWagePerHour() * hours;
+	}
+
+	@Override
+	public int compareTo(ProcedureEmployee pe) {
+		return this.procedure.compareTo(pe.procedure);
 	}
 }

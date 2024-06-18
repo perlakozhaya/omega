@@ -13,25 +13,25 @@ public class ItemList {
             throw new IllegalArgumentException("itemName cannot be null or empty");
         }
         if (costPerUnit <= 0) {
-            throw new IllegalArgumentException("Wage per hour must be positive");
+            throw new IllegalArgumentException("Cost per unit must be positive");
         }
         items.put(itemName, costPerUnit);
     }
 
+    public static boolean hasItem(String itemName) {
+    	return items.containsKey(itemName);
+    }
+    
     public static double getCostPerUnit(String itemName) {
-        if (items.containsKey(itemName)) {
+        if (hasItem(itemName)) {
             return items.get(itemName);
         } else {
             throw new IllegalArgumentException("itemName not found");
         }
     }
 
-    public static boolean hasItem(String itemName) {
-        return items.containsKey(itemName);
-    }
-
     public static void removeItem(String itemName) {
-        if (items.containsKey(itemName)) {
+        if (hasItem(itemName)) {
             items.remove(itemName);
         } else {
             throw new IllegalArgumentException("itemName not found");
