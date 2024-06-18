@@ -1,5 +1,6 @@
 public class Test {
 	
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {	
 		Specialty s1 = new Specialty("s1", 10);
 		Specialty s2 = new Specialty("s2", 20);

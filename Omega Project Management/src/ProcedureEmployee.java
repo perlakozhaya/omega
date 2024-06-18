@@ -1,15 +1,15 @@
 
-public class ProcedureEmployee extends ProcedureDetail {
+public class ProcedureEmployee{
+	Procedure procedure;
 	private Employee employee; 
 	private double hours;
 	
 	public ProcedureEmployee(Employee employee, double hours, Procedure procedure) { 
-		super(procedure); 
+		this.procedure = procedure;
 		this.employee = employee;
 		this.hours = hours; 
 	}
 
-	@Override
 	public double procedureCost() {
 		return employee.getSpecialty().getWagePerHour() * hours;
 	}

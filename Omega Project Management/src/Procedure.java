@@ -5,13 +5,16 @@ public class Procedure extends Status {
 	private double duration;
 //	private Set<Logistic> logistics;
 	
-	Set<ProcedureDetail> procedureDetails;
+	private Set<ProcedureItem> items;
+	private Set<ProcedureEmployee> employees;
 	
-	public Procedure(String procedureName,float duration, String status) {
+	public Procedure(String procedureName, double duration, String status) {
 		super(status);
 		this.procedureName = procedureName;
 		this.duration = duration;
-		procedureDetails = new TreeSet<ProcedureDetail>();
+		
+		items = new TreeSet<ProcedureItem>();
+		employees = new TreeSet<ProcedureEmployee>();
 	}
 	
 	
@@ -31,6 +34,26 @@ public class Procedure extends Status {
 
 	public void setduration(double duration) {
 		this.duration = duration;
+	}
+
+
+	
+	public Set<ProcedureItem> getItems() {
+		return items;
+	}
+	
+
+
+	public void setItems(Set<ProcedureItem> items) {
+		this.items = items;
+	}
+
+	public Set<ProcedureEmployee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(Set<ProcedureEmployee> employees) {
+		this.employees = employees;
 	}
 
 }
