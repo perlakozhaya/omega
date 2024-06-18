@@ -1,14 +1,16 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class ItemList {
+public class Item {
+	private String itemName;
     public static Map<String, Double> items = new HashMap<>();
 
-    public ItemList(String itemName, double costPerUnit) {
+    public Item(String itemName, double costPerUnit) {
+    	this.itemName = itemName;
         addItem(itemName, costPerUnit);
     }
 
-    public static void addItem(String itemName, double costPerUnit) {
+    private void addItem(String itemName, double costPerUnit) {
         if (itemName == null || itemName.isEmpty()) {
             throw new IllegalArgumentException("itemName cannot be null or empty");
         }
@@ -18,21 +20,23 @@ public class ItemList {
         items.put(itemName, costPerUnit);
     }
 
-    public static boolean hasItem(String itemName) {
-    	return items.containsKey(itemName);
-    }
-    
-    public static double getCostPerUnit(String itemName) {
-        if (hasItem(itemName)) {
-            return items.get(itemName);
+    public void removeItem() {
+        if (items.containsKey(itemName)) {
+            items.remove(itemName);
         } else {
             throw new IllegalArgumentException("itemName not found");
         }
     }
 
-    public static void removeItem(String itemName) {
-        if (hasItem(itemName)) {
-            items.remove(itemName);
+	public String getItemName() {
+		return itemName;
+	}
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+    public double getCostPerUnit() {
+        if (items.containsKey(itemName)) {
+            return items.get(itemName);
         } else {
             throw new IllegalArgumentException("itemName not found");
         }

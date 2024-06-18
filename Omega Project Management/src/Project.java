@@ -1,8 +1,8 @@
 import java.util.*;
 
-public class Project extends Status implements Comparable<Project>{
+public class Project extends Status implements Comparable<Project> {
 	private String projectName;
-	Set<Task> tasks;
+	private Set<Task> tasks;
 	
 	Project(String projectName, String status) {
 		super(status);
@@ -10,17 +10,27 @@ public class Project extends Status implements Comparable<Project>{
 		tasks = new TreeSet<Task>();
 	}
 	
-	//-----------------------------------------------
-	public String getProjectName() {
-		return projectName;
-	}
-	
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
-
 	@Override
 	public int compareTo(Project p) {
 		return this.projectName.compareTo(p.projectName);
+	}
+
+	@Override
+	boolean changeStatus() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	public String getProjectName() {
+		return projectName;
+	}
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+	public Set<Task> getTasks() {
+		return tasks;
+	}
+	public void setTasks(Set<Task> tasks) {
+		this.tasks = tasks;
 	}
 }

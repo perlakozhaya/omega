@@ -1,24 +1,21 @@
-abstract class Status{
-	final protected String execute = "EXECUTE";
-	final protected String running = "RUNNING";
-	final protected String done = "DONE";
+
+abstract class Status {
+	final protected String INCOMPLETE = "Incomplete";
+	final protected String EXECUTE = "Execute";
+	final protected String ONGOING = "Ongoing";
+	final protected String DONE = "Done";
+	private String currentStatus;
 	
-	String currentStatus;
-	Status(String status){
+	Status(String status) {
 		currentStatus = status;
 	}
 	
-	void changeStatus() {
-		switch(currentStatus) {
-		case execute: 
-			currentStatus = running;
-			break;
-		case running:
-			currentStatus = done;
-		case done:
-			break;
-		default:
-			System.err.println("Not Initialized Status");
-		}
+	abstract boolean changeStatus();
+
+	public String getCurrentStatus() {
+		return currentStatus;
+	}
+	public void setCurrentStatus(String currentStatus) {
+		this.currentStatus = currentStatus;
 	}
 }
