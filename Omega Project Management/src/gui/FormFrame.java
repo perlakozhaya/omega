@@ -2,39 +2,26 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class FormFrame extends JFrame {
-    private JPanel sidebar, buttonPanel;
-    private JButton projectButton, taskButton, procedureButton, detailsButton;
+    private JPanel buttonPanel, centerPanel, comboPanel;
     private JButton clearButton, saveButton, deleteButton;
+    private JComboBox<String> comboBox1, comboBox2, comboBox3;
     
     private ProjectContainer projectC;
     private TaskContainer taskC;
     private ProcedureContainer procedureC;
     private DetailsContainer detailsC;
+    private CardLayout cardLayout;
 
     public FormFrame(String title) {
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 500);
+        setBounds(10, 200, 360, 420);
         setResizable(true);
         setLayout(new BorderLayout());
-
-        sidebar = new JPanel();
-        sidebar.setLayout(new GridLayout(4, 1));
-
-        projectButton = new JButton("Project");
-        taskButton = new JButton("Task");
-        procedureButton = new JButton("Procedure");
-        detailsButton = new JButton("Procedure Details");
-
-        sidebar.add(projectButton);
-        sidebar.add(taskButton);
-        sidebar.add(procedureButton);
-        sidebar.add(detailsButton);
 
         projectC = new ProjectContainer();
         taskC = new TaskContainer();
@@ -58,47 +45,34 @@ public class FormFrame extends JFrame {
         buttonPanel.add(deleteButton);
         buttonPanel.add(Box.createHorizontalGlue()); // Pushes buttons to the center
 
-        add(sidebar, BorderLayout.WEST);
-        add(buttonPanel, BorderLayout.SOUTH);
-        add(projectC, BorderLayout.CENTER);
+        cardLayout = new CardLayout();
+        centerPanel = new JPanel(cardLayout);
+        centerPanel.add(projectC, "Project");
+        centerPanel.add(taskC, "Task");
+        centerPanel.add(procedureC, "Procedure");
+        centerPanel.add(detailsC, "Details");
+
+        comboPanel = new JPanel();
+        comboPanel.setLayout(new BoxLayout(comboPanel, BoxLayout.X_AXIS));
+        comboPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        comboPanel.setBackground(Color.LIGHT_GRAY);
+
+        comboBox1 = new JComboBox<>(new String[] {"", "Option 1", "Option 2", "Option 3"});
+        comboBox2 = new JComboBox<>(new String[] {"", "Option 4", "Option 5", "Option 6"});
+        comboBox3 = new JComboBox<>(new String[] {"", "Option 7", "Option 8", "Option 9"});
+
+        comboPanel.add(comboBox1);
+        comboPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        comboPanel.add(comboBox2);
+        comboPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        comboPanel.add(comboBox3);
         
-        //--------------------------------------------
-        projectButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                switchPanel(projectC);
-            }
-        });
-
-        taskButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                switchPanel(taskC);
-            }
-        });
-
-        procedureButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                switchPanel(procedureC);
-            }
-        });
-
-        detailsButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                switchPanel(detailsC);
-            }
-        });
+        add(buttonPanel, BorderLayout.SOUTH);
+        add(centerPanel, BorderLayout.CENTER);
+        add(comboPanel, BorderLayout.NORTH);
 
         setVisible(true);
     }
-
-    // Method to switch panels in the center
-    private void switchPanel(JPanel panel) {
-        getContentPane().removeAll();
-        add(sidebar, BorderLayout.WEST);
-        add(buttonPanel, BorderLayout.SOUTH);
-        add(panel, BorderLayout.CENTER);
-        repaint();
-    }
-        //--------------------------------------------
 
     public static void main(String[] args) {
         new FormFrame("Form Frame");
