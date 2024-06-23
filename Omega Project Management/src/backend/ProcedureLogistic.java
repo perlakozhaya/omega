@@ -1,3 +1,4 @@
+package backend;
 
 public class ProcedureLogistic extends ProcedureDetail {
 	private double quantity;

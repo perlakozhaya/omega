@@ -1,3 +1,4 @@
+package backend;
 
 public abstract class ProcedureDetail implements Comparable<ProcedureDetail> {
 	protected Procedure procedure;

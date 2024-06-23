@@ -1,13 +1,21 @@
+package backend;
 import java.util.*;
 
 public class Project extends Status implements Comparable<Project> {
 	private String projectName;
 	private Set<Task> tasks;
+    public static Set<Project> projects;
+
 	
-	Project(String projectName, String status) {
+	public Project(String projectName, String status) {
 		super(status);
 		this.projectName = projectName;
 		tasks = new TreeSet<Task>();
+		projects = new HashSet<>();
+	}
+	
+	public void addTask(Task t) {
+		tasks.add(t);
 	}
 	
 	@Override
@@ -19,6 +27,11 @@ public class Project extends Status implements Comparable<Project> {
 	boolean changeStatus() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return this.projectName;
 	}
 	
 	public String getProjectName() {

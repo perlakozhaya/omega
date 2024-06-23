@@ -1,3 +1,4 @@
+package backend;
 public class ProcedureEmployee extends ProcedureDetail {
 	private Employee employee; 
 	private double hoursWorked;

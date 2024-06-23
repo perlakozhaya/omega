@@ -1,3 +1,4 @@
+package backend;
 import java.util.*;
 
 public class Procedure extends Status implements Comparable<Procedure> {
@@ -71,6 +72,11 @@ public class Procedure extends Status implements Comparable<Procedure> {
 	@Override
 	public int compareTo(Procedure p) {
 		return procedureName.compareTo(p.procedureName);
+	}
+	
+	@Override
+	public String toString() {
+		return this.procedureName;
 	}
 	
 	// Getters & Setters

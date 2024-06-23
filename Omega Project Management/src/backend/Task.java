@@ -1,14 +1,24 @@
+package backend;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class Task extends Status implements Comparable<Task> {
 	private String taskName;
-	Set<Procedure> procedures;
+	private Set<Procedure> procedures;
 	
 	public Task(String taskName, String status) {
 		super(status);
 		this.taskName = taskName;
 		procedures = new TreeSet<Procedure>();
+	}
+	
+	public void addProcedure(Procedure p) {
+		procedures.add(p);
+	}
+	
+	@Override
+	public String toString() {
+		return this.taskName;
 	}
 	
 	public String getTaskName() {
@@ -19,6 +29,14 @@ public class Task extends Status implements Comparable<Task> {
 		this.taskName = taskName;
 	}
 
+	public void setProcedures(Set<Procedure> p) {
+		procedures = p;
+	}
+	
+	public Set<Procedure> getProcedures(){
+		return procedures;
+	}
+	
 	@Override
     public int compareTo(Task t) {
         return this.taskName.compareTo(t.taskName);
