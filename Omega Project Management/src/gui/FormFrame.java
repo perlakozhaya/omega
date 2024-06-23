@@ -4,13 +4,13 @@ import backend.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class FormFrame extends JFrame {
+public class FormFrame extends JFrame implements Observer {
     // Panels for different sections of the GUI
     private JPanel buttonPanel, centerPanel, comboPanel;
     
@@ -31,7 +31,6 @@ public class FormFrame extends JFrame {
     private ProjectContainer projectC;
     private TaskContainer taskC;
     private ProcedureContainer procedureC;
-    private DetailsContainer detailsC;
     
     // Layout for switching between different containers
     private CardLayout cardLayout;
@@ -48,7 +47,6 @@ public class FormFrame extends JFrame {
         projectC = new ProjectContainer();
         taskC = new TaskContainer();
         procedureC = new ProcedureContainer();
-        detailsC = new DetailsContainer();
 
         // Initialize and configure button panel
         buttonPanel = new JPanel();
@@ -78,7 +76,6 @@ public class FormFrame extends JFrame {
         centerPanel.add(projectC, "Project");
         centerPanel.add(taskC, "Task");
         centerPanel.add(procedureC, "Procedure");
-        centerPanel.add(detailsC, "Details");
 
         // Initialize and configure combo panel
         comboPanel = new JPanel();
@@ -108,38 +105,58 @@ public class FormFrame extends JFrame {
         comboPanel.add(procedureBOX);
 //      ------------------------------------------------------------
         projectDCBM.addElement(null);
-        for(Project p : Project.projects) {
+        for (Project p : Project.projects) {
         	projectDCBM.addElement(p);
+            p.addObserver(this);
         }
-        
+
         projectBOX.addActionListener(new ActionListener() {
-        	@Override
-        	public void actionPerformed(ActionEvent e) {
-        		if(projectBOX.getSelectedItem() != null) {
-        			fillTask();
-        			taskBOX.setEnabled(true);		
-        		}else {
-        			taskBOX.setEnabled(false);
-        			taskDCBM.removeAllElements();
-        			
-        			procedureBOX.setEnabled(false);
-        			procedureDCBM.removeAllElements();
-        		}
-        	}
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (projectBOX.getSelectedItem() != null) {
+                    fillTask();
+                    taskBOX.setEnabled(true);
+                    projectC.setProjectNameLabel("Project Name");
+                    projectC.setProjectName(((Project) projectBOX.getSelectedItem()).getProjectName());
+                    cardLayout.show(centerPanel, "Project");
+                } else {
+                    taskBOX.setEnabled(false);
+                    taskBOX.removeAllItems();
+                    procedureBOX.setEnabled(false);
+                    procedureBOX.removeAllItems();
+                    projectC.setProjectNameLabel("Create new project");
+                    projectC.setProjectName("Project Name...");
+                }
+            }
+        });
+
+        taskBOX.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (taskBOX.getSelectedItem() != null) {
+                    fillProcedure();
+                    procedureBOX.setEnabled(true);
+                    taskC.setTaskNameLabel("Task Name");
+                    taskC.setTaskName(((Task) taskBOX.getSelectedItem()).getTaskName());
+                    cardLayout.show(centerPanel, "Task");
+                } else {
+                    procedureBOX.setEnabled(false);
+                    procedureBOX.removeAllItems();
+                    taskC.setTaskNameLabel("Create new task");
+                    taskC.setTaskName("Task Name...");
+                }
+            }
+        });
+
+        procedureBOX.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (procedureBOX.getSelectedItem() != null) {
+                    cardLayout.show(centerPanel, "Procedure");
+                }
+            }
         });
         
-        taskBOX.addActionListener(new ActionListener() {
-        	@Override
-        	public void actionPerformed(ActionEvent e) {
-        		if(taskBOX.getSelectedItem() != null) {
-        			fillProcedure();
-        			procedureBOX.setEnabled(true);		
-        		}else {
-        			procedureBOX.setEnabled(false);
-        			procedureDCBM.removeAllElements();
-        		}
-        	}
-        });
 //      ------------------------------------------------------------
         
         // Add panels to the frame
@@ -150,12 +167,14 @@ public class FormFrame extends JFrame {
         // Make the frame visible
         setVisible(true);
     }
+    
     public void fillTask() {
     	taskDCBM.removeAllElements();
 		
 		taskDCBM.addElement(null);
 		for(Task t : ((Project) projectBOX.getSelectedItem()).getTasks()) {
 			taskDCBM.addElement(t);
+			t.addObserver(this);
 		}
     }
     
@@ -165,6 +184,16 @@ public class FormFrame extends JFrame {
 		procedureDCBM.addElement(null);
 		for(Procedure pr : ((Task) taskBOX.getSelectedItem()).getProcedures()) {
 			procedureDCBM.addElement(pr);
+			pr.addObserver(this);
 		}
+    }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof Project) {
+            fillTask();
+        } else if (o instanceof Task) {
+            fillProcedure();
+        }
     }
 }

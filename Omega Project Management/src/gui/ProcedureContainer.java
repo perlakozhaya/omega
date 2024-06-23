@@ -1,12 +1,9 @@
 package gui;
 
 import javax.swing.*;
+import backend.*;
 
 @SuppressWarnings("serial")
-public class ProcedureContainer extends JPanel{
-
-	public ProcedureContainer() {
-		// TODO Auto-generated constructor stub
-	}
-
+public class ProcedureContainer extends JPanel {
+	
 }

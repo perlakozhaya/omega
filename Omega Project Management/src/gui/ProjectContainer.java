@@ -3,7 +3,7 @@ package gui;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class ProjectContainer extends JPanel{
+public class ProjectContainer extends JPanel {
     private JLabel projectNameLabel;
     private JTextField projectName;
     
@@ -19,5 +19,20 @@ public class ProjectContainer extends JPanel{
         add(projectNameLabel);
         add(projectName);
 	}
-
+	
+	public void setProjectNameLabel(String text) {
+		projectNameLabel.setText(text);
+	}
+	
+	public String getProjectNameLabel() {
+		return projectNameLabel.getText();
+	}
+	
+	public void setProjectName(String text) {
+		projectName.setText(text);
+	}
+	
+	public String getProjectName() {
+		return projectName.getText();
+	}
 }

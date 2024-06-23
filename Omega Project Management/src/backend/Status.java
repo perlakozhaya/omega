@@ -1,6 +1,8 @@
 package backend;
 
-abstract class Status {
+import java.util.Observable;
+
+abstract class Status extends Observable {
 	final static String INCOMPLETE = "Incomplete";
 	final static String EXECUTE = "Execute";
 	final static String ONGOING = "Ongoing";
@@ -18,5 +20,7 @@ abstract class Status {
 	}
 	public void setCurrentStatus(String currentStatus) {
 		this.currentStatus = currentStatus;
+		setChanged();
+		notifyObservers();
 	}
 }

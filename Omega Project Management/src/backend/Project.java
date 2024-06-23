@@ -5,17 +5,18 @@ public class Project extends Status implements Comparable<Project> {
 	private String projectName;
 	private Set<Task> tasks;
     public static Set<Project> projects;
-
 	
 	public Project(String projectName, String status) {
 		super(status);
 		this.projectName = projectName;
 		tasks = new TreeSet<Task>();
-		projects = new HashSet<>();
+		projects = new TreeSet<>();
 	}
 	
 	public void addTask(Task t) {
 		tasks.add(t);
+		setChanged();
+		notifyObservers();
 	}
 	
 	@Override
@@ -39,11 +40,15 @@ public class Project extends Status implements Comparable<Project> {
 	}
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
+		setChanged();
+		notifyObservers();
 	}
 	public Set<Task> getTasks() {
 		return tasks;
 	}
 	public void setTasks(Set<Task> tasks) {
 		this.tasks = tasks;
+		setChanged();
+		notifyObservers();
 	}
 }
