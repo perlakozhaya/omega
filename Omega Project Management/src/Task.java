@@ -1,7 +1,7 @@
 import java.util.Set;
 import java.util.TreeSet;
 
-public class Task extends Status implements Comparable<Task>{
+public class Task extends Status implements Comparable<Task> {
 	private String taskName;
 	Set<Procedure> procedures;
 	
@@ -11,7 +11,6 @@ public class Task extends Status implements Comparable<Task>{
 		procedures = new TreeSet<Procedure>();
 	}
 	
-	//---------------------------------------------
 	public String getTaskName() {
 		return taskName;
 	}
@@ -20,10 +19,14 @@ public class Task extends Status implements Comparable<Task>{
 		this.taskName = taskName;
 	}
 
-	
 	@Override
-    public int compareTo(Task other) {
-        return this.taskName.compareTo(other.taskName);
+    public int compareTo(Task t) {
+        return this.taskName.compareTo(t.taskName);
     }
 
+	@Override
+	boolean changeStatus() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
