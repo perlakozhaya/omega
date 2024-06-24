@@ -37,7 +37,7 @@ public class ItemContainer extends JPanel {
 	    add(addItem);
 	    
 	    quantityLabel = new JLabel("Quantity");
-	    quantityLabel.setBounds(270, 15, 100, 13);
+	    quantityLabel.setBounds(285, 15, 100, 13);
 	    add(quantityLabel);
 	    
 	    createItemC = new CreateItemContainer();

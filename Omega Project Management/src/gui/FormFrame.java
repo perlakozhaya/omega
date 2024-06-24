@@ -34,6 +34,12 @@ public class FormFrame extends JFrame implements Observer {
     
     // Layout for switching between different containers
     private CardLayout cardLayout;
+    
+    // Create Menu Bar
+    private JMenuBar menuBar;
+    private JMenu file;
+    private JMenuItem save;
+    private JMenuItem exit;
 
     // Constructor for initializing the frame
     public FormFrame(String title) {
@@ -48,6 +54,15 @@ public class FormFrame extends JFrame implements Observer {
         taskC = new TaskContainer();
         procedureC = new ProcedureContainer();
 
+        // Add menu bar items
+        menuBar = new JMenuBar();
+        file = new JMenu("File");
+        save = new JMenuItem("Save");
+        exit = new JMenuItem("Exit");
+        file.add(save);
+        file.add(exit);
+        menuBar.add(file);
+        
         // Initialize and configure button panel
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
@@ -160,15 +175,20 @@ public class FormFrame extends JFrame implements Observer {
                     procedureC.getProcedureNameLabel().setText("Create new procedure");
                     procedureC.getProcedureName().setText("Procedure Name...");
                     cardLayout.show(centerPanel, "Procedure");
-                    
-                    // show procedureDetails 
                 }
             }
         });
         
+        exit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+        	
+        });
         
 //      ------------------------------------------------------------
-        
+        setJMenuBar(menuBar);
         // Add panels to the frame
         add(buttonPanel, BorderLayout.SOUTH);
         add(centerPanel, BorderLayout.CENTER);
