@@ -1,8 +1,6 @@
 package gui;
 
-import backend.Procedure;
-import backend.Project;
-import backend.Task;
+import backend.*;
 
 public class Main {
 
@@ -18,6 +16,14 @@ public class Main {
 		Procedure pr2 = new Procedure("procedure 2", null);
 		Procedure pr3 = new Procedure("procedure 3", null);
 		Procedure pr4 = new Procedure("procedure 4", null);
+		
+		Specialty s1 = new Specialty("Specialty 1", 12);
+		Specialty s2 = new Specialty("Specialty 2", 9);
+		Employee e1 = new Employee("Employee 1", s1);
+		Employee e2 = new Employee("Employee 2", s2);
+		for(Employee e : Employee.allEmployees) {
+			System.out.println(e);
+		}
 		
 		t1.addProcedure(pr1);
 		t1.addProcedure(pr2);

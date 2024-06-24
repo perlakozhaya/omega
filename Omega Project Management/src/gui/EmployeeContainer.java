@@ -22,10 +22,14 @@ public class EmployeeContainer extends JPanel {
 	private CreateSpecialtyContainer createSpecialtyC;
 	
 	public EmployeeContainer() {
-		list = new JList<Employee>();
-	    
 		setLayout(null);
 		setBackground(new Color(227, 227, 227));
+		
+		listDLM = new DefaultListModel<>();
+		for(Employee e : Employee.allEmployees) {
+			listDLM.addElement(e);
+		}
+		list = new JList<Employee>(listDLM);
 	    scrollPane = new JScrollPane(list);
 	    scrollPane.setBounds(0, 14, 220, 140);
 	    add(scrollPane);
@@ -59,12 +63,13 @@ public class EmployeeContainer extends JPanel {
         cardPanel.add(createEmpC, "CreateEmployee");
         cardPanel.add(createSpecialtyC, "CreateSpecialty");
         add(cardPanel);
+        
 
         // Show Create Employee Container on click of Add Employee
         addEmp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
+            	createEmpC.populateSpecialties();
                 cardLayout.show(cardPanel, "CreateEmployee");
                 revalidate();
                 repaint();
@@ -85,12 +90,15 @@ public class EmployeeContainer extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(createEmpC.createEmployee() != null) {
-            		listDLM.addElement(createEmpC.createEmployee());
-            		System.out.println(listDLM.getElementAt(0));
+            		listDLM.removeAllElements();
+            		for(Employee emp : Employee.allEmployees) {
+            			listDLM.addElement(emp);
+            		}
             		cardLayout.show(cardPanel, "Empty");
+            		revalidate();
+                    repaint();
             	}
 			}
-        	
         });
 
         createSpecialtyC.getAddBTN().addActionListener(new ActionListener() {
@@ -102,5 +110,4 @@ public class EmployeeContainer extends JPanel {
         	}
         });
 	}
-	
 }

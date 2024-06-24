@@ -36,12 +36,6 @@ public class CreateEmployeeContainer extends JPanel {
 	    add(empNameField);
 	    
 	    specialtiesDCBM = new DefaultComboBoxModel<>();
-	    
-	    specialtiesDCBM.addElement(null);
-	    for (String key : Specialty.jobs.keySet()) {
-	    	specialtiesDCBM.addElement(key);
-        }
-	    
 	    specialtiesBOX = new JComboBox<>(specialtiesDCBM);
 	    add(specialtiesBOX);
 	    
@@ -54,10 +48,17 @@ public class CreateEmployeeContainer extends JPanel {
 		return addButton;
 	}
 	
+	public void populateSpecialties() {
+		specialtiesDCBM.removeAllElements();
+		specialtiesDCBM.addElement(null);
+	    for (String key : Specialty.jobs.keySet()) {
+	    	specialtiesDCBM.addElement(key);
+        }
+	}
+	
 	public Employee createEmployee() {
 	    String empName;
 	    String specialtyName;
-
 	    Specialty specialty;
 
 	    if (empNameField.getText().trim().isEmpty()) {
