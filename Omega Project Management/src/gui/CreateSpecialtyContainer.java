@@ -48,6 +48,8 @@ public class CreateSpecialtyContainer extends JPanel {
 			if(!specialtyNameField.getText().trim().isEmpty()) {
 				specialtyName = specialtyNameField.getText();
 				Specialty.jobs.put(specialtyName, wagePerHour);
+				salaryField.setText("");
+				specialtyNameField.setText("");
 				return true;
 			}
 			else {

@@ -3,6 +3,8 @@ package gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import javax.swing.*;
 
@@ -11,8 +13,8 @@ import backend.*;
 public class CreateEmployeeContainer extends JPanel {
 	private JLabel empNameLabel, specialtyLabel, emptyLabel;
 	private JTextField empNameField;
-	private JComboBox<Specialty> specialtiesBOX;
-	private DefaultComboBoxModel<Specialty> specialtiesDCBM;
+	private JComboBox<String> specialtiesBOX;
+	private DefaultComboBoxModel<String> specialtiesDCBM;
 	private JButton addButton;
 	
 	public CreateEmployeeContainer() {
@@ -34,6 +36,12 @@ public class CreateEmployeeContainer extends JPanel {
 	    add(empNameField);
 	    
 	    specialtiesDCBM = new DefaultComboBoxModel<>();
+	    
+	    specialtiesDCBM.addElement(null);
+	    for (String key : Specialty.jobs.keySet()) {
+	    	specialtiesDCBM.addElement(key);
+        }
+	    
 	    specialtiesBOX = new JComboBox<>(specialtiesDCBM);
 	    add(specialtiesBOX);
 	    
@@ -45,4 +53,28 @@ public class CreateEmployeeContainer extends JPanel {
 	public JButton getAddBTN() {
 		return addButton;
 	}
+	
+	public Employee createEmployee() {
+	    String empName;
+	    String specialtyName;
+
+	    Specialty specialty;
+
+	    if (empNameField.getText().trim().isEmpty()) {
+	        JOptionPane.showMessageDialog(null, "Name cannot be empty!\n", "Error", JOptionPane.ERROR_MESSAGE);
+	        return null;
+	    }
+
+	    if (specialtiesBOX.getSelectedItem() == null) {
+	        JOptionPane.showMessageDialog(null, "Specialty cannot be empty!\n", "Error", JOptionPane.ERROR_MESSAGE);
+	        return null;
+	    }
+
+	    specialtyName = (String) specialtiesBOX.getSelectedItem();
+	    specialty = new Specialty(specialtyName, Specialty.jobs.get(specialtyName));
+	    empName = empNameField.getText();
+
+	    return new Employee(empName, specialty);
+	}
+
 }

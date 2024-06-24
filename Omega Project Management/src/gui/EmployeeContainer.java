@@ -6,10 +6,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import backend.*;
+
 @SuppressWarnings("serial")
 public class EmployeeContainer extends JPanel {
 	private JScrollPane scrollPane;
-	private JList<String> list;
+	private JList<Employee> list;
+	private DefaultListModel<Employee> listDLM;
 	private JLabel hoursLabel;
 	private JTextField hoursField;
 	private JButton addEmp, addSpecialty;
@@ -19,7 +22,7 @@ public class EmployeeContainer extends JPanel {
 	private CreateSpecialtyContainer createSpecialtyC;
 	
 	public EmployeeContainer() {
-		list = new JList<String>(new String[] {"Avocat", "batikha", "chemem", "Avocat", "batikha", "chemem", "Avocat", "batikha", "chemem", "Avocat", "batikha", "chemem"});
+		list = new JList<Employee>();
 	    
 		setLayout(null);
 		setBackground(new Color(227, 227, 227));
@@ -61,6 +64,7 @@ public class EmployeeContainer extends JPanel {
         addEmp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	
                 cardLayout.show(cardPanel, "CreateEmployee");
                 revalidate();
                 repaint();
@@ -80,7 +84,11 @@ public class EmployeeContainer extends JPanel {
         createEmpC.getAddBTN().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(cardPanel, "Empty");
+				if(createEmpC.createEmployee() != null) {
+            		listDLM.addElement(createEmpC.createEmployee());
+            		System.out.println(listDLM.getElementAt(0));
+            		cardLayout.show(cardPanel, "Empty");
+            	}
 			}
         	
         });
