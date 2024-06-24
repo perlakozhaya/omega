@@ -10,7 +10,7 @@ import java.util.Observer;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class FormFrame extends JFrame implements Observer {
+public class FormFrame extends JFrame {
     // Panels for different sections of the GUI
     private JPanel buttonPanel, centerPanel, comboPanel;
     
@@ -45,7 +45,7 @@ public class FormFrame extends JFrame implements Observer {
     public FormFrame(String title) {
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(10, 200, 420, 450);
+        setBounds(10, 200, 420, 480);
         setResizable(true);
         setLayout(new BorderLayout());
 
@@ -119,7 +119,6 @@ public class FormFrame extends JFrame implements Observer {
         projectDCBM.addElement(null);
         for (Project p : Project.projects) {
         	projectDCBM.addElement(p);
-            p.addObserver(this);
         }
 
         projectBOX.addActionListener(new ActionListener() {
@@ -186,14 +185,32 @@ public class FormFrame extends JFrame implements Observer {
 				Task task = (Task) taskBOX.getSelectedItem();
 				Procedure procedure = (Procedure) procedureBOX.getSelectedItem();
 				
-				if (project == null && task == null && procedure == null) {
-					String name;
-					if((name = projectC.getProjectName().trim()) != "") {
-						project = new Project(name, "Incomplete");
-						
+				if (project == null) {
+					String projectName;
+					if((projectName = projectC.getProjectName().trim()) != "") {
+						project = new Project(projectName, "Incomplete");
 						fillProject();
 					}
 				}
+				
+				else if (project != null && task == null) {
+					String taskName;
+					if((taskName = taskC.getTaskName().trim()) != "") {
+						project.addTask(new Task(taskName, "Incomplete"));
+						fillTask();
+					}
+				}
+				
+				else if (project != null && task != null && procedure == null) {
+					String procedureName;
+					if((procedureName = procedureC.getProcedureName().getText().trim()) != "") {
+						task.addProcedure(new Procedure(procedureName, "Incomplete"));
+						fillProcedure();
+					}
+				}
+				
+				// Add to current procedure the selected employee and hours worked
+		        // Add to the selected employee the current procedure
 			}
         });
         
@@ -222,7 +239,6 @@ public class FormFrame extends JFrame implements Observer {
 		projectDCBM.addElement(null);
 		for(Project p : Project.projects) {
 			projectDCBM.addElement(p);
-			p.addObserver(this);
 		}
     }
     
@@ -232,7 +248,6 @@ public class FormFrame extends JFrame implements Observer {
 		taskDCBM.addElement(null);
 		for(Task t : ((Project) projectBOX.getSelectedItem()).getTasks()) {
 			taskDCBM.addElement(t);
-			t.addObserver(this);
 		}
     }
     
@@ -242,16 +257,6 @@ public class FormFrame extends JFrame implements Observer {
 		procedureDCBM.addElement(null);
 		for(Procedure pr : ((Task) taskBOX.getSelectedItem()).getProcedures()) {
 			procedureDCBM.addElement(pr);
-			pr.addObserver(this);
 		}
-    }
-    
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof Project) {
-            fillTask();
-        } else if (o instanceof Task) {
-            fillProcedure();
-        }
     }
 }

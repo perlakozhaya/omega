@@ -15,8 +15,6 @@ public class Project extends Status implements Comparable<Project> {
 	
 	public void addTask(Task t) {
 		tasks.add(t);
-		setChanged();
-		notifyObservers();
 	}
 	
 	@Override
@@ -40,15 +38,11 @@ public class Project extends Status implements Comparable<Project> {
 	}
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
-		setChanged();
-		notifyObservers();
 	}
 	public Set<Task> getTasks() {
 		return tasks;
 	}
 	public void setTasks(Set<Task> tasks) {
 		this.tasks = tasks;
-		setChanged();
-		notifyObservers();
 	}
 }

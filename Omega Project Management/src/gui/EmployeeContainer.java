@@ -88,9 +88,10 @@ public class EmployeeContainer extends JPanel {
         createSpecialtyC.getAddBTN().addActionListener(new ActionListener() {
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		cardLayout.show(cardPanel, "Empty");
+        		if(createSpecialtyC.addToJobs()) {
+        			cardLayout.show(cardPanel, "Empty");
+        		}
         	}
-        	
         });
 	}
 	

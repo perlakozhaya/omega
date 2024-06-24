@@ -14,8 +14,6 @@ public class Task extends Status implements Comparable<Task> {
 	
 	public void addProcedure(Procedure p) {
 		procedures.add(p);
-		setChanged();
-		notifyObservers();
 	}
 	
 	@Override
@@ -29,14 +27,10 @@ public class Task extends Status implements Comparable<Task> {
 	
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
-		setChanged();
-		notifyObservers();
 	}
 
 	public void setProcedures(Set<Procedure> p) {
 		procedures = p;
-		setChanged();
-		notifyObservers();
 	}
 	
 	public Set<Procedure> getProcedures(){

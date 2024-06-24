@@ -14,10 +14,10 @@ public class Main {
 		Task t2 = new Task("task 2", null);
 		Task t3 = new Task("task 3", null);
 		
-		Procedure pr1 = new Procedure("procedure 1", 10, null);
-		Procedure pr2 = new Procedure("procedure 2", 20, null);
-		Procedure pr3 = new Procedure("procedure 3", 30, null);
-		Procedure pr4 = new Procedure("procedure 4", 40, null);
+		Procedure pr1 = new Procedure("procedure 1", null);
+		Procedure pr2 = new Procedure("procedure 2", null);
+		Procedure pr3 = new Procedure("procedure 3", null);
+		Procedure pr4 = new Procedure("procedure 4", null);
 		
 		t1.addProcedure(pr1);
 		t1.addProcedure(pr2);
