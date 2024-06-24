@@ -1,6 +1,9 @@
 package gui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -12,6 +15,9 @@ public class ProcedureContainer extends JPanel {
 	private JPanel detailsC, buttonsPanel, centerPanel;
 	private JButton empButton, itemButton, logisticButton;
 	private EmployeeContainer employeeC; 
+	private ItemContainer itemC; 
+	private LogisticContainer logisticC; 
+	private CardLayout cardLayout;
 	
 	public ProcedureContainer() {
 	    setLayout(null);
@@ -47,13 +53,40 @@ public class ProcedureContainer extends JPanel {
 	    centerPanel = new JPanel();
 	    centerPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	    detailsC.add(centerPanel, BorderLayout.CENTER);
-	    centerPanel.setLayout(new CardLayout(0, 0));
+	    
+	    cardLayout = new CardLayout();
+	    centerPanel.setLayout(cardLayout);
 	    
 	    employeeC = new EmployeeContainer();
-	    employeeC.setBackground(new Color(227, 227, 227));
+	    itemC = new ItemContainer();
+	    logisticC = new LogisticContainer();
+
 	    centerPanel.add(employeeC, "Employee Container");
-	    employeeC.setLayout(null);
-  }
+	    centerPanel.add(itemC, "Item Container");
+	    centerPanel.add(logisticC, "Logistic Container");
+	    
+	    
+	    empButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(centerPanel, "Employee Container");
+			}   	
+	    });
+
+	    itemButton.addActionListener(new ActionListener() {
+	    	@Override
+	    	public void actionPerformed(ActionEvent e) {
+	    		cardLayout.show(centerPanel, "Item Container");
+	    	}   	
+	    });
+
+	    logisticButton.addActionListener(new ActionListener() {
+	    	@Override
+	    	public void actionPerformed(ActionEvent e) {
+	    		cardLayout.show(centerPanel, "Logistic Container");
+	    	}   	
+	    });
+	}
 	
 	public JLabel getProcedureNameLabel() {
 		return procedureNameLabel;

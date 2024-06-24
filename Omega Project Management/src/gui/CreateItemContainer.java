@@ -5,19 +5,19 @@ import javax.swing.*;
 
 import backend.*;
 
-public class CreateSpecialtyContainer extends JPanel {
+public class CreateItemContainer extends JPanel {
 	private JLabel specialtyNameLabel, specialtyLabel, emptyLabel;
 	private JTextField specialtyNameField, salaryField;
 	private JButton addButton;
 	
-	public CreateSpecialtyContainer() {
+	public CreateItemContainer() {
 	    setLayout(new GridLayout(2, 3, 10, 0));
 	    
-	    specialtyNameLabel = new JLabel("Specialty Name");
+	    specialtyNameLabel = new JLabel("Item Name");
 	    specialtyNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	    add(specialtyNameLabel);
 	    
-	    specialtyLabel = new JLabel("Wage per hour");
+	    specialtyLabel = new JLabel("Cost/Unit");
 	    specialtyLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	    add(specialtyLabel);
 	    

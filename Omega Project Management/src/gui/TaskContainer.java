@@ -11,10 +11,10 @@ public class TaskContainer extends JPanel {
 		setLayout(null);
         
         taskNameLabel = new JLabel("Create new task");
-        taskNameLabel.setBounds(117, 80, 150, 30);
+        taskNameLabel.setBounds(147, 80, 150, 30);
         
         taskName = new JTextField("Task Name...");
-        taskName.setBounds(100, 110, 150, 30);
+        taskName.setBounds(130, 110, 150, 30);
 
         add(taskNameLabel);
         add(taskName);

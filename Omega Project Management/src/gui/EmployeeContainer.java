@@ -6,12 +6,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class EmployeeContainer extends JPanel {
 	private JScrollPane scrollPane;
 	private JList<String> list;
 	private JLabel hoursLabel;
 	private JTextField hoursField;
 	private JButton addEmp, addSpecialty;
+	private JPanel cardPanel;
 	private CardLayout cardLayout;
 	private CreateEmployeeContainer createEmpC;
 	private CreateSpecialtyContainer createSpecialtyC;
@@ -19,11 +21,13 @@ public class EmployeeContainer extends JPanel {
 	public EmployeeContainer() {
 		list = new JList<String>(new String[] {"Avocat", "batikha", "chemem", "Avocat", "batikha", "chemem", "Avocat", "batikha", "chemem", "Avocat", "batikha", "chemem"});
 	    
+		setLayout(null);
+		setBackground(new Color(227, 227, 227));
 	    scrollPane = new JScrollPane(list);
 	    scrollPane.setBounds(0, 14, 220, 140);
 	    add(scrollPane);
 	    
-	    hoursField = new JTextField();
+	    hoursField = new JTextField("0");
 	    hoursField.setHorizontalAlignment(SwingConstants.CENTER);
 	    hoursField.setBounds(240, 33, 140, 19);
 	    add(hoursField);
@@ -45,10 +49,10 @@ public class EmployeeContainer extends JPanel {
 	    createSpecialtyC = new CreateSpecialtyContainer();
 	    
 	    cardLayout = new CardLayout();
-        JPanel cardPanel = new JPanel(cardLayout);
+        cardPanel = new JPanel(cardLayout);
         
         cardPanel.setBounds(0, 170, 395, 50);
-        cardPanel.add(new JPanel());
+        cardPanel.add(new JPanel(), "Empty");
         cardPanel.add(createEmpC, "CreateEmployee");
         cardPanel.add(createSpecialtyC, "CreateSpecialty");
         add(cardPanel);
@@ -72,5 +76,22 @@ public class EmployeeContainer extends JPanel {
                 repaint();
             }
         });
+        
+        createEmpC.getAddBTN().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(cardPanel, "Empty");
+			}
+        	
+        });
+
+        createSpecialtyC.getAddBTN().addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		cardLayout.show(cardPanel, "Empty");
+        	}
+        	
+        });
 	}
+	
 }

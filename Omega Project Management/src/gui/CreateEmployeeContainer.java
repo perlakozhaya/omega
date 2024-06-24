@@ -1,6 +1,9 @@
 package gui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 import backend.*;
@@ -36,5 +39,10 @@ public class CreateEmployeeContainer extends JPanel {
 	    
 	    addButton = new JButton("Add");
 	    add(addButton);
+	    
+	}
+	
+	public JButton getAddBTN() {
+		return addButton;
 	}
 }

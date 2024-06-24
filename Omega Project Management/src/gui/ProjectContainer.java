@@ -11,10 +11,10 @@ public class ProjectContainer extends JPanel {
 		setLayout(null);
         
         projectNameLabel = new JLabel("Create new Project");
-        projectNameLabel.setBounds(117, 80, 150, 30);
+        projectNameLabel.setBounds(147, 80, 150, 30);
         
         projectName = new JTextField("Project Name...");
-        projectName.setBounds(100, 110, 150, 30);
+        projectName.setBounds(130, 110, 150, 30);
 
         add(projectNameLabel);
         add(projectName);

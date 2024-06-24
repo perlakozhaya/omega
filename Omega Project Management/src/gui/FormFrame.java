@@ -15,7 +15,7 @@ public class FormFrame extends JFrame implements Observer {
     private JPanel buttonPanel, centerPanel, comboPanel;
     
     // Buttons for user actions
-    private JButton clearButton, saveButton, deleteButton;
+    private JButton applyButton, deleteButton;
     
     // ComboBoxes for selecting projects, tasks, and procedures
     private JComboBox<Project> projectBOX;
@@ -55,16 +55,13 @@ public class FormFrame extends JFrame implements Observer {
         buttonPanel.setBackground(Color.LIGHT_GRAY);
 
         // Initialize buttons
-        clearButton = new JButton("Clear");
-        saveButton = new JButton("Save");
+        applyButton = new JButton("Apply");
         deleteButton = new JButton("Delete");
 
         // Add buttons to the button panel with spacing
         buttonPanel.add(Box.createHorizontalGlue()); // Pushes buttons to the center
-        buttonPanel.add(clearButton);
-        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Space between buttons
-        buttonPanel.add(saveButton);
-        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Space between buttons
+        buttonPanel.add(applyButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(20, 0))); // Space between buttons
         buttonPanel.add(deleteButton);
         buttonPanel.add(Box.createHorizontalGlue()); // Pushes buttons to the center
 
@@ -126,6 +123,7 @@ public class FormFrame extends JFrame implements Observer {
                     procedureBOX.removeAllItems();
                     projectC.setProjectNameLabel("Create new project");
                     projectC.setProjectName("Project Name...");
+                    cardLayout.show(centerPanel, "Project");
                 }
             }
         });
@@ -144,6 +142,7 @@ public class FormFrame extends JFrame implements Observer {
         			procedureBOX.removeAllItems();
         			taskC.setTaskNameLabel("Create new task");
         			taskC.setTaskName("Task Name...");
+        			cardLayout.show(centerPanel, "Task");
         		}
         	}
         });
@@ -160,12 +159,13 @@ public class FormFrame extends JFrame implements Observer {
                 else {
                     procedureC.getProcedureNameLabel().setText("Create new procedure");
                     procedureC.getProcedureName().setText("Procedure Name...");
-                   
+                    cardLayout.show(centerPanel, "Procedure");
                     
                     // show procedureDetails 
                 }
             }
         });
+        
         
 //      ------------------------------------------------------------
         
