@@ -12,7 +12,7 @@ public class ProjectContainer extends JPanel {
         
         projectNameLabel = new JLabel("Create new Project");
         projectNameLabel.setBounds(147, 80, 150, 30);
-        
+       
         projectName = new JTextField("Project Name...");
         projectName.setBounds(130, 110, 150, 30);
 

@@ -4,7 +4,7 @@ import java.util.Observable;
 
 abstract class Status extends Observable {
 	final static String INCOMPLETE = "Incomplete";
-	final static String EXECUTE = "Execute";
+	final static String EXECUTE = "Not Started";
 	final static String ONGOING = "Ongoing";
 	final static String DONE = "Done";
 	private String currentStatus;

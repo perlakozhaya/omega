@@ -136,7 +136,7 @@ public class FormFrame extends JFrame implements Observer {
                     taskBOX.removeAllItems();
                     procedureBOX.setEnabled(false);
                     procedureBOX.removeAllItems();
-                    projectC.setProjectNameLabel("Create new project");
+                    projectC.setProjectNameLabel("Create new Project");
                     projectC.setProjectName("Project Name...");
                     cardLayout.show(centerPanel, "Project");
                 }
@@ -179,6 +179,24 @@ public class FormFrame extends JFrame implements Observer {
             }
         });
         
+        applyButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Project project = (Project) projectBOX.getSelectedItem();
+				Task task = (Task) taskBOX.getSelectedItem();
+				Procedure procedure = (Procedure) procedureBOX.getSelectedItem();
+				
+				if (project == null && task == null && procedure == null) {
+					String name;
+					if((name = projectC.getProjectName().trim()) != "") {
+						project = new Project(name, "Incomplete");
+						
+						fillProject();
+					}
+				}
+			}
+        });
+        
         exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -196,6 +214,16 @@ public class FormFrame extends JFrame implements Observer {
         
         // Make the frame visible
         setVisible(true);
+    }
+    
+    public void fillProject() {
+    	projectDCBM.removeAllElements();
+		
+		projectDCBM.addElement(null);
+		for(Project p : Project.projects) {
+			projectDCBM.addElement(p);
+			p.addObserver(this);
+		}
     }
     
     public void fillTask() {

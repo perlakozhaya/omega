@@ -4,13 +4,13 @@ import java.util.*;
 public class Project extends Status implements Comparable<Project> {
 	private String projectName;
 	private Set<Task> tasks;
-    public static Set<Project> projects;
+    public static Set<Project> projects = new TreeSet<>();
 	
 	public Project(String projectName, String status) {
 		super(status);
 		this.projectName = projectName;
 		tasks = new TreeSet<Task>();
-		projects = new TreeSet<>();
+		projects.add(this);
 	}
 	
 	public void addTask(Task t) {
