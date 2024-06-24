@@ -39,7 +39,7 @@ public class FormFrame extends JFrame implements Observer {
     public FormFrame(String title) {
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(10, 200, 360, 420);
+        setBounds(10, 200, 420, 450);
         setResizable(true);
         setLayout(new BorderLayout());
 
@@ -131,28 +131,38 @@ public class FormFrame extends JFrame implements Observer {
         });
 
         taskBOX.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (taskBOX.getSelectedItem() != null) {
-                    fillProcedure();
-                    procedureBOX.setEnabled(true);
-                    taskC.setTaskNameLabel("Task Name");
-                    taskC.setTaskName(((Task) taskBOX.getSelectedItem()).getTaskName());
-                    cardLayout.show(centerPanel, "Task");
-                } else {
-                    procedureBOX.setEnabled(false);
-                    procedureBOX.removeAllItems();
-                    taskC.setTaskNameLabel("Create new task");
-                    taskC.setTaskName("Task Name...");
-                }
-            }
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		if (taskBOX.getSelectedItem() != null) {
+        			fillProcedure();
+        			procedureBOX.setEnabled(true);
+        			taskC.setTaskNameLabel("Task Name");
+        			taskC.setTaskName(((Task) taskBOX.getSelectedItem()).getTaskName());
+        			cardLayout.show(centerPanel, "Task");
+        		} else {
+        			procedureBOX.setEnabled(false);
+        			procedureBOX.removeAllItems();
+        			taskC.setTaskNameLabel("Create new task");
+        			taskC.setTaskName("Task Name...");
+        		}
+        	}
         });
 
         procedureBOX.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (procedureBOX.getSelectedItem() != null) {
+                	procedureC.getProcedureNameLabel().setText("Procedure Name");
+                    procedureC.getProcedureName().setText(((Procedure) procedureBOX.getSelectedItem()).getProcedureName());
+                    
                     cardLayout.show(centerPanel, "Procedure");
+                }
+                else {
+                    procedureC.getProcedureNameLabel().setText("Create new procedure");
+                    procedureC.getProcedureName().setText("Procedure Name...");
+                   
+                    
+                    // show procedureDetails 
                 }
             }
         });
