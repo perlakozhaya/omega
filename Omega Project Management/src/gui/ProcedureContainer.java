@@ -23,7 +23,7 @@ public class ProcedureContainer extends JPanel {
 	public ProcedureContainer() {
 	    setLayout(null);
 	    
-	    procedureNameLB = new JLabel("Name");
+	    procedureNameLB = new JLabel("Procedure Name");
 	    procedureNameLB.setBounds(60, 10, 130, 13);
 	    procedureNameLB.setHorizontalAlignment(SwingConstants.CENTER);
 	    add(procedureNameLB);
@@ -38,7 +38,7 @@ public class ProcedureContainer extends JPanel {
 	    procedureDurationLB.setHorizontalAlignment(SwingConstants.CENTER);
 	    add(procedureDurationLB);
 	    
-	    procedureDurationFLD = new JTextField();
+	    procedureDurationFLD = new JTextField("0");
 	    procedureDurationFLD.setBounds(210, 24, 130, 25);
 	    procedureDurationFLD.setHorizontalAlignment(SwingConstants.CENTER);
 	    add(procedureDurationFLD);

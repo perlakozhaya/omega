@@ -4,8 +4,6 @@ import backend.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.*;
 
@@ -62,6 +60,7 @@ public class FormFrame extends JFrame {
         file.add(save);
         file.add(exit);
         menuBar.add(file);
+        setJMenuBar(menuBar);
         
         // Initialize and configure button panel
         buttonPanel = new JPanel();
@@ -115,49 +114,49 @@ public class FormFrame extends JFrame {
         comboPanel.add(taskBOX);
         comboPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         comboPanel.add(procedureBOX);
+        
 //      ------------------------------------------------------------
-        projectDCBM.addElement(null);
-        for (Project p : Project.projects) {
-        	projectDCBM.addElement(p);
-        }
+        
+        // On first load populate Project ComboBox with available projects
+        fillProject();
 
+        // On select of a project item, populate Task ComboBox with the respective tasks 
         projectBOX.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (projectBOX.getSelectedItem() != null) {
-                    fillTask();
+            	Project p = (Project) projectBOX.getSelectedItem();
+                if (p != null) {
+                    fillTask(p);
                     taskBOX.setEnabled(true);
                     projectC.setLabelContent("Project Name");
-                    projectC.setFieldContent(((Project) projectBOX.getSelectedItem()).getProjectName());
-                    cardLayout.show(centerPanel, "Project");
+                    projectC.setFieldContent(p.getProjectName());
                 } else {
                     taskBOX.setEnabled(false);
                     taskBOX.removeAllItems();
-                    procedureBOX.setEnabled(false);
-                    procedureBOX.removeAllItems();
                     projectC.setLabelContent("Create new Project");
                     projectC.setFieldContent("Project Name...");
-                    cardLayout.show(centerPanel, "Project");
                 }
+                cardLayout.show(centerPanel, "Project");
             }
         });
 
+        // On select of a task item, populate Procedure ComboBox with the respective procedures 
         taskBOX.addActionListener(new ActionListener() {
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		if (taskBOX.getSelectedItem() != null) {
-        			fillProcedure();
+        		Task t = (Task) taskBOX.getSelectedItem();
+        		if (t != null) {
+        			fillProcedure(t);
         			procedureBOX.setEnabled(true);
         			taskC.setLabelContent("Task Name");
-        			taskC.setFieldContent(((Task) taskBOX.getSelectedItem()).getTaskName());
-        			cardLayout.show(centerPanel, "Task");
+        			taskC.setFieldContent(t.getTaskName());
         		} else {
         			procedureBOX.setEnabled(false);
         			procedureBOX.removeAllItems();
-        			taskC.setLabelContent("Create new task");
+        			taskC.setLabelContent("Create new Task");
         			taskC.setFieldContent("Task Name...");
-        			cardLayout.show(centerPanel, "Task");
         		}
+        		cardLayout.show(centerPanel, "Task");
         	}
         });
 
@@ -165,38 +164,132 @@ public class FormFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (procedureBOX.getSelectedItem() != null) {
-                	procedureC.setNameLabelContent("Name");
+                	procedureC.setNameLabelContent("Procedure Name");
                     procedureC.setNameFieldContent(((Procedure) procedureBOX.getSelectedItem()).getProcedureName());
                     procedureC.setDurationFieldContent(((Procedure) procedureBOX.getSelectedItem()).getProcedureDuration() + "");
-                    
-                    cardLayout.show(centerPanel, "Procedure");
                 }
                 else {
-                    procedureC.setNameLabelContent("New Name");
+                    procedureC.setNameLabelContent("Create new Procedure");
                     procedureC.setNameFieldContent("Procedure Name...");
                     procedureC.setDurationFieldContent("0");
-                    cardLayout.show(centerPanel, "Procedure");
                 }
+                cardLayout.show(centerPanel, "Procedure");
             }
         });
         
         applyButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//...
-			}
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Project selectedProject = (Project) projectBOX.getSelectedItem();
+                Task selectedTask = (Task) taskBOX.getSelectedItem();
+                Procedure selectedProcedure = (Procedure) procedureBOX.getSelectedItem();
+
+                // Handle project selection or creation
+                if (selectedProject != null) {
+                    // Update project details
+                	if(projectC.getFieldContent().isEmpty()) {
+                		JOptionPane.showMessageDialog(FormFrame.this, "Project Name cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                	}
+                    selectedProject.setProjectName(projectC.getFieldContent());
+                    projectC.setFieldContent(selectedProject.getProjectName());
+                } else {
+                    // Handle new project creation logic
+                    String projectName = projectC.getFieldContent().trim();
+                    if (!projectName.equals("Project Name...")) {
+                    	if(projectName.isEmpty()) {
+                    		JOptionPane.showMessageDialog(FormFrame.this, "Project Name cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                    	}
+                        selectedProject = new Project(projectName, Status.INCOMPLETE);
+                        projectDCBM.addElement(selectedProject);
+                        projectBOX.setSelectedItem(selectedProject);
+                    }
+                }
+
+                // Handle task selection or creation
+                if (selectedTask == null) {
+                    // Handle new task creation logic
+                    String taskName = taskC.getFieldContent().trim();
+                    if (!taskName.equals("Task Name...")) {
+                    	if(taskName.isEmpty()) {
+                    		JOptionPane.showMessageDialog(FormFrame.this, "Task Name cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                    	}
+                    	selectedTask = new Task(taskName, Status.INCOMPLETE);
+                    	selectedProject.addTask(selectedTask);
+                    	taskDCBM.addElement(selectedTask);
+                    	taskBOX.setSelectedItem(selectedTask);
+                    }
+                } else {
+                    // Update task details
+                	if(taskC.getFieldContent().isEmpty()) {
+                		JOptionPane.showMessageDialog(FormFrame.this, "Task Name cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                	}
+                    selectedTask.setTaskName(taskC.getFieldContent());
+                    taskC.setFieldContent(selectedTask.getTaskName());
+                }
+
+                // Handle procedure selection or creation
+                if (selectedProcedure == null) {
+                    // Handle new procedure creation logic
+                    String procedureName = procedureC.getNameFieldContent().trim();
+                    String durationString = procedureC.getDurationFieldContent().trim();
+                    
+                    if (!procedureName.equals("Procedure Name...") && !durationString.equals("0")) {
+                    	if(procedureName.isEmpty() || durationString.isEmpty()) {
+                    		JOptionPane.showMessageDialog(FormFrame.this, "Procedure name/duration empty!", "Error", JOptionPane.ERROR_MESSAGE);
+                    		return;
+                    	}
+                    	double procedureDuration;
+                    	try {
+                    		if(Double.parseDouble(durationString) > 0) {
+                    			procedureDuration = Double.parseDouble(durationString);                    			
+                    		}
+                    		else {
+                        		JOptionPane.showMessageDialog(FormFrame.this, "Procedure Duration must be positive!", "Error", JOptionPane.ERROR_MESSAGE);
+                        		return;
+                    		}
+                    	} catch (IllegalArgumentException ex) {
+                    		JOptionPane.showMessageDialog(FormFrame.this, "Invalid Procedure Duration! Must be a number.", "Error", JOptionPane.ERROR_MESSAGE);
+                    		return;
+                    	}
+                    	selectedProcedure = new Procedure(procedureName, procedureDuration, Status.INCOMPLETE);
+                    	selectedTask.addProcedure(selectedProcedure);
+                    	procedureDCBM.addElement(selectedProcedure);
+                    	procedureBOX.setSelectedItem(selectedProcedure);
+                    }
+                } else {
+                    // Update procedure details
+                    	if(procedureC.getNameFieldContent().isEmpty() || 
+                    	   procedureC.getDurationFieldContent().isEmpty()) {
+                    		JOptionPane.showMessageDialog(FormFrame.this, "Procedure name/duration empty!", "Error", JOptionPane.ERROR_MESSAGE);
+                    		return;
+                    	}
+                    	double procedureDuration;
+                    	try {
+                    		if(Double.parseDouble(procedureC.getDurationFieldContent()) > 0) {
+                    			procedureDuration = Double.parseDouble(procedureC.getDurationFieldContent());                    			
+                    		}
+                    		else {
+                        		JOptionPane.showMessageDialog(FormFrame.this, "Procedure Duration must be positive!", "Error", JOptionPane.ERROR_MESSAGE);
+                        		return;
+                    		}
+                    	} catch (IllegalArgumentException ex) {
+                    		JOptionPane.showMessageDialog(FormFrame.this, "Invalid Procedure Duration! Must be a number.", "Error", JOptionPane.ERROR_MESSAGE);
+                    		return;
+                    	}
+                    selectedProcedure.setProcedureName(procedureC.getNameFieldContent());
+                    selectedProcedure.setProcedureDuration(procedureDuration);
+                    procedureC.setNameFieldContent(selectedProcedure.getProcedureName());
+                    procedureC.setDurationFieldContent(String.valueOf(selectedProcedure.getProcedureDuration()));
+                }
+            }
         });
-        
-        exit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-        	
-        });
-        
+
 //      ------------------------------------------------------------
-        setJMenuBar(menuBar);
+
         // Add panels to the frame
         add(buttonPanel, BorderLayout.SOUTH);
         add(centerPanel, BorderLayout.CENTER);
@@ -208,29 +301,24 @@ public class FormFrame extends JFrame {
     
     public void fillProject() {
     	projectDCBM.removeAllElements();
-		
 		projectDCBM.addElement(null);
 		for(Project p : Project.projects) {
 			projectDCBM.addElement(p);
 		}
     }
     
-    public void fillTask() {
-    	if ((Project) projectBOX.getSelectedItem() != null) {
-    		
-    		taskDCBM.removeAllElements();
-    		taskDCBM.addElement(null);
-    		for(Task t : ((Project) projectBOX.getSelectedItem()).getTasks()) {
-    			taskDCBM.addElement(t);
-    		}    		
-    	}
+    public void fillTask(Project p) {    		
+		taskDCBM.removeAllElements();
+		taskDCBM.addElement(null);
+		for(Task t : p.getTasks()) {
+			taskDCBM.addElement(t);
+		}    		
     }
     
-    public void fillProcedure() {
+    public void fillProcedure(Task t) {
     	procedureDCBM.removeAllElements();
-		
 		procedureDCBM.addElement(null);
-		for(Procedure pr : ((Task) taskBOX.getSelectedItem()).getProcedures()) {
+		for(Procedure pr : t.getProcedures()) {
 			procedureDCBM.addElement(pr);
 		}
     }

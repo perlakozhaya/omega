@@ -12,7 +12,7 @@ public class TaskContainer extends JPanel {
 	public TaskContainer() {
 		setLayout(null);
         
-        taskNameLB = new JLabel("Create new task");
+        taskNameLB = new JLabel("Create new Task");
         taskNameLB.setBounds(130, 80, 150, 30);
         taskNameLB.setHorizontalAlignment(SwingConstants.CENTER);
         
