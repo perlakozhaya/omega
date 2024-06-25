@@ -6,10 +6,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import backend.Item;
+
 @SuppressWarnings("serial")
 public class ItemContainer extends JPanel {
 	private JScrollPane scrollPane;
-	private JList<String> list;
+	private JList<Item> list;
+	private DefaultListModel<Item> listDLM;
 	private JLabel quantityLabel;
 	private JTextField quantityField;
 	private JButton addItem;
@@ -18,10 +21,12 @@ public class ItemContainer extends JPanel {
 	private CreateItemContainer createItemC;
 	
 	public ItemContainer() {
-		list = new JList<String>(new String[] {"Avocat", "batikha", "chemem", "Avocat", "batikha", "chemem", "Avocat", "batikha", "chemem", "Avocat", "batikha", "chemem"});
-
 		setLayout(null);
 		setBackground(new Color(227, 227, 227));
+
+		listDLM = new DefaultListModel<Item>();
+		list = new JList<Item>(listDLM);
+		
 	    scrollPane = new JScrollPane(list);
 	    scrollPane.setBounds(0, 14, 220, 140);
 	    add(scrollPane);

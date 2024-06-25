@@ -285,6 +285,41 @@ public class FormFrame extends JFrame {
                     procedureC.setNameFieldContent(selectedProcedure.getProcedureName());
                     procedureC.setDurationFieldContent(String.valueOf(selectedProcedure.getProcedureDuration()));
                 }
+                
+                if(procedureC.getCurrentCard() == "employee") {
+                	
+                	Employee employee = procedureC.getEmployeeContainer().getEmployeeList().getSelectedValue();
+                	double workedHours = Double.parseDouble(procedureC.getEmployeeContainer().getWorkedHours());
+                	
+                	if(employee != null) {
+                		boolean found = false;
+                		System.out.println(employee + "\t" + workedHours);
+                		
+                		for(ProcedureEmployee pe : selectedProcedure.getEmployees()) {
+                			System.out.println("inside the for loop");
+                			if(pe.getEmployee().equals(employee)) {
+                				pe.setHoursWorked(workedHours);
+                				found = true;
+                				System.out.println(employee + " : " + workedHours + " : updated " + found);
+                			}
+                		}
+                		if(!found) {
+                			selectedProcedure.addEmployee(employee, workedHours);
+                			employee.addProcedure(selectedProcedure, workedHours);
+                			System.out.println(employee + " : " + workedHours + " : updated " + found);
+                		}
+                	}
+                	//3al 0 ma7e l employee
+                	//on select on employee ya3mol update la worked hours
+                	//check if the worked hours of the employee are more then the duration taba3 bati5a
+                	
+                }else if(procedureC.getCurrentCard() == "item") {
+                	
+                	
+                }else if(procedureC.getCurrentCard() == "logistic") {
+                	
+                	
+                }
             }
         });
 

@@ -110,4 +110,16 @@ public class EmployeeContainer extends JPanel {
         	}
         });
 	}
+	
+	public DefaultListModel<Employee> getEmployeeListModel() {
+		return listDLM;
+	}
+
+	public JList<Employee> getEmployeeList() {
+		return list;
+	}
+	
+	public String getWorkedHours() {
+		return hoursField.getText();
+	}
 }

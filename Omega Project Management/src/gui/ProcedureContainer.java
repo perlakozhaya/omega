@@ -20,10 +20,12 @@ public class ProcedureContainer extends JPanel {
 	private LogisticContainer logisticC; 
 	private CardLayout cardLayout;
 	
+	private String currentCard;
+	
 	public ProcedureContainer() {
 	    setLayout(null);
 	    
-	    procedureNameLB = new JLabel("Procedure Name");
+	    procedureNameLB = new JLabel("Name");
 	    procedureNameLB.setBounds(60, 10, 130, 13);
 	    procedureNameLB.setHorizontalAlignment(SwingConstants.CENTER);
 	    add(procedureNameLB);
@@ -38,7 +40,7 @@ public class ProcedureContainer extends JPanel {
 	    procedureDurationLB.setHorizontalAlignment(SwingConstants.CENTER);
 	    add(procedureDurationLB);
 	    
-	    procedureDurationFLD = new JTextField("0");
+	    procedureDurationFLD = new JTextField();
 	    procedureDurationFLD.setBounds(210, 24, 130, 25);
 	    procedureDurationFLD.setHorizontalAlignment(SwingConstants.CENTER);
 	    add(procedureDurationFLD);
@@ -75,6 +77,7 @@ public class ProcedureContainer extends JPanel {
 	    logisticC = new LogisticContainer();
 
 	    centerPanel.add(employeeC, "Employee Container");
+	    setCurrentCard("employee");
 	    centerPanel.add(itemC, "Item Container");
 	    centerPanel.add(logisticC, "Logistic Container");
 	    
@@ -82,6 +85,7 @@ public class ProcedureContainer extends JPanel {
 	    empButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				setCurrentCard("employee");
 				cardLayout.show(centerPanel, "Employee Container");
 			}   	
 	    });
@@ -89,6 +93,7 @@ public class ProcedureContainer extends JPanel {
 	    itemButton.addActionListener(new ActionListener() {
 	    	@Override
 	    	public void actionPerformed(ActionEvent e) {
+	    		setCurrentCard("item");
 	    		cardLayout.show(centerPanel, "Item Container");
 	    	}   	
 	    });
@@ -96,11 +101,12 @@ public class ProcedureContainer extends JPanel {
 	    logisticButton.addActionListener(new ActionListener() {
 	    	@Override
 	    	public void actionPerformed(ActionEvent e) {
+	    		setCurrentCard("logistic");
 	    		cardLayout.show(centerPanel, "Logistic Container");
 	    	}   	
 	    });
 	}
-	
+		
 	public String getNameLabelContent() {
 		return procedureNameLB.getText();
 	}
@@ -131,5 +137,25 @@ public class ProcedureContainer extends JPanel {
 	
 	public void setDurationFieldContent(String text) {
 		procedureDurationFLD.setText(text);
+	}
+
+	public String getCurrentCard() {
+		return currentCard;
+	}
+
+	public void setCurrentCard(String currentCard) {
+		this.currentCard = currentCard;
+	}
+	
+	public EmployeeContainer getEmployeeContainer() {
+		return employeeC;
+	}
+	
+	public ItemContainer getItemContainer() {
+		return itemC;
+	}
+	
+	public LogisticContainer getLogisticContainer() {
+		return logisticC;
 	}
 }
