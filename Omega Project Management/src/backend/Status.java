@@ -1,10 +1,10 @@
 package backend;
 
-abstract class Status {
-  final static String INCOMPLETE = "Incomplete";
-  final static String EXECUTE = "Not Started";
-  final static String ONGOING = "Ongoing";
-  final static String DONE = "Done";
+public abstract class Status {
+  public final static String INCOMPLETE = "Incomplete";
+  public final static String EXECUTE = "Not Started";
+  public final static String ONGOING = "Ongoing";
+  public final static String DONE = "Done";
   private String currentStatus;
   
   Status(String status) {

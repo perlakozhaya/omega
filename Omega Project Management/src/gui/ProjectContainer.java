@@ -6,53 +6,36 @@ import backend.Project;
 
 @SuppressWarnings("serial")
 public class ProjectContainer extends JPanel {
-    private JLabel projectNameLabel;
-    private JTextField projectName;
+    private JLabel projectNameLB;
+    private JTextField projectNameFLD;
     
 	public ProjectContainer() {
 		setLayout(null);
         
-        projectNameLabel = new JLabel("Create new Project");
-        projectNameLabel.setBounds(130, 80, 150, 30);
-        projectNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        projectNameLB = new JLabel("Create new Project");
+        projectNameLB.setBounds(130, 80, 150, 30);
+        projectNameLB.setHorizontalAlignment(SwingConstants.CENTER);
        
-        projectName = new JTextField("Project Name...");
-        projectName.setBounds(130, 110, 150, 30);
+        projectNameFLD = new JTextField("Project Name...");
+        projectNameFLD.setBounds(130, 110, 150, 30);
 
-        add(projectNameLabel);
-        add(projectName);
+        add(projectNameLB);
+        add(projectNameFLD);
 	}
 	
-	public boolean applyProject(Project p) {
-	    String projectName = getProjectName().trim();
-
-	    if (!projectName.isEmpty()) {
-	        if (p == null) {
-	            p = new Project(projectName, "Incomplete");
-	            return false; // Indicating a new project creation
-	        } else {
-	            p.setProjectName(projectName);
-	            return true; // Indicating project update
-	        }
-	    } else {
-	        JOptionPane.showMessageDialog(null, "Invalid Name!\n", "Error", JOptionPane.ERROR_MESSAGE);
-	        return true; // Prevent further task processing
-	    }
+	public void setLabelContent(String text) {
+		projectNameLB.setText(text);
 	}
 	
-	public void setProjectNameLabel(String text) {
-		projectNameLabel.setText(text);
+	public String getLabelContent() {
+		return projectNameLB.getText();
 	}
 	
-	public String getProjectNameLabel() {
-		return projectNameLabel.getText();
+	public void setFieldContent(String text) {
+		projectNameFLD.setText(text);
 	}
 	
-	public void setProjectName(String text) {
-		projectName.setText(text);
-	}
-	
-	public String getProjectName() {
-		return projectName.getText();
+	public String getFieldContent() {
+		return projectNameFLD.getText();
 	}
 }

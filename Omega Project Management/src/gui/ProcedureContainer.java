@@ -11,8 +11,8 @@ import backend.*;
 
 @SuppressWarnings("serial")
 public class ProcedureContainer extends JPanel {
-	private JLabel procedureNameLabel, procedureDurationLabel;
-	private JTextField procedureName, procedureDuration;
+	private JLabel procedureNameLB, procedureDurationLB;
+	private JTextField procedureNameFLD, procedureDurationFLD;
 	private JPanel detailsC, buttonsPanel, centerPanel;
 	private JButton empButton, itemButton, logisticButton;
 	private EmployeeContainer employeeC; 
@@ -23,26 +23,26 @@ public class ProcedureContainer extends JPanel {
 	public ProcedureContainer() {
 	    setLayout(null);
 	    
-	    procedureNameLabel = new JLabel("Name");
-	    procedureNameLabel.setBounds(60, 10, 130, 13);
-	    procedureNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    add(procedureNameLabel);
+	    procedureNameLB = new JLabel("Name");
+	    procedureNameLB.setBounds(60, 10, 130, 13);
+	    procedureNameLB.setHorizontalAlignment(SwingConstants.CENTER);
+	    add(procedureNameLB);
 	    
-	    procedureName = new JTextField();
-	    procedureName.setBounds(60, 24, 130, 25);
-	    add(procedureName);
-	    procedureName.setColumns(10);
+	    procedureNameFLD = new JTextField();
+	    procedureNameFLD.setBounds(60, 24, 130, 25);
+	    add(procedureNameFLD);
+	    procedureNameFLD.setColumns(10);
 
-	    procedureDurationLabel = new JLabel("Duration/h");
-	    procedureDurationLabel.setBounds(210, 10, 130, 13);
-	    procedureDurationLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    add(procedureDurationLabel);
+	    procedureDurationLB = new JLabel("Duration/h");
+	    procedureDurationLB.setBounds(210, 10, 130, 13);
+	    procedureDurationLB.setHorizontalAlignment(SwingConstants.CENTER);
+	    add(procedureDurationLB);
 	    
-	    procedureDuration = new JTextField();
-	    procedureDuration.setBounds(210, 24, 130, 25);
-	    procedureDuration.setHorizontalAlignment(SwingConstants.CENTER);
-	    add(procedureDuration);
-	    procedureDuration.setColumns(10);
+	    procedureDurationFLD = new JTextField();
+	    procedureDurationFLD.setBounds(210, 24, 130, 25);
+	    procedureDurationFLD.setHorizontalAlignment(SwingConstants.CENTER);
+	    add(procedureDurationFLD);
+	    procedureDurationFLD.setColumns(10);
 	    
 	    detailsC = new JPanel();
 	    detailsC.setBackground(new Color(181, 181, 181));
@@ -101,34 +101,35 @@ public class ProcedureContainer extends JPanel {
 	    });
 	}
 	
-	public void applyProcedure(Task t, Procedure pr) {
-		String procedureName;
-		double duration;
-		
-		try {
-			duration = Double.parseDouble(getProcedureDuration().getText().trim());
-			if((procedureName = getProcedureName().getText().trim()) != "") {
-				
-				t.addProcedure(new Procedure(procedureName, duration, "Incomplete"));
-			}
-		} catch (IllegalArgumentException ie) {
-			JOptionPane.showMessageDialog(null, "Invalid number!\n" + ie.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		}
+	public String getNameLabelContent() {
+		return procedureNameLB.getText();
 	}
 	
-	public JLabel getProcedureNameLabel() {
-		return procedureNameLabel;
+	public void setNameLabelContent(String text) {
+		procedureNameLB.setText(text);
 	}
 	
-	public JTextField getProcedureName() {
-		return procedureName;
+	public String getNameFieldContent() {
+		return procedureNameFLD.getText();
 	}
 
-	public JLabel getProcedureDurationLabel() {
-		return procedureDurationLabel;
+	public void setNameFieldContent(String text) {
+		procedureNameFLD.setText(text);
 	}
 	
-	public JTextField getProcedureDuration() {
-		return procedureDuration;
+	public String getDurationLabelContent() {
+		return procedureDurationLB.getText();
+	}
+	
+	public void setDurationLabelContent(String text) {
+		procedureDurationLB.setText(text);
+	}
+	
+	public String getDurationFieldContent() {
+		return procedureDurationFLD.getText();
+	}
+	
+	public void setDurationFieldContent(String text) {
+		procedureDurationFLD.setText(text);
 	}
 }
