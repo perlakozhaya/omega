@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import backend.*;
 
@@ -64,7 +66,6 @@ public class EmployeeContainer extends JPanel {
         cardPanel.add(createSpecialtyC, "CreateSpecialty");
         add(cardPanel);
         
-
         // Show Create Employee Container on click of Add Employee
         addEmp.addActionListener(new ActionListener() {
             @Override
@@ -119,7 +120,11 @@ public class EmployeeContainer extends JPanel {
 		return list;
 	}
 	
-	public String getWorkedHours() {
+	public String getWorkedHoursField() {
 		return hoursField.getText();
+	}
+	
+	public void setWorkedHoursField(String text) {
+		hoursField.setText(text);
 	}
 }

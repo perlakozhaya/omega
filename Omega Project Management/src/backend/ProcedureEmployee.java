@@ -8,10 +8,6 @@ public class ProcedureEmployee extends ProcedureDetail {
     this.employee = employee;
     this.hoursWorked = hoursWorked; 
   }
-  
-  public boolean exceedsDuration() {
-    return hoursWorked <= procedure.getProcedureDuration();
-  }
 
   @Override
   public double getCost() {

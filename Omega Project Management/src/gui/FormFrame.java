@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 @SuppressWarnings("serial")
 public class FormFrame extends JFrame {
@@ -286,37 +288,60 @@ public class FormFrame extends JFrame {
                     procedureC.setDurationFieldContent(String.valueOf(selectedProcedure.getProcedureDuration()));
                 }
                 
+                // Handle adding worked hours for a selected employee
                 if(procedureC.getCurrentCard() == "employee") {
+                	JList<Employee> empList = procedureC.getEmployeeContainer().getEmployeeList();
+                	Employee employee = empList.getSelectedValue();
+                	double workedHours = Double.parseDouble(procedureC.getEmployeeContainer().getWorkedHoursField());
                 	
-                	Employee employee = procedureC.getEmployeeContainer().getEmployeeList().getSelectedValue();
-                	double workedHours = Double.parseDouble(procedureC.getEmployeeContainer().getWorkedHours());
+                	empList.addListSelectionListener(new ListSelectionListener() {
+                		@Override
+                		public void valueChanged(ListSelectionEvent e) {
+                			Employee selectedEmp = empList.getSelectedValue();
+                			Procedure selectedPr = (Procedure) procedureBOX.getSelectedItem();
+                			boolean found = false;
+                			
+                			// update worked hours for working employees
+                			for(ProcedureEmployee pe : selectedPr.getEmployees()) {
+                				if(pe.getEmployee().equals(selectedEmp)) {
+                					procedureC.getEmployeeContainer().setWorkedHoursField(pe.getHoursWorked() + "");
+                					found = true;                        				
+                				}
+                			}
+                			if(!found) {
+                				procedureC.getEmployeeContainer().setWorkedHoursField("0");
+                			}
+                		}
+                	});
                 	
                 	if(employee != null) {
+                		if(workedHours > selectedProcedure.getProcedureDuration()) {
+            				JOptionPane.showMessageDialog(FormFrame.this, "Employee hours cannot exceed the procedure duration!", "Error", JOptionPane.ERROR_MESSAGE);
+            				return;
+            			}
                 		boolean found = false;
-                		System.out.println(employee + "\t" + workedHours);
                 		
                 		for(ProcedureEmployee pe : selectedProcedure.getEmployees()) {
-                			System.out.println("inside the for loop");
                 			if(pe.getEmployee().equals(employee)) {
                 				pe.setHoursWorked(workedHours);
                 				found = true;
-                				System.out.println(employee + " : " + workedHours + " : updated " + found);
                 			}
                 		}
                 		if(!found) {
                 			selectedProcedure.addEmployee(employee, workedHours);
                 			employee.addProcedure(selectedProcedure, workedHours);
-                			System.out.println(employee + " : " + workedHours + " : updated " + found);
                 		}
+                		
                 	}
-                	//3al 0 ma7e l employee
-                	//on select on employee ya3mol update la worked hours
-                	//check if the worked hours of the employee are more then the duration taba3 bati5a
                 	
-                }else if(procedureC.getCurrentCard() == "item") {
+                	// delete employee if worked hours set to 0
+
+                	// validate worked hours (mech negative wala string)
+                	
+                } else if(procedureC.getCurrentCard() == "item") {
                 	
                 	
-                }else if(procedureC.getCurrentCard() == "logistic") {
+                } else if(procedureC.getCurrentCard() == "logistic") {
                 	
                 	
                 }
