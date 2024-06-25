@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import backend.*;
 
+@SuppressWarnings("serial")
 public class CreateEmployeeContainer extends JPanel {
 	private JLabel empNameLabel, specialtyLabel, emptyLabel;
 	private JTextField empNameField;

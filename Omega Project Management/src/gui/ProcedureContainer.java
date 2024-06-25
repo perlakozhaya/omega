@@ -9,9 +9,10 @@ import javax.swing.border.EmptyBorder;
 
 import backend.*;
 
+@SuppressWarnings("serial")
 public class ProcedureContainer extends JPanel {
-	private JLabel procedureNameLabel;
-	private JTextField procedureName;
+	private JLabel procedureNameLabel, procedureDurationLabel;
+	private JTextField procedureName, procedureDuration;
 	private JPanel detailsC, buttonsPanel, centerPanel;
 	private JButton empButton, itemButton, logisticButton;
 	private EmployeeContainer employeeC; 
@@ -22,14 +23,26 @@ public class ProcedureContainer extends JPanel {
 	public ProcedureContainer() {
 	    setLayout(null);
 	    
-	    procedureNameLabel = new JLabel("Procedure Name");
-	    procedureNameLabel.setBounds(155, 10, 100, 13);
+	    procedureNameLabel = new JLabel("Name");
+	    procedureNameLabel.setBounds(60, 10, 130, 13);
+	    procedureNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	    add(procedureNameLabel);
 	    
 	    procedureName = new JTextField();
-	    procedureName.setBounds(137, 24, 130, 25);
+	    procedureName.setBounds(60, 24, 130, 25);
 	    add(procedureName);
 	    procedureName.setColumns(10);
+
+	    procedureDurationLabel = new JLabel("Duration/h");
+	    procedureDurationLabel.setBounds(210, 10, 130, 13);
+	    procedureDurationLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	    add(procedureDurationLabel);
+	    
+	    procedureDuration = new JTextField();
+	    procedureDuration.setBounds(210, 24, 130, 25);
+	    procedureDuration.setHorizontalAlignment(SwingConstants.CENTER);
+	    add(procedureDuration);
+	    procedureDuration.setColumns(10);
 	    
 	    detailsC = new JPanel();
 	    detailsC.setBackground(new Color(181, 181, 181));
@@ -88,11 +101,34 @@ public class ProcedureContainer extends JPanel {
 	    });
 	}
 	
+	public void applyProcedure(Task t, Procedure pr) {
+		String procedureName;
+		double duration;
+		
+		try {
+			duration = Double.parseDouble(getProcedureDuration().getText().trim());
+			if((procedureName = getProcedureName().getText().trim()) != "") {
+				
+				t.addProcedure(new Procedure(procedureName, duration, "Incomplete"));
+			}
+		} catch (IllegalArgumentException ie) {
+			JOptionPane.showMessageDialog(null, "Invalid number!\n" + ie.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
 	public JLabel getProcedureNameLabel() {
 		return procedureNameLabel;
 	}
 	
 	public JTextField getProcedureName() {
 		return procedureName;
+	}
+
+	public JLabel getProcedureDurationLabel() {
+		return procedureDurationLabel;
+	}
+	
+	public JTextField getProcedureDuration() {
+		return procedureDuration;
 	}
 }

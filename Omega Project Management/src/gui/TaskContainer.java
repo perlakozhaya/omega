@@ -2,6 +2,8 @@ package gui;
 
 import javax.swing.*;
 
+import backend.*;
+
 @SuppressWarnings("serial")
 public class TaskContainer extends JPanel {
     private JLabel taskNameLabel;
@@ -11,7 +13,8 @@ public class TaskContainer extends JPanel {
 		setLayout(null);
         
         taskNameLabel = new JLabel("Create new task");
-        taskNameLabel.setBounds(147, 80, 150, 30);
+        taskNameLabel.setBounds(130, 80, 150, 30);
+        taskNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
         
         taskName = new JTextField("Task Name...");
         taskName.setBounds(130, 110, 150, 30);
@@ -20,6 +23,23 @@ public class TaskContainer extends JPanel {
         add(taskName);
 	}
 
+	public void applyTask(Project p, Task t) {
+	    String taskName = getTaskName().trim();
+
+	    if (!taskName.isEmpty()) {
+	        if (p != null) {
+	            if (t == null) {
+	                t = new Task(taskName, "Incomplete");
+	                p.addTask(t);
+	            } else {
+	                t.setTaskName(taskName);
+	            }
+	        }
+	    } else {
+	        JOptionPane.showMessageDialog(null, "Invalid Name!\n", "Error", JOptionPane.ERROR_MESSAGE);
+	    }
+	}
+	
 	public void setTaskNameLabel(String text) {
 		taskNameLabel.setText(text);
 	}

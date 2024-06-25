@@ -165,14 +165,16 @@ public class FormFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (procedureBOX.getSelectedItem() != null) {
-                	procedureC.getProcedureNameLabel().setText("Procedure Name");
+                	procedureC.getProcedureNameLabel().setText("Name");
                     procedureC.getProcedureName().setText(((Procedure) procedureBOX.getSelectedItem()).getProcedureName());
+                    procedureC.getProcedureDuration().setText(((Procedure) procedureBOX.getSelectedItem()).getProcedureDuration() + "");
                     
                     cardLayout.show(centerPanel, "Procedure");
                 }
                 else {
-                    procedureC.getProcedureNameLabel().setText("Create new procedure");
+                    procedureC.getProcedureNameLabel().setText("New Name");
                     procedureC.getProcedureName().setText("Procedure Name...");
+                    procedureC.getProcedureDuration().setText("0");
                     cardLayout.show(centerPanel, "Procedure");
                 }
             }
@@ -182,37 +184,27 @@ public class FormFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Project project = (Project) projectBOX.getSelectedItem();
-				Task task = (Task) taskBOX.getSelectedItem();
-				Procedure procedure = (Procedure) procedureBOX.getSelectedItem();
-				
-				if (project == null) {
-					String projectName;
-					if((projectName = projectC.getProjectName().trim()) != "") {
-						project = new Project(projectName, "Incomplete");
-						fillProject();
-					}
-				}
-				
-				else if (project != null && task == null) {
-					String taskName;
-					if((taskName = taskC.getTaskName().trim()) != "") {
-						project.addTask(new Task(taskName, "Incomplete"));
-						fillTask();
-					}
-				}
-				
-				else if (project != null && task != null && procedure == null) {
-					String procedureName;
-					if((procedureName = procedureC.getProcedureName().getText().trim()) != "") {
-						task.addProcedure(new Procedure(procedureName, "Incomplete"));
-						fillProcedure();
-					}
-				}
-				
-				// Add to current procedure the selected employee and hours worked
-		        // Add to the selected employee the current procedure
+		        Task task = (Task) taskBOX.getSelectedItem();
+		        Procedure procedure = (Procedure) procedureBOX.getSelectedItem();
+
+		        boolean projectUpdated = projectC.applyProject(project);
+		        fillProject();
+
+		        // Only apply task if the project is not being updated
+		        if (!projectUpdated && project != null) {
+		            taskC.applyTask(project, task);
+		            fillTask();
+		        }
+		        
+		        // Handle procedure if needed (uncomment if logic is required)
+		        // if (project != null && task != null && procedure == null) {
+		        //     procedureC.applyProcedure(task, procedure);
+		        //     fillProcedure();
+		        // }
 			}
         });
+        // Add to current procedure the selected employee and hours worked
+        // Add to the selected employee the current procedure
         
         exit.addActionListener(new ActionListener() {
 			@Override
@@ -243,12 +235,14 @@ public class FormFrame extends JFrame {
     }
     
     public void fillTask() {
-    	taskDCBM.removeAllElements();
-		
-		taskDCBM.addElement(null);
-		for(Task t : ((Project) projectBOX.getSelectedItem()).getTasks()) {
-			taskDCBM.addElement(t);
-		}
+    	if ((Project) projectBOX.getSelectedItem() != null) {
+    		
+    		taskDCBM.removeAllElements();
+    		taskDCBM.addElement(null);
+    		for(Task t : ((Project) projectBOX.getSelectedItem()).getTasks()) {
+    			taskDCBM.addElement(t);
+    		}    		
+    	}
     }
     
     public void fillProcedure() {

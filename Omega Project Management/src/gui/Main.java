@@ -12,18 +12,16 @@ public class Main {
 		Task t2 = new Task("task 2", null);
 		Task t3 = new Task("task 3", null);
 		
-		Procedure pr1 = new Procedure("procedure 1", null);
-		Procedure pr2 = new Procedure("procedure 2", null);
-		Procedure pr3 = new Procedure("procedure 3", null);
-		Procedure pr4 = new Procedure("procedure 4", null);
+		Procedure pr1 = new Procedure("procedure 1", 10, null);
+		Procedure pr2 = new Procedure("procedure 2", 10, null);
+		Procedure pr3 = new Procedure("procedure 3", 10, null);
+		Procedure pr4 = new Procedure("procedure 4", 10, null);
 		
 		Specialty s1 = new Specialty("Specialty 1", 12);
 		Specialty s2 = new Specialty("Specialty 2", 9);
+		
 		Employee e1 = new Employee("Employee 1", s1);
 		Employee e2 = new Employee("Employee 2", s2);
-		for(Employee e : Employee.allEmployees) {
-			System.out.println(e);
-		}
 		
 		t1.addProcedure(pr1);
 		t1.addProcedure(pr2);
