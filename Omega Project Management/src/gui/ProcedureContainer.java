@@ -21,7 +21,7 @@ public class ProcedureContainer extends JPanel {
 	private CardLayout cardLayout;
 	
 	private String currentCard;
-	
+		
 	public ProcedureContainer() {
 	    setLayout(null);
 	    
@@ -40,7 +40,7 @@ public class ProcedureContainer extends JPanel {
 	    procedureDurationLB.setHorizontalAlignment(SwingConstants.CENTER);
 	    add(procedureDurationLB);
 	    
-	    procedureDurationFLD = new JTextField();
+	    procedureDurationFLD = new JTextField("0");
 	    procedureDurationFLD.setBounds(210, 24, 130, 25);
 	    procedureDurationFLD.setHorizontalAlignment(SwingConstants.CENTER);
 	    add(procedureDurationFLD);

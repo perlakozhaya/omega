@@ -41,23 +41,22 @@ public class CreateSpecialtyContainer extends JPanel {
 	
     // Add Specialty to Specialty.jobs
 	public boolean addToJobs() {
-		Double wagePerHour = 0.0;
-		String specialtyName;
+		String specialtyName = specialtyNameField.getText().trim();
+		String salaryString = salaryField.getText();
 		try {
-			wagePerHour = Double.parseDouble(salaryField.getText());
-			if(!specialtyNameField.getText().trim().isEmpty()) {
-				specialtyName = specialtyNameField.getText();
+			double wagePerHour = Double.parseDouble(salaryString);
+			if(!specialtyName.isEmpty()) {
 				Specialty.jobs.put(specialtyName, wagePerHour);
 				salaryField.setText("");
 				specialtyNameField.setText("");
 				return true;
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "Name cannot be empty!\n", "Error", JOptionPane.ERROR_MESSAGE);
+//				showError("Name cannot be empty!\n");
 				return false;
 			}
-		} catch (IllegalArgumentException e) {
-			JOptionPane.showMessageDialog(null, "Invalid number!\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		} catch (IllegalArgumentException ex) {
+//			showError("Invalid number!\n");
 			return false;
 		}
 	}
