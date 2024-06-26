@@ -46,12 +46,12 @@ public class Main {
 		t2.addProcedure(pr3);
 		t3.addProcedure(pr4);
 		
-		p1.addTask(t1);
-		p1.addTask(t2);
-		p2.addTask(t3);
-		
-		Project.projects.add(p1);
-		Project.projects.add(p2);
+//		p1.addTask(t1);
+//		p1.addTask(t2);
+//		p2.addTask(t3);
+//		
+//		Project.projects.add(p1);
+//		Project.projects.add(p2);
 		
         new FormFrame("Form Frame");
     }

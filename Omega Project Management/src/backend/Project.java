@@ -1,6 +1,9 @@
 package backend;
 import java.util.*;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+
 public class Project extends Status implements Comparable<Project> {
   private String projectName;
   private Set<Task> tasks;
@@ -49,52 +52,9 @@ public class Project extends Status implements Comparable<Project> {
     return tasks;
   }
 
-
 //  @Override
 //  void updateOnStatus() {
 //    // TODO Auto-generated method stub
 //    
 //  }
-}
-
-@SuppressWarnings("deprecation")
-class ProjectObservable extends Observable {
-    private Set<Project> projects = new TreeSet<>();
-    
-    void addTask(Project p, Task t) {
-    	p.getTasks().add(t);  
-    	
-    	setChanged();
-        notifyObservers(p);
-    }
-    
-    void addProject(Project p) {
-    	projects.add(p);
-    	
-    	setChanged();
-        notifyObservers(p);
-    }
-    
-    void removeTask(Project p, Task t) {
-    	p.getTasks().remove(t);
-    	
-    	setChanged();
-        notifyObservers(p);
-    }
-    
-    void removeProject(Project p) {
-    	projects.remove(p);
-    	
-    	setChanged();
-        notifyObservers(p);
-    }
-    
-    void setProjectName(Project p, String name) {
-    	p.setProjectName(name);
-    	
-    	setChanged();
-        notifyObservers(p);
-    }
-    
-    
 }

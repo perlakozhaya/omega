@@ -105,9 +105,9 @@ public class Procedure extends Status implements Comparable<Procedure> {
     this.logistics = logistics;
   }
 
-  @Override
-  void updateOnStatus() {
-    // TODO Auto-generated method stub
-    
-  }
+//  @Override
+//  void updateOnStatus() {
+//    // TODO Auto-generated method stub
+//    
+//  }
 }
