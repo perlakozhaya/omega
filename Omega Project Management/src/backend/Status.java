@@ -24,7 +24,7 @@ public abstract class Status {
       return false;
   }
 
-  abstract void updateOnStatus();
+//  abstract void updateOnStatus();
   
   public String getCurrentStatus() {
     return currentStatus;
