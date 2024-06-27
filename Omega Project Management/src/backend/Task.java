@@ -13,7 +13,11 @@ public class Task extends Status implements Comparable<Task> {
   }
   
   public void addProcedure(Procedure p) {
-    procedures.add(p);
+	  procedures.add(p);
+  }
+  
+  public void removeProcedure(Procedure p) {
+    procedures.remove(p);
   }
   
   public double taskCost() {

@@ -4,18 +4,13 @@ import backend.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.*;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 @SuppressWarnings("serial")
 public class FormFrame extends JFrame {
     // Panels for different sections of the GUI
-    private JPanel buttonPanel, centerPanel, comboPanel;
-    
-    // Buttons for user actions
-    private JButton applyButton, deleteButton;
+    private JPanel centerPanel, comboBoxPanel;
     
     // ComboBoxes for selecting projects, tasks, and procedures
     private JComboBox<Project> projectBOX;
@@ -41,29 +36,16 @@ public class FormFrame extends JFrame {
     private JMenuItem save;
     private JMenuItem exit;
     
-	ProjectObserver projectObserver;
-	ProjectObservable projectObservable;
+    private DataManager dataManager;
 
     // Constructor for initializing the frame
-    public FormFrame(String title) {
-        setTitle(title);
+    public FormFrame(DataManager dataManager) {
+        this.dataManager = dataManager;
+        setTitle("Project Management Form");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(10, 200, 420, 480);
         setResizable(true);
         setLayout(new BorderLayout());
-        
-        // Initialize ProjectObservable and ProjectObserver
-        projectObservable = new ProjectObservable();
-        projectDCBM = new DefaultComboBoxModel<>();
-        projectObserver = new ProjectObserver(projectDCBM, projectObservable);
-
-        // Register the observer
-        projectObservable.addObserver(projectObserver);
-
-        // Initialize containers
-        projectC = new ProjectContainer();
-        taskC = new TaskContainer();
-        procedureC = new ProcedureContainer();
 
         // Add menu bar items
         menuBar = new JMenuBar();
@@ -75,22 +57,35 @@ public class FormFrame extends JFrame {
         menuBar.add(file);
         setJMenuBar(menuBar);
         
-        // Initialize and configure button panel
-        buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Adds padding around buttons
-        buttonPanel.setBackground(Color.LIGHT_GRAY);
-
-        // Initialize buttons
-        applyButton = new JButton("Apply");
-        deleteButton = new JButton("Delete");
-
-        // Add buttons to the button panel with spacing
-        buttonPanel.add(Box.createHorizontalGlue()); // Pushes buttons to the center
-        buttonPanel.add(applyButton);
-        buttonPanel.add(Box.createRigidArea(new Dimension(20, 0))); // Space between buttons
-        buttonPanel.add(deleteButton);
-        buttonPanel.add(Box.createHorizontalGlue()); // Pushes buttons to the center
+        // Initialize and configure combo panel
+        comboBoxPanel = new JPanel();
+        comboBoxPanel.setLayout(new BoxLayout(comboBoxPanel, BoxLayout.X_AXIS));
+        comboBoxPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        comboBoxPanel.setBackground(Color.LIGHT_GRAY);
+        
+        // Initialize ComboBoxes with models
+        projectDCBM = new DefaultComboBoxModel<>();
+        projectBOX = new JComboBox<>(projectDCBM);
+        
+        taskDCBM = new DefaultComboBoxModel<>();
+        taskBOX = new JComboBox<>(taskDCBM);           
+        taskBOX.setEnabled(false);
+        
+        procedureDCBM = new DefaultComboBoxModel<>();
+        procedureBOX = new JComboBox<>(procedureDCBM); 
+        procedureBOX.setEnabled(false);
+        
+        // Add ComboBoxes to the combo panel with spacing
+        comboBoxPanel.add(projectBOX);
+        comboBoxPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        comboBoxPanel.add(taskBOX);
+        comboBoxPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        comboBoxPanel.add(procedureBOX);
+        
+        // Initialize containers
+        projectC = new ProjectContainer(dataManager, this);
+        taskC = new TaskContainer(dataManager, this);
+        procedureC = new ProcedureContainer(dataManager, this);
 
         // Initialize card layout for center panel
         cardLayout = new CardLayout();
@@ -100,105 +95,75 @@ public class FormFrame extends JFrame {
         centerPanel.add(projectC, "Project");
         centerPanel.add(taskC, "Task");
         centerPanel.add(procedureC, "Procedure");
-
-        // Initialize and configure combo panel
-        comboPanel = new JPanel();
-        comboPanel.setLayout(new BoxLayout(comboPanel, BoxLayout.X_AXIS));
-        comboPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Adds padding around combo boxes
-        comboPanel.setBackground(Color.LIGHT_GRAY);
-
-        // Initialize ComboBoxes with models
-        projectDCBM = projectObserver.getProjectDCBM();
-        projectBOX = new JComboBox<>(projectDCBM);
         
-        taskBOX = new JComboBox<>(taskDCBM);           
-        taskBOX.setEnabled(false);
-        
-        procedureBOX = new JComboBox<>(procedureDCBM); 
-        procedureBOX.setEnabled(false);
-        
-        // Add ComboBoxes to the combo panel with spacing
-        comboPanel.add(projectBOX);
-        comboPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        comboPanel.add(taskBOX);
-        comboPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        comboPanel.add(procedureBOX);
+        // Add panels to the frame
+        add(comboBoxPanel, BorderLayout.NORTH);
+        add(centerPanel, BorderLayout.CENTER);
         
 //      ------------------------------------------------------------
         
-//        // Action listener for project selection
-//        projectBOX.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                Project selectedProject = (Project) projectBOX.getSelectedItem();
-//                if (selectedProject != null) {
-//                    fillTask(selectedProject);
-//                    taskBOX.setEnabled(true);
-//                    projectC.setLabelContent("Project Name");
-//                    projectC.setFieldContent(selectedProject.getProjectName());
-//                } else {
-//                    taskBOX.setEnabled(false);
-//                    taskBOX.removeAllItems();
-//                    projectC.setLabelContent("Create new Project");
-//                    projectC.setFieldContent("Project Name...");
-//                }
-//                cardLayout.show(centerPanel, "Project");
-//            }
-//        });
-//
-//        // Action listener for task selection
-//        taskBOX.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                Task selectedTask = (Task) taskBOX.getSelectedItem();
-//                if (selectedTask != null) {
-//                    fillProcedure(selectedTask);
-//                    procedureBOX.setEnabled(true);
-//                    taskC.setLabelContent("Task Name");
-//                    taskC.setFieldContent(selectedTask.getTaskName());
-//                } else {
-//                    procedureBOX.setEnabled(false);
-//                    procedureBOX.removeAllItems();
-//                    taskC.setLabelContent("Create new Task");
-//                    taskC.setFieldContent("Task Name...");
-//                }
-//                cardLayout.show(centerPanel, "Task");
-//            }
-//        });
-//
-//        // Action listener for procedure selection
-//        procedureBOX.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                Procedure selectedProcedure = (Procedure) procedureBOX.getSelectedItem();
-//                if (selectedProcedure != null) {
-//                    procedureC.setNameLabelContent("Procedure Name");
-//                    procedureC.setNameFieldContent(selectedProcedure.getProcedureName());
-//                    procedureC.setDurationFieldContent(selectedProcedure.getProcedureDuration() + "");
-//                } else {
-//                    procedureC.setNameLabelContent("Create new Procedure");
-//                    procedureC.setNameFieldContent("Procedure Name...");
-//                    procedureC.setDurationFieldContent("0");
-//                }
-//                cardLayout.show(centerPanel, "Procedure");
-//            }
-//        });
-//        
+        // Action listener for project selection
+        projectBOX.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Project selectedProject = (Project) projectBOX.getSelectedItem();
+                if (selectedProject != null) {
+                    fillTask(selectedProject);
+                    taskBOX.setEnabled(true);
+                    projectC.setProjectLabel("Project Name");
+                    projectC.setProjectField(selectedProject.getProjectName());
+                } else {
+                    taskBOX.setEnabled(false);
+                    taskBOX.removeAllItems();
+                    projectC.setProjectLabel("Create new Project");
+                    projectC.setProjectField("Project Name...");
+                }
+                cardLayout.show(centerPanel, "Project");
+            }
+        });
+
+        // Action listener for task selection
+        taskBOX.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Task selectedTask = (Task) taskBOX.getSelectedItem();
+                if (selectedTask != null) {
+                    fillProcedure(selectedTask);
+                    procedureBOX.setEnabled(true);
+                    taskC.setTaskLabel("Task Name");
+                    taskC.setTaskField(selectedTask.getTaskName());
+                } else {
+                    procedureBOX.setEnabled(false);
+                    procedureBOX.removeAllItems();
+                    taskC.setTaskLabel("Create new Task");
+                    taskC.setTaskField("Task Name...");
+                }
+                cardLayout.show(centerPanel, "Task");
+            }
+        });
+
+        // Action listener for procedure selection
+        procedureBOX.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Procedure selectedProcedure = (Procedure) procedureBOX.getSelectedItem();
+                if (selectedProcedure != null) {
+                    procedureC.setProcedureLabel("Procedure Name");
+                    procedureC.setProcedureField(selectedProcedure.getProcedureName());
+                    procedureC.setDurationField(selectedProcedure.getProcedureDuration() + "");
+                } else {
+                    procedureC.setProcedureLabel("Create new Procedure");
+                    procedureC.setProcedureField("Procedure Name...");
+                    procedureC.setDurationField("0");
+                }
+                cardLayout.show(centerPanel, "Procedure");
+            }
+        });
+        
 //        applyButton.addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
-//            	Project selectedProject = (Project) projectBOX.getSelectedItem();
-//                Task selectedTask = (Task) taskBOX.getSelectedItem();
-//                Procedure selectedProcedure = (Procedure) procedureBOX.getSelectedItem();
-//
-//                // Handle project selection or creation
-//                handleProject(selectedProject);
-//                // Handle task selection or creation
-//                handleTask(selectedProject, selectedTask);
-//                // Handle procedure selection or creation
-//                handleProcedure(selectedTask, selectedProcedure);
-//                
-//                // Handle adding worked hours for a selected employee
+                // Handle adding worked hours for a selected employee
 //                if(procedureC.getCurrentCard() == "employee") {
 //                	JList<Employee> empList = procedureC.getEmployeeContainer().getEmployeeList();
 //                	Employee employee = empList.getSelectedValue();
@@ -257,77 +222,68 @@ public class FormFrame extends JFrame {
 //                }
 //            }
 //        });
-
-//      ------------------------------------------------------------
-
-        // Add panels to the frame
-        add(buttonPanel, BorderLayout.SOUTH);
-        add(centerPanel, BorderLayout.CENTER);
-        add(comboPanel, BorderLayout.NORTH);
-        
-        // Make the frame visible
-        setVisible(true);
     }
     
-//    // Other methods
-//    public double parsePositiveDouble(String value, String errorMessage) throws IllegalArgumentException {
-//        double number = Double.parseDouble(value);
-//        if (number <= 0) {
-//            throw new IllegalArgumentException(errorMessage);
-//        }
-//        return number;
-//    }
-//
-//    public void showError(String message) {
-//        JOptionPane.showMessageDialog(FormFrame.this, message, "Error", JOptionPane.ERROR_MESSAGE);
-//    }
-//    
-//    private void fillProject() {
-//    	projectDCBM.removeAllElements();
-//		projectDCBM.addElement(null);
-//		for(Project p : Project.projects) {
-//			projectDCBM.addElement(p);
-//		}
-//    }
-//    
-//    private void fillTask(Project p) {    		
-//		taskDCBM.removeAllElements();
-//		taskDCBM.addElement(null);
-//		for(Task t : p.getTasks()) {
-//			taskDCBM.addElement(t);
-//		}    		
-//    }
-//    
-//    private void fillProcedure(Task t) {
-//    	procedureDCBM.removeAllElements();
-//		procedureDCBM.addElement(null);
-//		for(Procedure pr : t.getProcedures()) {
-//			procedureDCBM.addElement(pr);
-//		}
-//    }
-//    
-//    private void handleProject(Project selectedProject) {
-//        String projectName = projectC.getFieldContent().trim();
-//        if (selectedProject != null) {
-//            if (projectName.isEmpty()) {
-//                showError("Project Name cannot be empty!");
-//                return;
-//            }
-//            selectedProject.setProjectName(projectName);
-//            projectC.setFieldContent(projectName);
-//        } else {
-//        	if (!projectName.equals("Project Name...")) {
-//        		if (projectName.isEmpty()) {
-//        			showError("Project Name cannot be empty!");
-//        			return;
-//        		}
-//        		selectedProject = new Project(projectName, Status.INCOMPLETE);
-//        		projectDCBM.addElement(selectedProject);
-//        		projectBOX.setSelectedItem(selectedProject);
-//        	}
-//        }
-//    }
-//
+    public double parsePositiveDouble(String value, String errorMessage) throws IllegalArgumentException {
+        double number = Double.parseDouble(value);
+        if (number <= 0) {
+            throw new IllegalArgumentException(errorMessage);
+        }
+        return number;
+    }
+
+    public void showError(String message) {
+        JOptionPane.showMessageDialog(FormFrame.this, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public void fillProject() {
+    	projectDCBM.removeAllElements();
+		projectDCBM.addElement(null);
+		for(Project p : dataManager.getProjects()) {
+			projectDCBM.addElement(p);
+		}
+    }
+    
+    public void fillTask(Project p) {    		
+		taskDCBM.removeAllElements();
+		taskDCBM.addElement(null);
+		for(Task t : p.getTasks()) {
+			taskDCBM.addElement(t);
+		}    		
+    }
+    
+    public void fillProcedure(Task t) {
+    	procedureDCBM.removeAllElements();
+		procedureDCBM.addElement(null);
+		for(Procedure pr : t.getProcedures()) {
+			procedureDCBM.addElement(pr);
+		}
+    }
+    
+    public Project getSelectedProject() {
+    	return (Project) projectBOX.getSelectedItem();
+    }
+    
+    public Task getSelectedTask() {
+    	return (Task) taskBOX.getSelectedItem();
+    }
+    
+    public Procedure getSelectedProcedure() {
+    	return (Procedure) procedureBOX.getSelectedItem();
+    }
+    
+    public void setSelectedProject(Project project) {
+    	projectBOX.setSelectedItem(project);
+    }
+    
+    public void setSelectedTask(Task task) {
+    	taskBOX.setSelectedItem(task);
+    }
+    
+    public void setSelectedProcedure(Procedure procedure) {
+    	procedureBOX.setSelectedItem(procedure);
+    }
+    
 //    private void handleTask(Project selectedProject, Task selectedTask) {
 //        String taskName = taskC.getFieldContent().trim();
 //        if (selectedTask == null) {

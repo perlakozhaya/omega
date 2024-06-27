@@ -13,6 +13,8 @@ import backend.*;
 public class ProcedureContainer extends JPanel {
 	private JLabel procedureNameLB, procedureDurationLB;
 	private JTextField procedureNameFLD, procedureDurationFLD;
+    private JButton procedureApplyBTN;
+	
 	private JPanel detailsC, buttonsPanel, centerPanel;
 	private JButton empButton, itemButton, logisticButton;
 	private EmployeeContainer employeeC; 
@@ -21,40 +23,49 @@ public class ProcedureContainer extends JPanel {
 	private CardLayout cardLayout;
 	
 	private String currentCard;
+	
+	private DataManager dataManager;
+    private FormFrame formFrame;
 		
-	public ProcedureContainer() {
+	public ProcedureContainer(DataManager dataManager, FormFrame formFrame) {
+		this.dataManager = dataManager;
+        this.formFrame = formFrame;
 	    setLayout(null);
 	    
-	    procedureNameLB = new JLabel("Name");
+	    procedureNameLB = new JLabel("Create new Procedure");
 	    procedureNameLB.setBounds(60, 10, 130, 13);
 	    procedureNameLB.setHorizontalAlignment(SwingConstants.CENTER);
-	    add(procedureNameLB);
 	    
-	    procedureNameFLD = new JTextField();
+	    procedureNameFLD = new JTextField("Procedure Name...");
 	    procedureNameFLD.setBounds(60, 24, 130, 25);
-	    add(procedureNameFLD);
-	    procedureNameFLD.setColumns(10);
+//	    procedureNameFLD.setColumns(10);
 
 	    procedureDurationLB = new JLabel("Duration/h");
 	    procedureDurationLB.setBounds(210, 10, 130, 13);
-	    procedureDurationLB.setHorizontalAlignment(SwingConstants.CENTER);
-	    add(procedureDurationLB);
+	    procedureNameLB.setHorizontalAlignment(SwingConstants.CENTER);
 	    
 	    procedureDurationFLD = new JTextField("0");
 	    procedureDurationFLD.setBounds(210, 24, 130, 25);
-	    procedureDurationFLD.setHorizontalAlignment(SwingConstants.CENTER);
+//	    procedureDurationFLD.setColumns(10);
+	    
+	    procedureApplyBTN = new JButton("Apply Changes");
+        procedureApplyBTN.setBounds(360, 10, 130, 38);
+	    
+	    add(procedureNameLB);
+	    add(procedureNameFLD);
+	    add(procedureDurationLB);
 	    add(procedureDurationFLD);
-	    procedureDurationFLD.setColumns(10);
+	    add(procedureApplyBTN);
 	    
 	    detailsC = new JPanel();
 	    detailsC.setBackground(new Color(181, 181, 181));
 	    detailsC.setBounds(0, 53, 405, 310);
-	    add(detailsC);
 	    detailsC.setLayout(new BorderLayout(0, 0));
+	    add(detailsC);
 	    
 	    buttonsPanel = new JPanel();
+	    buttonsPanel.setLayout(new GridLayout(0, 3));
 	    detailsC.add(buttonsPanel, BorderLayout.NORTH);
-	    buttonsPanel.setLayout(new GridLayout(0, 3, 0, 0));
 	    
 	    empButton = new JButton("Employees");
 	    buttonsPanel.add(empButton);
@@ -81,7 +92,6 @@ public class ProcedureContainer extends JPanel {
 	    centerPanel.add(itemC, "Item Container");
 	    centerPanel.add(logisticC, "Logistic Container");
 	    
-	    
 	    empButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -107,35 +117,35 @@ public class ProcedureContainer extends JPanel {
 	    });
 	}
 		
-	public String getNameLabelContent() {
+	public String getProcedureLabel() {
 		return procedureNameLB.getText();
 	}
 	
-	public void setNameLabelContent(String text) {
+	public void setProcedureLabel(String text) {
 		procedureNameLB.setText(text);
 	}
 	
-	public String getNameFieldContent() {
+	public String getProcedureField() {
 		return procedureNameFLD.getText();
 	}
 
-	public void setNameFieldContent(String text) {
+	public void setProcedureField(String text) {
 		procedureNameFLD.setText(text);
 	}
 	
-	public String getDurationLabelContent() {
+	public String getDurationLabel() {
 		return procedureDurationLB.getText();
 	}
 	
-	public void setDurationLabelContent(String text) {
+	public void setDurationLabel(String text) {
 		procedureDurationLB.setText(text);
 	}
 	
-	public String getDurationFieldContent() {
+	public String getDurationField() {
 		return procedureDurationFLD.getText();
 	}
 	
-	public void setDurationFieldContent(String text) {
+	public void setDurationField(String text) {
 		procedureDurationFLD.setText(text);
 	}
 

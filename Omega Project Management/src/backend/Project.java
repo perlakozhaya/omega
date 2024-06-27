@@ -13,22 +13,30 @@ public class Project extends Status implements Comparable<Project> {
     this.projectName = projectName;
     tasks = new TreeSet<Task>();
   }
+  
+  public void addTask(Task task) {
+	  tasks.add(task);
+  }
+  
+  public void removeTask(Task task) {
+	  tasks.remove(task);
+  }
 
-//  public double projectCost() {
-//    double total = 0.0;
-//    for(Task t : tasks) {
-//      total += t.taskCost();      
-//    }
-//    return total;
-//  }
-//  
-//  public double projectDuration() {
-//    double duration = 0.0;
-//    for(Task t : tasks) {
-//      duration += t.taskDuration();      
-//    }
-//    return duration;
-//  }
+  public double projectCost() {
+    double total = 0.0;
+    for(Task t : tasks) {
+      total += t.taskCost();      
+    }
+    return total;
+  }
+  
+  public double projectDuration() {
+    double duration = 0.0;
+    for(Task t : tasks) {
+      duration += t.taskDuration();      
+    }
+    return duration;
+  }
   
   @Override
   public int compareTo(Project p) {
@@ -51,10 +59,4 @@ public class Project extends Status implements Comparable<Project> {
   public Set<Task> getTasks() {
     return tasks;
   }
-
-//  @Override
-//  void updateOnStatus() {
-//    // TODO Auto-generated method stub
-//    
-//  }
 }

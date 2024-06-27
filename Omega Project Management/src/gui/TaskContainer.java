@@ -8,8 +8,14 @@ import backend.*;
 public class TaskContainer extends JPanel {
     private JLabel taskNameLB;
     private JTextField taskNameFLD;
+    private JButton taskApplyBTN;
     
-	public TaskContainer() {
+    private DataManager dataManager;
+    private FormFrame formFrame;
+    
+	public TaskContainer(DataManager dataManager, FormFrame formFrame) {
+		this.dataManager = dataManager;
+        this.formFrame = formFrame;
 		setLayout(null);
         
         taskNameLB = new JLabel("Create new Task");
@@ -18,24 +24,28 @@ public class TaskContainer extends JPanel {
         
         taskNameFLD = new JTextField("Task Name...");
         taskNameFLD.setBounds(130, 110, 150, 30);
+        
+        taskApplyBTN = new JButton("Apply Changes");
+        taskApplyBTN.setBounds(130, 180, 150, 30);
 
         add(taskNameLB);
         add(taskNameFLD);
+        add(taskApplyBTN);
 	}
 	
-	public void setLabelContent(String text) {
+	public void setTaskLabel(String text) {
 		taskNameLB.setText(text);
 	}
 	
-	public String getLabelContent() {
+	public String getTaskLabel() {
 		return taskNameLB.getText();
 	}
 	
-	public void setFieldContent(String text) {
+	public void setTaskField(String text) {
 		taskNameFLD.setText(text);
 	}
 	
-	public String getFieldContent() {
+	public String getTaskField() {
 		return taskNameFLD.getText();
 	}
 }

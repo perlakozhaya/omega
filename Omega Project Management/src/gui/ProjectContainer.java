@@ -1,15 +1,24 @@
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
-import backend.Project;
+import backend.*;
 
 @SuppressWarnings("serial")
 public class ProjectContainer extends JPanel {
     private JLabel projectNameLB;
     private JTextField projectNameFLD;
+    private JButton projectApplyBTN;
     
-	public ProjectContainer() {
+    private DataManager dataManager;
+    private FormFrame formFrame;
+    
+	public ProjectContainer(DataManager dataManager, FormFrame formFrame) {
+		this.dataManager = dataManager;
+        this.formFrame = formFrame;
 		setLayout(null);
         
         projectNameLB = new JLabel("Create new Project");
@@ -18,24 +27,59 @@ public class ProjectContainer extends JPanel {
        
         projectNameFLD = new JTextField("Project Name...");
         projectNameFLD.setBounds(130, 110, 150, 30);
+        
+        projectApplyBTN = new JButton("Apply Changes");
+        projectApplyBTN.setBounds(130, 180, 150, 30);
 
         add(projectNameLB);
         add(projectNameFLD);
+        add(projectApplyBTN);
+        
+        projectApplyBTN.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Project selectedProject = formFrame.getSelectedProject();
+				handleProject(selectedProject);
+			}
+        });
 	}
 	
-	public void setLabelContent(String text) {
+    private void handleProject(Project selectedProject) {
+        String projectName = getProjectField().trim();
+        if (selectedProject != null) {
+            if (projectName.isEmpty()) {
+                formFrame.showError("Project Name cannot be empty!");
+                return;
+            }
+            dataManager.updateProject(selectedProject, projectName);
+            setProjectField(projectName);
+        } else {
+        	if (!projectName.equals("Project Name...")) {
+        		if (projectName.isEmpty()) {
+        			formFrame.showError("Project Name cannot be empty!");
+        			return;
+        		}
+        		selectedProject = new Project(projectName, Status.INCOMPLETE);
+        		dataManager.addProject(selectedProject);
+        		formFrame.fillProject();
+        		formFrame.setSelectedProject(selectedProject);
+        	}
+        }
+    }
+	
+	public void setProjectLabel(String text) {
 		projectNameLB.setText(text);
 	}
 	
-	public String getLabelContent() {
+	public String getProjectLabel() {
 		return projectNameLB.getText();
 	}
 	
-	public void setFieldContent(String text) {
+	public void setProjectField(String text) {
 		projectNameFLD.setText(text);
 	}
 	
-	public String getFieldContent() {
+	public String getProjectField() {
 		return projectNameFLD.getText();
 	}
 }
