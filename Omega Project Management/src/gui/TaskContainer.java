@@ -1,5 +1,8 @@
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 import backend.*;
@@ -31,8 +34,43 @@ public class TaskContainer extends JPanel {
         add(taskNameLB);
         add(taskNameFLD);
         add(taskApplyBTN);
+        
+        taskApplyBTN.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Project selectedProject = formFrame.getSelectedProject();
+				Task selectedTask = formFrame.getSelectedTask();
+				handleTask(selectedProject, selectedTask);
+			}
+        });
 	}
 	
+    private void handleTask(Project selectedProject, Task selectedTask) {
+        String taskName = getTaskField().trim();
+        
+        if (taskName.isEmpty()) {
+        	formFrame.showError("Task Name cannot be empty!");
+        	return;
+        }
+        
+        if (selectedTask == null) {
+            createTask(selectedProject, taskName);
+        } else {
+            dataManager.updateTaskInProject(selectedProject, selectedTask, taskName);
+            setTaskField(taskName);
+            formFrame.fillTask();
+        }
+    }
+	
+    private void createTask(Project selectedProject, String taskName) {
+    	if (!taskName.equals("Task Name...")) {
+            Task newTask = new Task(taskName, Status.INCOMPLETE);
+            dataManager.addTaskToProject(selectedProject, newTask);
+            formFrame.fillTask();
+            formFrame.setSelectedTask(newTask);
+        }
+    }
+    
 	public void setTaskLabel(String text) {
 		taskNameLB.setText(text);
 	}

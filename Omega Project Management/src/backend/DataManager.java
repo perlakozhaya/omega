@@ -6,7 +6,7 @@ public class DataManager extends Observable {
 	private Set<Project> projects;
 	
 	public DataManager() {
-		projects = new HashSet<>();
+		projects = new TreeSet<>();
 	}
 	
 	public void addProject(Project project) {
@@ -37,12 +37,11 @@ public class DataManager extends Observable {
         }
 	}
 	
-	public void updateTaskInProject(Project project, Task oldTask, Task newTask) {
+	public void updateTaskInProject(Project project, Task task, String name) {
 		if (projects.contains(project)) {
             Set<Task> tasks = project.getTasks();
-            if (tasks.contains(oldTask)) {
-            	project.removeTask(oldTask);
-            	project.addTask(newTask);
+            if (tasks.contains(task)) {
+            	task.setTaskName(name);
                 setChanged();
                 notifyObservers();
             }
@@ -63,11 +62,11 @@ public class DataManager extends Observable {
 	     notifyObservers();
 	}
 	
-	public void updateProcedureInTask(Task task, Procedure oldProcedure, Procedure newProcedure) {
+	public void updateProcedureInTask(Task task, Procedure procedure, String name, Double duration) {
         Set<Procedure> procedures = task.getProcedures();
-        if (procedures.contains(oldProcedure)) {
-        	task.removeProcedure(oldProcedure);
-        	task.addProcedure(newProcedure);
+        if (procedures.contains(procedure)) {
+        	procedure.setProcedureName(name);
+        	procedure.setProcedureDuration(duration);
             setChanged();
             notifyObservers();
         }

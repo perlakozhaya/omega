@@ -33,23 +33,19 @@ public class ProcedureContainer extends JPanel {
 	    setLayout(null);
 	    
 	    procedureNameLB = new JLabel("Create new Procedure");
-	    procedureNameLB.setBounds(60, 10, 130, 13);
-	    procedureNameLB.setHorizontalAlignment(SwingConstants.CENTER);
+	    procedureNameLB.setBounds(20, 6, 130, 13);
 	    
 	    procedureNameFLD = new JTextField("Procedure Name...");
-	    procedureNameFLD.setBounds(60, 24, 130, 25);
-//	    procedureNameFLD.setColumns(10);
+	    procedureNameFLD.setBounds(20, 22, 130, 25);
 
 	    procedureDurationLB = new JLabel("Duration/h");
-	    procedureDurationLB.setBounds(210, 10, 130, 13);
-	    procedureNameLB.setHorizontalAlignment(SwingConstants.CENTER);
+	    procedureDurationLB.setBounds(170, 6, 130, 13);
 	    
 	    procedureDurationFLD = new JTextField("0");
-	    procedureDurationFLD.setBounds(210, 24, 130, 25);
-//	    procedureDurationFLD.setColumns(10);
+	    procedureDurationFLD.setBounds(170, 22, 130, 25);
 	    
-	    procedureApplyBTN = new JButton("Apply Changes");
-        procedureApplyBTN.setBounds(360, 10, 130, 38);
+	    procedureApplyBTN = new JButton("Apply");
+        procedureApplyBTN.setBounds(320, 14, 65, 25);
 	    
 	    add(procedureNameLB);
 	    add(procedureNameFLD);
@@ -92,6 +88,15 @@ public class ProcedureContainer extends JPanel {
 	    centerPanel.add(itemC, "Item Container");
 	    centerPanel.add(logisticC, "Logistic Container");
 	    
+	    procedureApplyBTN.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Task selectedTask = formFrame.getSelectedTask();
+				Procedure selectedProcedure = formFrame.getSelectedProcedure();
+				handleProcedure(selectedTask, selectedProcedure);
+			}
+	    });
+	    
 	    empButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -116,6 +121,44 @@ public class ProcedureContainer extends JPanel {
 	    	}   	
 	    });
 	}
+	
+    private void handleProcedure(Task selectedTask, Procedure selectedProcedure) {
+        String procedureName = getProcedureField().trim();
+        String durationString = getDurationField().trim();
+        
+        if (procedureName.isEmpty() || durationString.isEmpty()) {
+        	formFrame.showError("Procedure name/duration empty!");
+        	return;
+        }
+        
+        try {
+            double procedureDuration = formFrame.parsePositiveDouble(durationString, "Procedure Duration must be a positive number!");
+            if (selectedProcedure == null) {
+            	createProcedure(selectedTask, procedureName, procedureDuration);
+            } else {
+            	updateProcedure(selectedTask, selectedProcedure, procedureName, procedureDuration);
+            }
+	    } catch (IllegalArgumentException ex) {
+	        formFrame.showError("Procedure Duration must be a positive number!");
+	        return;
+	    }
+    }
+    
+    private void createProcedure(Task selectedTask, String procedureName, double procedureDuration) {
+        if (!procedureName.equals("Procedure Name...") && procedureDuration != 0) {
+            Procedure newProcedure = new Procedure(procedureName, procedureDuration, Status.INCOMPLETE);
+            dataManager.addProcedureToTask(selectedTask, newProcedure);
+    		formFrame.fillProcedure();
+            formFrame.setSelectedProcedure(newProcedure);
+        }
+    }
+    
+    private void updateProcedure(Task selectedTask, Procedure selectedProcedure, String procedureName, double procedureDuration) {
+        dataManager.updateProcedureInTask(selectedTask, selectedProcedure, procedureName, procedureDuration);
+        setProcedureField(procedureName);
+        setDurationField(String.valueOf(procedureDuration));
+		formFrame.fillProcedure();
+    }
 		
 	public String getProcedureLabel() {
 		return procedureNameLB.getText();

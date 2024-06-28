@@ -40,12 +40,14 @@ public class FormFrame extends JFrame {
 
     // Constructor for initializing the frame
     public FormFrame(DataManager dataManager) {
-        this.dataManager = dataManager;
         setTitle("Project Management Form");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(10, 200, 420, 480);
         setResizable(true);
         setLayout(new BorderLayout());
+
+        this.dataManager = dataManager;
+//        dataManager.addObserver(this);
 
         // Add menu bar items
         menuBar = new JMenuBar();
@@ -100,15 +102,19 @@ public class FormFrame extends JFrame {
         add(comboBoxPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
         
-//      ------------------------------------------------------------
+//      -------------------------------------------------------------------------
         
-        // Action listener for project selection
+//        update(null, null);
+        
+        fillProject();
+
+        // Change Project Container label and field based on project selection / creation
         projectBOX.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Project selectedProject = (Project) projectBOX.getSelectedItem();
+                Project selectedProject = getSelectedProject();
                 if (selectedProject != null) {
-                    fillTask(selectedProject);
+            		fillTask();
                     taskBOX.setEnabled(true);
                     projectC.setProjectLabel("Project Name");
                     projectC.setProjectField(selectedProject.getProjectName());
@@ -122,13 +128,13 @@ public class FormFrame extends JFrame {
             }
         });
 
-        // Action listener for task selection
+        // Change Task Container label and field based on task selection / creation
         taskBOX.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Task selectedTask = (Task) taskBOX.getSelectedItem();
+                Task selectedTask = getSelectedTask();
                 if (selectedTask != null) {
-                    fillProcedure(selectedTask);
+            		fillProcedure();
                     procedureBOX.setEnabled(true);
                     taskC.setTaskLabel("Task Name");
                     taskC.setTaskField(selectedTask.getTaskName());
@@ -142,11 +148,11 @@ public class FormFrame extends JFrame {
             }
         });
 
-        // Action listener for procedure selection
+        // Change Procedure Container label and field based on procedure selection / creation
         procedureBOX.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Procedure selectedProcedure = (Procedure) procedureBOX.getSelectedItem();
+                Procedure selectedProcedure = getSelectedProcedure();
                 if (selectedProcedure != null) {
                     procedureC.setProcedureLabel("Procedure Name");
                     procedureC.setProcedureField(selectedProcedure.getProcedureName());
@@ -159,69 +165,39 @@ public class FormFrame extends JFrame {
                 cardLayout.show(centerPanel, "Procedure");
             }
         });
-        
-//        applyButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-                // Handle adding worked hours for a selected employee
-//                if(procedureC.getCurrentCard() == "employee") {
-//                	JList<Employee> empList = procedureC.getEmployeeContainer().getEmployeeList();
-//                	Employee employee = empList.getSelectedValue();
-//                	double workedHours = Double.parseDouble(procedureC.getEmployeeContainer().getWorkedHoursField());
-//                	
-//                	empList.addListSelectionListener(new ListSelectionListener() {
-//                		@Override
-//                		public void valueChanged(ListSelectionEvent e) {
-//                			Employee selectedEmp = empList.getSelectedValue();
-//                			Procedure selectedPr = (Procedure) procedureBOX.getSelectedItem();
-//                			boolean found = false;
-//                			
-//                			// update worked hours for working employees
-//                			for(ProcedureEmployee pe : selectedPr.getEmployees()) {
-//                				if(pe.getEmployee().equals(selectedEmp)) {
-//                					procedureC.getEmployeeContainer().setWorkedHoursField(pe.getHoursWorked() + "");
-//                					found = true;                        				
-//                				}
-//                			}
-//                			if(!found) {
-//                				procedureC.getEmployeeContainer().setWorkedHoursField("0");
-//                			}
-//                		}
-//                	});
-//                	
-//                	if(employee != null) {
-//                		if(workedHours > selectedProcedure.getProcedureDuration()) {
-//            				JOptionPane.showMessageDialog(FormFrame.this, "Employee hours cannot exceed the procedure duration!", "Error", JOptionPane.ERROR_MESSAGE);
-//            				return;
-//            			}
-//                		boolean found = false;
-//                		
-//                		for(ProcedureEmployee pe : selectedProcedure.getEmployees()) {
-//                			if(pe.getEmployee().equals(employee)) {
-//                				pe.setHoursWorked(workedHours);
-//                				found = true;
-//                			}
-//                		}
-//                		if(!found) {
-//                			selectedProcedure.addEmployee(employee, workedHours);
-//                			employee.addProcedure(selectedProcedure, workedHours);
-//                		}
-//                		
-//                	}
-//                	
-//                	// delete employee if worked hours set to 0
-//
-//                	// validate worked hours (mech negative wala string)
-//                	
-//                } else if(procedureC.getCurrentCard() == "item") {
-//                	
-//                	
-//                } else if(procedureC.getCurrentCard() == "logistic") {
-//                	
-//                	
-//                }
-//            }
-//        });
+    }
+    
+    public void fillProject() {
+    	Set<Project> projects = dataManager.getProjects();
+    	projectDCBM.removeAllElements();
+		projectDCBM.addElement(null);
+		if(!projects.isEmpty()) {
+			for(Project p : projects) {
+				projectDCBM.addElement(p);
+			}
+		}
+    }
+    
+    public void fillTask() {
+    	Set<Task> tasks = getSelectedProject().getTasks();
+    	taskDCBM.removeAllElements();
+    	taskDCBM.addElement(null);
+		if(!tasks.isEmpty()) {
+			for(Task t : tasks) {
+				taskDCBM.addElement(t);
+			}
+		}
+    }
+    
+    public void fillProcedure() {
+    	Set<Procedure> procedures = getSelectedTask().getProcedures();
+    	procedureDCBM.removeAllElements();
+    	procedureDCBM.addElement(null);
+		if(!procedures.isEmpty()) {
+			for(Procedure pr : procedures) {
+				procedureDCBM.addElement(pr);
+			}
+		}
     }
     
     public double parsePositiveDouble(String value, String errorMessage) throws IllegalArgumentException {
@@ -234,30 +210,6 @@ public class FormFrame extends JFrame {
 
     public void showError(String message) {
         JOptionPane.showMessageDialog(FormFrame.this, message, "Error", JOptionPane.ERROR_MESSAGE);
-    }
-    
-    public void fillProject() {
-    	projectDCBM.removeAllElements();
-		projectDCBM.addElement(null);
-		for(Project p : dataManager.getProjects()) {
-			projectDCBM.addElement(p);
-		}
-    }
-    
-    public void fillTask(Project p) {    		
-		taskDCBM.removeAllElements();
-		taskDCBM.addElement(null);
-		for(Task t : p.getTasks()) {
-			taskDCBM.addElement(t);
-		}    		
-    }
-    
-    public void fillProcedure(Task t) {
-    	procedureDCBM.removeAllElements();
-		procedureDCBM.addElement(null);
-		for(Procedure pr : t.getProcedures()) {
-			procedureDCBM.addElement(pr);
-		}
     }
     
     public Project getSelectedProject() {
@@ -283,66 +235,4 @@ public class FormFrame extends JFrame {
     public void setSelectedProcedure(Procedure procedure) {
     	procedureBOX.setSelectedItem(procedure);
     }
-    
-//    private void handleTask(Project selectedProject, Task selectedTask) {
-//        String taskName = taskC.getFieldContent().trim();
-//        if (selectedTask == null) {
-//            if (!taskName.equals("Task Name...")) {
-//                if (taskName.isEmpty()) {
-//                    showError("Task Name cannot be empty!");
-//                    return;
-//                }
-//                selectedTask = new Task(taskName, Status.INCOMPLETE);
-//                selectedProject.addTask(selectedTask);
-//                taskDCBM.addElement(selectedTask);
-//                taskBOX.setSelectedItem(selectedTask);
-//            }
-//        } else {
-//            if (taskName.isEmpty()) {
-//                showError("Task Name cannot be empty!");
-//                return;
-//            }
-//            selectedTask.setTaskName(taskName);
-//            taskC.setFieldContent(taskName);
-//        }
-//    }
-//
-//    private void handleProcedure(Task selectedTask, Procedure selectedProcedure) {
-//        String procedureName = procedureC.getNameFieldContent().trim();
-//        String durationString = procedureC.getDurationFieldContent().trim();
-//
-//        if (selectedProcedure == null) {
-//            if (!procedureName.equals("Procedure Name...") && !durationString.equals("0")) {
-//                if (procedureName.isEmpty() || durationString.isEmpty()) {
-//                    showError("Procedure name/duration empty!");
-//                    return;
-//                }
-//                try {
-//                    double procedureDuration = parsePositiveDouble(durationString, "Procedure Duration must be a positive number!");
-//                    selectedProcedure = new Procedure(procedureName, procedureDuration, Status.INCOMPLETE);
-//                    selectedTask.addProcedure(selectedProcedure);
-//                    procedureDCBM.addElement(selectedProcedure);
-//                    procedureBOX.setSelectedItem(selectedProcedure);
-//                } catch (IllegalArgumentException ex) {
-//                    showError(ex.getMessage());
-//                    return;
-//                }
-//            }
-//        } else {
-//            if (procedureName.isEmpty() || durationString.isEmpty()) {
-//                showError("Procedure name/duration empty!");
-//                return;
-//            }
-//            try {
-//                double procedureDuration = parsePositiveDouble(durationString, "Procedure Duration must be a positive number!");
-//                selectedProcedure.setProcedureName(procedureName);
-//                selectedProcedure.setProcedureDuration(procedureDuration);
-//                procedureC.setNameFieldContent(procedureName);
-//                procedureC.setDurationFieldContent(String.valueOf(procedureDuration));
-//            } catch (IllegalArgumentException ex) {
-//                showError(ex.getMessage());
-//                return;
-//            }
-//        }
-//    }
 }

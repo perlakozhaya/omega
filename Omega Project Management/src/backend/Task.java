@@ -58,13 +58,7 @@ public class Task extends Status implements Comparable<Task> {
   }
   
   @Override
-    public int compareTo(Task t) {
-        return this.taskName.compareTo(t.taskName);
-    }
-
-//  @Override
-//  void updateOnStatus() {
-//    // TODO Auto-generated method stub
-//    
-//  }
+  public int compareTo(Task t) {
+    return this.taskName.compareTo(t.taskName);
+  }
 }

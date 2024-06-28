@@ -46,25 +46,28 @@ public class ProjectContainer extends JPanel {
 	
     private void handleProject(Project selectedProject) {
         String projectName = getProjectField().trim();
+        
+        if (projectName.isEmpty()) {
+        	formFrame.showError("Project Name cannot be empty!");
+        	return;
+        }
+        
         if (selectedProject != null) {
-            if (projectName.isEmpty()) {
-                formFrame.showError("Project Name cannot be empty!");
-                return;
-            }
             dataManager.updateProject(selectedProject, projectName);
             setProjectField(projectName);
+    		formFrame.fillProject();
         } else {
-        	if (!projectName.equals("Project Name...")) {
-        		if (projectName.isEmpty()) {
-        			formFrame.showError("Project Name cannot be empty!");
-        			return;
-        		}
-        		selectedProject = new Project(projectName, Status.INCOMPLETE);
-        		dataManager.addProject(selectedProject);
-        		formFrame.fillProject();
-        		formFrame.setSelectedProject(selectedProject);
-        	}
+    		createProject(projectName);
         }
+    }
+    
+    private void createProject(String projectName) {
+    	if (!projectName.equals("Project Name...")) {
+	    	Project newProject = new Project(projectName, Status.INCOMPLETE);
+			dataManager.addProject(newProject);
+			formFrame.fillProject();
+			formFrame.setSelectedProject(newProject);
+    	}
     }
 	
 	public void setProjectLabel(String text) {

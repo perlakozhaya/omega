@@ -12,17 +12,19 @@ public class DisplayFrame extends JFrame implements Observer {
     private JTextArea displayArea;
 
     public DisplayFrame(DataManager dataManager) {
-        this.dataManager = dataManager;
         setTitle("Project Progress");
         setBounds(420, 200, 420, 480);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        this.dataManager = dataManager;
         dataManager.addObserver(this);
 
         displayArea = new JTextArea();
         displayArea.setEditable(false);
         add(displayArea, BorderLayout.CENTER);
+        
+        update(null, null);
     }
 
     @Override

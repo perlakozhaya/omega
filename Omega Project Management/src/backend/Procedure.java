@@ -64,11 +64,6 @@ public class Procedure extends Status implements Comparable<Procedure> {
   }
   
   @Override
-  public int compareTo(Procedure p) {
-    return procedureName.compareTo(p.procedureName);
-  }
-  
-  @Override
   public String toString() {
     return this.procedureName;
   }
@@ -105,9 +100,8 @@ public class Procedure extends Status implements Comparable<Procedure> {
     this.logistics = logistics;
   }
 
-//  @Override
-//  void updateOnStatus() {
-//    // TODO Auto-generated method stub
-//    
-//  }
+	@Override
+	public int compareTo(Procedure p) {
+		return this.procedureName.compareTo(p.procedureName);
+	}
 }
