@@ -53,6 +53,12 @@ public class Main {
         DataManager dataManager = new DataManager();
 		dataManager.addProject(p1);
 		dataManager.addProject(p2);
+		
+		dataManager.addEmployee(e1);
+		dataManager.addEmployee(e2);
+		dataManager.addEmployee(e3);
+		dataManager.addEmployee(e4);
+		dataManager.addEmployee(e5);
 
         FormFrame formFrame = new FormFrame(dataManager);
         formFrame.setVisible(true);

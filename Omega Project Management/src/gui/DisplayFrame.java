@@ -32,6 +32,16 @@ public class DisplayFrame extends JFrame implements Observer {
         StringBuilder displayText = new StringBuilder();
         for (Project project : dataManager.getProjects()) {
             displayText.append("Project: ").append(project.getProjectName()).append("\n");
+            for(Task task : project.getTasks()) {
+                displayText.append("\tTask: ").append(task.getTaskName()).append("\n");
+                for(Procedure procedure : task.getProcedures()) {
+                    displayText.append("\tProcedure: ").append(procedure.getProcedureName()).append("\n");
+                    for(ProcedureEmployee pe : procedure.getEmployees()) {
+                    	displayText.append("\tEmployees: ").append(pe.getEmployee().getEmployeeCode()).append("\n");
+                        displayText.append("\nWorked Hours: ").append(pe.getHoursWorked()).append("\n");
+                    }
+                }
+            }
         }
         displayArea.setText(displayText.toString());
     }

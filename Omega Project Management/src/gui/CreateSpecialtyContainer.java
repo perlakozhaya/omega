@@ -33,10 +33,15 @@ public class CreateSpecialtyContainer extends JPanel {
 	    
 	    addButton = new JButton("Add");
 	    add(addButton);
-	}
-	
-	public JButton getAddBTN() {
-		return addButton;
+	    
+//      addButton.addActionListener(new ActionListener() {
+//    	@Override
+//    	public void actionPerformed(ActionEvent e) {
+//    		if(createSpecialtyC.addToJobs()) {
+//    			cardLayout.show(cardPanel, "Empty");
+//    		}
+//    	}
+//    });
 	}
 	
     // Add Specialty to Specialty.jobs

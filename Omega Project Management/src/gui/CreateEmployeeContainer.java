@@ -43,10 +43,20 @@ public class CreateEmployeeContainer extends JPanel {
 	    addButton = new JButton("Add");
 	    add(addButton);
 	    
-	}
-	
-	public JButton getAddBTN() {
-		return addButton;
+//        addButton.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if(createEmpC.createEmployee() != null) {
+//            		empDLM.removeAllElements();
+//            		for(Employee emp : Employee.allEmployees) {
+//            			empDLM.addElement(emp);
+//            		}
+//            		cardLayout.show(cardPanel, "Empty");
+//            		revalidate();
+//                    repaint();
+//            	}
+//			}
+//        });
 	}
 	
 	public void populateSpecialties() {

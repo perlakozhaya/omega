@@ -45,7 +45,7 @@ public class ProcedureContainer extends JPanel {
 	    procedureDurationFLD.setBounds(170, 22, 130, 25);
 	    
 	    procedureApplyBTN = new JButton("Apply");
-        procedureApplyBTN.setBounds(320, 14, 65, 25);
+        procedureApplyBTN.setBounds(320, 22, 65, 25);
 	    
 	    add(procedureNameLB);
 	    add(procedureNameFLD);
@@ -79,14 +79,16 @@ public class ProcedureContainer extends JPanel {
 	    cardLayout = new CardLayout();
 	    centerPanel.setLayout(cardLayout);
 	    
-	    employeeC = new EmployeeContainer();
+	    employeeC = new EmployeeContainer(dataManager, formFrame);
 	    itemC = new ItemContainer();
 	    logisticC = new LogisticContainer();
 
+	    centerPanel.add(new JPanel(), "Empty");
 	    centerPanel.add(employeeC, "Employee Container");
-	    setCurrentCard("employee");
 	    centerPanel.add(itemC, "Item Container");
 	    centerPanel.add(logisticC, "Logistic Container");
+	    
+	    cardLayout.show(centerPanel, "Empty");
 	    
 	    procedureApplyBTN.addActionListener(new ActionListener() {
 			@Override
@@ -100,7 +102,6 @@ public class ProcedureContainer extends JPanel {
 	    empButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setCurrentCard("employee");
 				cardLayout.show(centerPanel, "Employee Container");
 			}   	
 	    });
@@ -108,7 +109,6 @@ public class ProcedureContainer extends JPanel {
 	    itemButton.addActionListener(new ActionListener() {
 	    	@Override
 	    	public void actionPerformed(ActionEvent e) {
-	    		setCurrentCard("item");
 	    		cardLayout.show(centerPanel, "Item Container");
 	    	}   	
 	    });
@@ -116,7 +116,6 @@ public class ProcedureContainer extends JPanel {
 	    logisticButton.addActionListener(new ActionListener() {
 	    	@Override
 	    	public void actionPerformed(ActionEvent e) {
-	    		setCurrentCard("logistic");
 	    		cardLayout.show(centerPanel, "Logistic Container");
 	    	}   	
 	    });

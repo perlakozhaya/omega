@@ -4,9 +4,11 @@ import java.util.*;
 
 public class DataManager extends Observable {
 	private Set<Project> projects;
+	private Set<Employee> employees;
 	
 	public DataManager() {
 		projects = new TreeSet<>();
+		employees = new TreeSet<>();
 	}
 	
 	public void addProject(Project project) {
@@ -78,7 +80,36 @@ public class DataManager extends Observable {
 	     notifyObservers();
 	}
 	
+	public void addEmployeeToProcedure(Procedure procedure, Employee employee, double hoursWorked) {
+		procedure.addEmployee(employee, hoursWorked);
+		setChanged();
+		notifyObservers();
+	}
+	
+	public boolean updateEmployeeInProcedure(Procedure procedure, Employee employee, double hoursWorked) {
+        if(employees.contains(employee)) {
+        	for(ProcedureEmployee pe : procedure.getEmployees()) {
+        		if(pe.getEmployee().equals(employee)) {
+            		pe.setHoursWorked(hoursWorked);
+            		setChanged();
+            		notifyObservers();
+            		return true;
+        		}
+        	}
+        	return false;
+        }
+        return false;
+	}
+	
+	public void addEmployee(Employee employee) {
+		employees.add(employee);
+	}
+	
 	public Set<Project> getProjects() {
 	     return projects;
+	}
+
+	public Set<Employee> getEmployees() {
+		return employees;
 	}
 }
