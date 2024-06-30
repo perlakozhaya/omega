@@ -1,15 +1,15 @@
 package backend;
 import java.util.*;
 
-public class Procedure extends Status implements Comparable<Procedure> {
+public class Procedure implements Comparable<Procedure> {
   private String procedureName;
   private double procedureDuration;
+  private String status = "Incomplete";
   private Set<ProcedureEmployee> employees;
   private Set<ProcedureItem> items;
   private Set<ProcedureLogistic> logistics;
   
-  public Procedure(String procedureName, double procedureDuration, String status) {
-    super(status);
+  public Procedure(String procedureName, double procedureDuration) {
     this.procedureName = procedureName;
     this.procedureDuration = procedureDuration;
     employees = new HashSet<>();
@@ -98,6 +98,12 @@ public class Procedure extends Status implements Comparable<Procedure> {
   }
   public void setLogistics(Set<ProcedureLogistic> logistics) {
     this.logistics = logistics;
+  }
+  public String getStatus() {
+	    return status;
+	  }
+	  public void setStatus(String status) {
+	    this.status = status;
   }
 
 	@Override

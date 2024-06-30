@@ -12,81 +12,88 @@ import backend.*;
 
 @SuppressWarnings("serial")
 public class CreateEmployeeContainer extends JPanel {
-	private JLabel empNameLabel, specialtyLabel, emptyLabel;
-	private JTextField empNameField;
-	private JComboBox<String> specialtiesBOX;
-	private DefaultComboBoxModel<String> specialtiesDCBM;
-	private JButton addButton;
+	private JLabel empNameLB, specialtyLB, emptyLB;
+	private JTextField empNameFLD;
+	private DefaultComboBoxModel<Specialty> specialtiesDCBM;
+	private JComboBox<Specialty> specialtiesBOX;
+	private JButton empAddBTN;
 	
-	public CreateEmployeeContainer() {
+	private FormFrame formFrame;
+	private EmployeeContainer empC;
+	private DataManager dataManager;
+	
+	public CreateEmployeeContainer(FormFrame formFrame, DataManager dataManager) {
+		this.formFrame = formFrame;
+		this.dataManager = dataManager;
+		
 	    setLayout(new GridLayout(2, 3, 10, 0));
 	    
-	    empNameLabel = new JLabel("Name");
-	    empNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    add(empNameLabel);
+	    empNameLB = new JLabel("Name");
+	    empNameLB.setHorizontalAlignment(SwingConstants.CENTER);
+	    add(empNameLB);
 	    
-	    specialtyLabel = new JLabel("Select Specialty");
-	    specialtyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    add(specialtyLabel);
+	    specialtyLB = new JLabel("Select Specialty");
+	    specialtyLB.setHorizontalAlignment(SwingConstants.CENTER);
+	    add(specialtyLB);
 	    
-	    emptyLabel = new JLabel("              ");
-	    emptyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    add(emptyLabel);
+	    emptyLB = new JLabel("              ");
+	    emptyLB.setHorizontalAlignment(SwingConstants.CENTER);
+	    add(emptyLB);
 	    
-	    empNameField = new JTextField();
-	    add(empNameField);
+	    empNameFLD = new JTextField();
+	    add(empNameFLD);
 	    
 	    specialtiesDCBM = new DefaultComboBoxModel<>();
 	    specialtiesBOX = new JComboBox<>(specialtiesDCBM);
 	    add(specialtiesBOX);
 	    
-	    addButton = new JButton("Add");
-	    add(addButton);
+	    empAddBTN = new JButton("Add");
+	    add(empAddBTN);
 	    
-//        addButton.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				if(createEmpC.createEmployee() != null) {
-//            		empDLM.removeAllElements();
-//            		for(Employee emp : Employee.allEmployees) {
-//            			empDLM.addElement(emp);
-//            		}
-//            		cardLayout.show(cardPanel, "Empty");
-//            		revalidate();
-//                    repaint();
-//            	}
-//			}
-//        });
+// ---------------------------------------------------------------
+	    
+	    fillSpecialty();
+	    
+        empAddBTN.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				createEmployee();
+//        		empC.cardLayout.show(empC.getCardPanel(), "Empty");
+//        		revalidate();
+//                repaint();
+            }
+        });
 	}
 	
-	public void populateSpecialties() {
+	public void fillSpecialty() {
 		specialtiesDCBM.removeAllElements();
 		specialtiesDCBM.addElement(null);
-	    for (String key : Specialty.jobs.keySet()) {
-	    	specialtiesDCBM.addElement(key);
+	    for (Specialty specialty : dataManager.getSpecialties()) {
+	    	specialtiesDCBM.addElement(specialty);
         }
 	}
 	
-	public Employee createEmployee() {
-	    String empName;
-	    String specialtyName;
-	    Specialty specialty;
+	public void createEmployee() {
+	    String empName = empNameFLD.getText().trim();
+	    Specialty selectedSpecialty = getSelectedSpecialty();
 
-	    if (empNameField.getText().trim().isEmpty()) {
-	        JOptionPane.showMessageDialog(null, "Name cannot be empty!\n", "Error", JOptionPane.ERROR_MESSAGE);
-	        return null;
+	    if (empName.isEmpty()) {
+	        formFrame.showError("Name cannot be empty!\n");
+	        return;
 	    }
 
-	    if (specialtiesBOX.getSelectedItem() == null) {
-	        JOptionPane.showMessageDialog(null, "Specialty cannot be empty!\n", "Error", JOptionPane.ERROR_MESSAGE);
-	        return null;
+	    if (selectedSpecialty == null) {
+	        formFrame.showError("Please choose a specialty.\n");
+	        return;
 	    }
-
-	    specialtyName = (String) specialtiesBOX.getSelectedItem();
-	    specialty = new Specialty(specialtyName, Specialty.jobs.get(specialtyName));
-	    empName = empNameField.getText();
-
-	    return new Employee(empName, specialty);
+	    
+	    if(!dataManager.addEmployee(new Employee(empName, selectedSpecialty))) {
+	    	formFrame.showError("Employee already exists with this name.\n");
+	        return;
+	    }
 	}
 
+	public Specialty getSelectedSpecialty() {
+		return (Specialty) specialtiesBOX.getSelectedItem();
+	}
 }

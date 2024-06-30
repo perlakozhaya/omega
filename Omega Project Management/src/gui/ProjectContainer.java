@@ -63,7 +63,7 @@ public class ProjectContainer extends JPanel {
     
     private void createProject(String projectName) {
     	if (!projectName.equals("Project Name...")) {
-	    	Project newProject = new Project(projectName, Status.INCOMPLETE);
+	    	Project newProject = new Project(projectName);
 			dataManager.addProject(newProject);
 			formFrame.fillProject();
 			formFrame.setSelectedProject(newProject);

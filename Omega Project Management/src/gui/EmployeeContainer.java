@@ -20,12 +20,13 @@ public class EmployeeContainer extends JPanel {
 	private JTextField hoursFLD;
 	private JButton empAddBTN, createEmp, createSpecialty;
 	private JPanel cardPanel;
-	private CardLayout cardLayout;
 	private CreateEmployeeContainer createEmpC;
 	private CreateSpecialtyContainer createSpecialtyC;
 	
 	private DataManager dataManager;
 	private FormFrame formFrame;
+	
+	CardLayout cardLayout;
 		
 	public EmployeeContainer(DataManager dataManager, FormFrame formFrame) {
 		this.dataManager = dataManager;
@@ -62,7 +63,7 @@ public class EmployeeContainer extends JPanel {
 	    createSpecialty.setBounds(240, 133, 140, 20);
 	    add(createSpecialty);
 	    
-	    createEmpC = new CreateEmployeeContainer();
+	    createEmpC = new CreateEmployeeContainer(formFrame, dataManager);
 	    createSpecialtyC = new CreateSpecialtyContainer();
 	    
 	    cardLayout = new CardLayout();
@@ -183,5 +184,9 @@ public class EmployeeContainer extends JPanel {
 	
 	public void setHoursFLD(String text) {
 		hoursFLD.setText(text);
+	}
+	
+	public JPanel getCardPanel() {
+		return cardPanel;
 	}
 }

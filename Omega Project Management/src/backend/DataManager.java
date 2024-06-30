@@ -5,10 +5,12 @@ import java.util.*;
 public class DataManager extends Observable {
 	private Set<Project> projects;
 	private Set<Employee> employees;
+	private Set<Specialty> specialties;
 	
 	public DataManager() {
 		projects = new TreeSet<>();
 		employees = new TreeSet<>();
+		specialties = new TreeSet<>();
 	}
 	
 	public void addProject(Project project) {
@@ -101,8 +103,37 @@ public class DataManager extends Observable {
         return false;
 	}
 	
-	public void addEmployee(Employee employee) {
-		employees.add(employee);
+	public boolean addEmployee(Employee employee) {
+		if(!employees.contains(employee)) {
+			employees.add(employee);
+			setChanged();
+			notifyObservers();	
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addSpecialty(Specialty specialty) {
+		if(!specialties.contains(specialty)) {
+			specialties.add(specialty);
+			setChanged();
+			notifyObservers();	
+			return true;
+		}
+		return false;
+    }
+	
+	public void changeStatus(Procedure procedure) {
+	    final String[] statusOrder = {"Incomplete", "Not Started", "In Progress", "Done"};
+	    String currentStatus = procedure.getStatus();
+	    for (int i = 0; i < statusOrder.length - 1; i++) {
+	        if (statusOrder[i].equals(currentStatus)) {
+	            procedure.setStatus(statusOrder[i + 1]);
+	            setChanged();
+	            notifyObservers();
+	            return;
+	        }
+	    }
 	}
 	
 	public Set<Project> getProjects() {
@@ -111,5 +142,9 @@ public class DataManager extends Observable {
 
 	public Set<Employee> getEmployees() {
 		return employees;
+	}
+	
+	public Set<Specialty> getSpecialties() {
+		return specialties;
 	}
 }

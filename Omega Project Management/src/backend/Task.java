@@ -2,12 +2,11 @@ package backend;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class Task extends Status implements Comparable<Task> {
+public class Task implements Comparable<Task> {
   private String taskName;
   private Set<Procedure> procedures;
   
-  public Task(String taskName, String status) {
-    super(status);
+  public Task(String taskName) {
     this.taskName = taskName;
     procedures = new TreeSet<Procedure>();
   }

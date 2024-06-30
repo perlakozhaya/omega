@@ -64,7 +64,7 @@ public class TaskContainer extends JPanel {
 	
     private void createTask(Project selectedProject, String taskName) {
     	if (!taskName.equals("Task Name...")) {
-            Task newTask = new Task(taskName, Status.INCOMPLETE);
+            Task newTask = new Task(taskName);
             dataManager.addTaskToProject(selectedProject, newTask);
             formFrame.fillTask();
             formFrame.setSelectedTask(newTask);

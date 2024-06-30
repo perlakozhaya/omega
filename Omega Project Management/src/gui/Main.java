@@ -5,17 +5,17 @@ import backend.*;
 public class Main {
 
 	public static void main(String[] args) {
-    	Project p1 = new Project("project 1", null);
-		Project p2 = new Project("project 2", null);
+    	Project p1 = new Project("project 1");
+		Project p2 = new Project("project 2");
 		
-		Task t1 = new Task("task 1", null);
-		Task t2 = new Task("task 2", null);
-		Task t3 = new Task("task 3", null);
+		Task t1 = new Task("task 1");
+		Task t2 = new Task("task 2");
+		Task t3 = new Task("task 3");
 		
-		Procedure pr1 = new Procedure("procedure 1", 10, null);
-		Procedure pr2 = new Procedure("procedure 2", 20, null);
-		Procedure pr3 = new Procedure("procedure 3", 30, null);
-		Procedure pr4 = new Procedure("procedure 4", 40, null);
+		Procedure pr1 = new Procedure("procedure 1", 10);
+		Procedure pr2 = new Procedure("procedure 2", 20);
+		Procedure pr3 = new Procedure("procedure 3", 30);
+		Procedure pr4 = new Procedure("procedure 4", 40);
 		
 		Specialty s1 = new Specialty("Specialty 1", 10);
 		Specialty s2 = new Specialty("Specialty 2", 20);
@@ -41,6 +41,18 @@ public class Main {
 		Logistic l4 = new Logistic("Logistic 4", 40);
 		Logistic l5 = new Logistic("Logistic 5", 50);
 		
+		pr1.addEmployee(e1, 1);
+		pr1.addEmployee(e2, 2);
+		pr2.addEmployee(e1, 3);
+		
+		pr1.addItem(i1, 3);
+		pr1.addItem(i2, 2);
+		pr2.addItem(i3, 5);
+		
+		pr1.addLogistic(l1, 3);
+		pr1.addLogistic(l2, 2);
+		pr2.addLogistic(l3, 5);
+		
 		t1.addProcedure(pr1);
 		t1.addProcedure(pr2);
 		t2.addProcedure(pr3);
@@ -59,6 +71,12 @@ public class Main {
 		dataManager.addEmployee(e3);
 		dataManager.addEmployee(e4);
 		dataManager.addEmployee(e5);
+		
+		dataManager.addSpecialty(s1);
+		dataManager.addSpecialty(s2);
+		dataManager.addSpecialty(s3);
+		dataManager.addSpecialty(s4);
+		dataManager.addSpecialty(s5);
 
         FormFrame formFrame = new FormFrame(dataManager);
         formFrame.setVisible(true);

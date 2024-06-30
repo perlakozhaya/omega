@@ -145,7 +145,7 @@ public class ProcedureContainer extends JPanel {
     
     private void createProcedure(Task selectedTask, String procedureName, double procedureDuration) {
         if (!procedureName.equals("Procedure Name...") && procedureDuration != 0) {
-            Procedure newProcedure = new Procedure(procedureName, procedureDuration, Status.INCOMPLETE);
+            Procedure newProcedure = new Procedure(procedureName, procedureDuration);
             dataManager.addProcedureToTask(selectedTask, newProcedure);
     		formFrame.fillProcedure();
             formFrame.setSelectedProcedure(newProcedure);
@@ -157,6 +157,7 @@ public class ProcedureContainer extends JPanel {
         setProcedureField(procedureName);
         setDurationField(String.valueOf(procedureDuration));
 		formFrame.fillProcedure();
+        formFrame.setSelectedProcedure(selectedProcedure);
     }
 		
 	public String getProcedureLabel() {

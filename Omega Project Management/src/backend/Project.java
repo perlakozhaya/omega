@@ -4,12 +4,11 @@ import java.util.*;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 
-public class Project extends Status implements Comparable<Project> {
+public class Project implements Comparable<Project> {
   private String projectName;
   private Set<Task> tasks;
   
-  public Project(String projectName, String status) {
-    super(status);
+  public Project(String projectName) {
     this.projectName = projectName;
     tasks = new TreeSet<Task>();
   }

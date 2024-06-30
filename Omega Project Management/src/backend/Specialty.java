@@ -1,39 +1,34 @@
 package backend;
-import java.util.HashMap;
-import java.util.Map;
 
-public class Specialty {
-	String specialtyName;
-    public static Map<String, Double> jobs = new HashMap<>();
+public class Specialty implements Comparable<Specialty> {
+	private String specialtyName;
+	private double wagePerHour;
+	
+	public Specialty(String specialtyName, double wagePerHour) {
+		this.specialtyName = specialtyName;
+		this.wagePerHour = wagePerHour;
+	}
+	
+	public String getSpecialtyName() {
+		return specialtyName;
+	}
+	public void setSpecialtyName(String specialtyName) {
+		this.specialtyName = specialtyName;
+	}
+	public double getWagePerHour() {
+		return wagePerHour;
+	}
+	public void setWagePerHour(double wagePerHour) {
+		this.wagePerHour = wagePerHour;
+	}
 
-    public Specialty(String specialtyName, double wagePerHour) {
-    	this.specialtyName = specialtyName;
-        addJob(specialtyName, wagePerHour);
-    }
-
-    public static void addJob(String specialtyName, double wagePerHour) {
-        if (specialtyName == null || specialtyName.isEmpty()) {
-            throw new IllegalArgumentException("specialtyName cannot be null or empty");
-        }
-        if (wagePerHour <= 0) {
-            throw new IllegalArgumentException("Wage per hour must be positive");
-        }
-        jobs.put(specialtyName, wagePerHour);
-    }
-    
-    public static void removeJob(String specialtyName) {
-        if (jobs.containsKey(specialtyName)) {
-            jobs.remove(specialtyName);
-        } else {
-            throw new IllegalArgumentException("specialtyName not found");
-        }
-    }
-    
-    public double getWagePerHour() {
-        if (jobs.containsKey(specialtyName)) {
-            return jobs.get(specialtyName);
-        } else {
-            throw new IllegalArgumentException("specialtyName not found");
-        }
-    }   
+	@Override
+	public int compareTo(Specialty s) {
+		return this.specialtyName.compareTo(s.specialtyName);
+	}
+	
+	@Override
+	public String toString() {
+		return specialtyName;
+	}
 }
