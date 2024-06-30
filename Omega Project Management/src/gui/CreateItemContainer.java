@@ -81,7 +81,6 @@ public class CreateItemContainer extends JPanel {
     			formFrame.showError("Item already exists.\n");
     			return;
     		}
-    		
     		itemC.fillItem();
     		
 	    } catch (IllegalArgumentException ex) {

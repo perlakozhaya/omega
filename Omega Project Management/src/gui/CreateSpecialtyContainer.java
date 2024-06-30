@@ -1,68 +1,90 @@
 package gui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 import backend.*;
 
+@SuppressWarnings("serial")
 public class CreateSpecialtyContainer extends JPanel {
-	private JLabel specialtyNameLabel, specialtyLabel, emptyLabel;
-	private JTextField specialtyNameField, salaryField;
-	private JButton addButton;
+	private JLabel specialtyNameLB, specialtyLB, emptyLB;
+	private JTextField specialtyNameFLD, wagePerHourFLD;
+	private JButton specialtyAddBTN;
 	
-	public CreateSpecialtyContainer() {
+	private FormFrame formFrame;
+	private DataManager dataManager;
+	private EmployeeContainer empC;
+	
+	public CreateSpecialtyContainer(FormFrame formFrame, DataManager dataManager, EmployeeContainer empC) {
+		this.formFrame = formFrame;
+		this.dataManager = dataManager;
+		this.empC = empC;
+		
 	    setLayout(new GridLayout(2, 3, 10, 0));
 	    
-	    specialtyNameLabel = new JLabel("Specialty Name");
-	    specialtyNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    add(specialtyNameLabel);
+	    specialtyNameLB = new JLabel("Specialty Name");
+	    specialtyNameLB.setHorizontalAlignment(SwingConstants.CENTER);
+	    add(specialtyNameLB);
 	    
-	    specialtyLabel = new JLabel("Wage per hour");
-	    specialtyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    add(specialtyLabel);
+	    specialtyLB = new JLabel("Wage per hour");
+	    specialtyLB.setHorizontalAlignment(SwingConstants.CENTER);
+	    add(specialtyLB);
 	    
-	    emptyLabel = new JLabel("              ");
-	    emptyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    add(emptyLabel);
+	    emptyLB = new JLabel("              ");
+	    emptyLB.setHorizontalAlignment(SwingConstants.CENTER);
+	    add(emptyLB);
 	    
-	    specialtyNameField = new JTextField();
-	    add(specialtyNameField);
+	    specialtyNameFLD = new JTextField();
+	    add(specialtyNameFLD);
 	    
-	    salaryField = new JTextField();
-	    add(salaryField);
+	    wagePerHourFLD = new JTextField();
+	    add(wagePerHourFLD);
 	    
-	    addButton = new JButton("Add");
-	    add(addButton);
+	    specialtyAddBTN = new JButton("Add");
+	    add(specialtyAddBTN);
 	    
-//      addButton.addActionListener(new ActionListener() {
-//    	@Override
-//    	public void actionPerformed(ActionEvent e) {
-//    		if(createSpecialtyC.addToJobs()) {
-//    			cardLayout.show(cardPanel, "Empty");
-//    		}
-//    	}
-//    });
+        specialtyAddBTN.addActionListener(new ActionListener() {
+    	@Override
+	    	public void actionPerformed(ActionEvent e) {
+	    		createSpecialty();
+	    		specialtyNameFLD.setText("");
+	    		wagePerHourFLD.setText("");
+	    		empC.cardLayout.show(empC.getCardPanel(), "Empty");
+	    		revalidate();
+	            repaint();
+	    	}
+      });
 	}
 	
-    // Add Specialty to Specialty.jobs
-//	public boolean addToJobs() {
-//		String specialtyName = specialtyNameField.getText().trim();
-//		String salaryString = salaryField.getText();
-//		try {
-//			double wagePerHour = Double.parseDouble(salaryString);
-//			if(!specialtyName.isEmpty()) {
-//				Specialty.jobs.put(specialtyName, wagePerHour);
-//				salaryField.setText("");
-//				specialtyNameField.setText("");
-//				return true;
-//			}
-//			else {
-////				showError("Name cannot be empty!\n");
-//				return false;
-//			}
-//		} catch (IllegalArgumentException ex) {
-////			showError("Invalid number!\n");
-//			return false;
-//		}
-//	}
+	public void createSpecialty() {
+		String specialtyName = specialtyNameFLD.getText().trim();
+		String wageString = wagePerHourFLD.getText().trim();
+		
+		if (specialtyName.isEmpty()) {
+	        formFrame.showError("Specialty Name cannot be empty!\n");
+	        return;
+	    }
+
+	    if (wageString.isEmpty()) {
+	        formFrame.showError("Please enter a wage per hour.\n");
+	        return;
+	    }
+	    
+	    try {
+	    	double wagePerhour = formFrame.parsePositiveDouble(wageString, "Wage must be a positive number!");	
+	    	
+	    	if(!dataManager.addSpecialty(new Specialty(specialtyName, wagePerhour))) {
+	    		formFrame.showError("Specialty already exists.\n");
+	    		return;
+	    	}
+    		empC.fillSpecialty();
+    		
+	    } catch (IllegalArgumentException ex) {
+	        formFrame.showError("Wage must be a positive number!");
+	        return;
+	    }
+	}
 }

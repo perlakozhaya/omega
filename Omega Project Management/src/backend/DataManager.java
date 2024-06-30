@@ -2,13 +2,16 @@ package backend;
 
 import java.util.*;
 
+import javax.swing.DefaultComboBoxModel;
+
+@SuppressWarnings("deprecation")
 public class DataManager extends Observable {
 	private Set<Project> projects;
 	private Set<Employee> employees;
 	private Set<Specialty> specialties;
 	private Set<Item> items;
     private Set<Logistic> logistics;
-	
+
 	public DataManager() {
 		projects = new TreeSet<>();
 		employees = new TreeSet<>();
@@ -93,19 +96,20 @@ public class DataManager extends Observable {
 	}
 	
 	public boolean updateEmployeeInProcedure(Procedure procedure, Employee employee, double hoursWorked) {
-        if(employees.contains(employee)) {
-        	for(ProcedureEmployee pe : procedure.getEmployees()) {
-        		if(pe.getEmployee().equals(employee)) {
-            		pe.setHoursWorked(hoursWorked);
-            		setChanged();
-            		notifyObservers();
-            		return true;
-        		}
-        	}
-        	return false;
-        }
-        return false;
+	    if (!employees.contains(employee)) {
+	        return false;
+	    }
+	    for (ProcedureEmployee pe : procedure.getEmployees()) {
+	        if (pe.getEmployee().equals(employee)) {
+	            pe.setHoursWorked(hoursWorked);
+	            setChanged();
+	            notifyObservers();
+	            return true;
+	        }
+	    }
+	    return false; // in employees list but not in procedure's list
 	}
+
 	
 	public boolean addEmployee(Employee employee) {
 		if(!employees.contains(employee)) {
@@ -144,16 +148,16 @@ public class DataManager extends Observable {
 	}
 	
 	public boolean updateItemInProcedure(Procedure procedure, Item item, double quantity) {
-		if(items.contains(item)) {
-			for(ProcedureItem pi : procedure.getItems()) {
-				if(pi.getItem().equals(item)) {
-					pi.setQuantity(quantity);
-					setChanged();
-					notifyObservers();
-					return true;
-				}
-			}
+		if(!items.contains(item)) {
 			return false;
+		}
+		for(ProcedureItem pi : procedure.getItems()) {
+			if(pi.getItem().equals(item)) {
+				pi.setQuantity(quantity);
+				setChanged();
+				notifyObservers();
+				return true;
+			}
 		}
 		return false;
 	}
@@ -171,23 +175,24 @@ public class DataManager extends Observable {
 	}
 	
 	public boolean updateLogisticInProcedure(Procedure procedure, Logistic logistic, double quantity) {
-        if(logistics.contains(logistic)) {
-        	for(ProcedureLogistic pi : procedure.getLogistics()) {
-        		if(pi.getLogistic().equals(logistic)) {
-            		pi.setQuantity(quantity);
-            		setChanged();
-            		notifyObservers();
-            		return true;
-        		}
-        	}
+        if(!logistics.contains(logistic)) {
         	return false;
         }
-        return false;
+    	for(ProcedureLogistic pi : procedure.getLogistics()) {
+    		if(pi.getLogistic().equals(logistic)) {
+        		pi.setQuantity(quantity);
+        		setChanged();
+        		notifyObservers();
+        		return true;
+    		}
+    	}
+    	return false;
 	}
 	
 	public void changeStatus(Procedure procedure) {
 	    final String[] statusOrder = {"Not Started", "Ongoing", "Done"};
 	    String currentStatus = procedure.getStatus();
+	    
 	    for (int i = 0; i < statusOrder.length - 1; i++) {
 	        if (statusOrder[i].equals(currentStatus)) {
 	            procedure.setStatus(statusOrder[i + 1]);
