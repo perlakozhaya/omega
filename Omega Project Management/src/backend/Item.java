@@ -1,46 +1,37 @@
 package backend;
-import java.util.HashMap;
-import java.util.Map;
 
-public class Item {
+public class Item implements Comparable<Item> {
 	private String itemName;
-    public static Map<String, Double> items = new HashMap<>();
+	private double costPerUnit;
 
     public Item(String itemName, double costPerUnit) {
     	this.itemName = itemName;
-        addItem(itemName, costPerUnit);
-    }
-
-    private void addItem(String itemName, double costPerUnit) {
-        if (itemName == null || itemName.isEmpty()) {
-            throw new IllegalArgumentException("itemName cannot be null or empty");
-        }
-        if (costPerUnit <= 0) {
-            throw new IllegalArgumentException("Cost per unit must be positive");
-        }
-        items.put(itemName, costPerUnit);
-    }
-
-    public void removeItem() {
-        if (items.containsKey(itemName)) {
-            items.remove(itemName);
-        } else {
-            throw new IllegalArgumentException("itemName not found");
-        }
+    	this.costPerUnit = costPerUnit;
     }
 
 	public String getItemName() {
 		return itemName;
 	}
+	
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
+	
     public double getCostPerUnit() {
-        if (items.containsKey(itemName)) {
-            return items.get(itemName);
-        } else {
-            throw new IllegalArgumentException("itemName not found");
-        }
+        return costPerUnit;
+    }
+    
+    public void setCostPerUnit(double costPerUnit) {
+    	this.costPerUnit = costPerUnit;
     }
 
+	@Override
+	public int compareTo(Item i) {
+		return this.itemName.compareTo(i.itemName);
+	}
+	
+	@Override
+	public String toString() {
+		return itemName;
+	}
 }

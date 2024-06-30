@@ -9,11 +9,15 @@ public class DataManager extends Observable {
 	private Set<Project> projects;
 	private Set<Employee> employees;
 	private Set<Specialty> specialties;
-		
+	private Set<Item> items;
+    private Set<Logistic> logistics;
+
 	public DataManager() {
 		projects = new TreeSet<>();
 		employees = new TreeSet<>();
 		specialties = new TreeSet<>();
+		items = new TreeSet<>();
+		logistics = new TreeSet<>();
 	}
 	
 	public void addProject(Project project) {
@@ -126,8 +130,66 @@ public class DataManager extends Observable {
 		return false;
     }
 	
+	public boolean addItem(Item item) {
+		if(!items.contains(item)) {
+			items.add(item);
+			setChanged();
+			notifyObservers();
+			return true;
+		}
+		return false;
+	}
+	
+	public void addItemToProcedure(Procedure procedure, Item item, double quantity) {
+		procedure.addItem(item, quantity);
+		setChanged();
+		notifyObservers();
+	}
+	
+	public boolean updateItemInProcedure(Procedure procedure, Item item, double quantity) {
+		if(!items.contains(item)) {
+			return false;
+		}
+		for(ProcedureItem pi : procedure.getItems()) {
+			if(pi.getItem().equals(item)) {
+				pi.setQuantity(quantity);
+				setChanged();
+				notifyObservers();
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void addLogistic(Logistic logistic) {
+		logistics.add(logistic);
+		setChanged();
+		notifyObservers();
+	}
+	
+	public void addLogisticToProcedure(Procedure procedure, Logistic logistic, double quantity) {
+		procedure.addLogistic(logistic, quantity);
+		setChanged();
+		notifyObservers();
+	}
+	
+	public boolean updateLogisticInProcedure(Procedure procedure, Logistic logistic, double quantity) {
+        if(!logistics.contains(logistic)) {
+        	return false;
+        }
+    	for(ProcedureLogistic pi : procedure.getLogistics()) {
+    		if(pi.getLogistic().equals(logistic)) {
+        		pi.setQuantity(quantity);
+        		setChanged();
+        		notifyObservers();
+        		return true;
+    		}
+    	}
+    	return false;
+	}
+	
 	public void changeStatus(Procedure procedure) {
-	    final String[] statusOrder = {"Not Started", "In Progress", "Done"};
+	    final String[] statusOrder = {"Not Started", "Ongoing", "Done"};
 	    String currentStatus = procedure.getStatus();
 	    
 	    for (int i = 0; i < statusOrder.length - 1; i++) {
@@ -151,5 +213,12 @@ public class DataManager extends Observable {
 	public Set<Specialty> getSpecialties() {
 		return specialties;
 	}
-
+	
+	public Set<Item> getItems() {
+		return items;
+	}
+	
+	public Set<Logistic> getLogistics() {
+		return logistics;
+	}
 }

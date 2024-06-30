@@ -77,6 +77,18 @@ public class Main {
 		dataManager.addSpecialty(s3);
 		dataManager.addSpecialty(s4);
 		dataManager.addSpecialty(s5);
+		
+		dataManager.addItem(i1);
+		dataManager.addItem(i2);
+		dataManager.addItem(i3);
+		dataManager.addItem(i4);
+		dataManager.addItem(i5);
+		
+		dataManager.addLogistic(l1);
+		dataManager.addLogistic(l2);
+		dataManager.addLogistic(l3);
+		dataManager.addLogistic(l4);
+		dataManager.addLogistic(l5);
 
         FormFrame formFrame = new FormFrame(dataManager);
         formFrame.setVisible(true);

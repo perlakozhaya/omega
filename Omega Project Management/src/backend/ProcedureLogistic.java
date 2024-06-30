@@ -14,4 +14,17 @@ public class ProcedureLogistic extends ProcedureDetail {
 	public double getCost() {
 		return logistic.getCostPerUnit() * quantity;
 	}
+	
+	public double getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(double quantity) {
+		this.quantity = quantity;
+	}
+	public Logistic getLogistic() {
+		return logistic;
+	}
+	public void setLogistic(Logistic logistic) {
+		this.logistic = logistic;
+	}
 }
