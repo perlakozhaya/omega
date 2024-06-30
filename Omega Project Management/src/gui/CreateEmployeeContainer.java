@@ -14,7 +14,6 @@ import backend.*;
 public class CreateEmployeeContainer extends JPanel {
 	private JLabel empNameLB, specialtyLB, emptyLB;
 	private JTextField empNameFLD;
-	private DefaultComboBoxModel<Specialty> specialtiesDCBM;
 	private JComboBox<Specialty> specialtiesBOX;
 	private JButton empAddBTN;
 	
@@ -44,16 +43,13 @@ public class CreateEmployeeContainer extends JPanel {
 	    empNameFLD = new JTextField();
 	    add(empNameFLD);
 	    
-	    specialtiesDCBM = new DefaultComboBoxModel<>();
-	    specialtiesBOX = new JComboBox<>(specialtiesDCBM);
+	    specialtiesBOX = new JComboBox<>(empC.getSpecialtyComboModel());
 	    add(specialtiesBOX);
 	    
 	    empAddBTN = new JButton("Add");
 	    add(empAddBTN);
 	    
-// ---------------------------------------------------------------
-	    
-	    fillSpecialty();
+	    empC.fillSpecialty();
 	    
         empAddBTN.addActionListener(new ActionListener() {
 			@Override
@@ -66,14 +62,6 @@ public class CreateEmployeeContainer extends JPanel {
                 repaint();
             }
         });
-	}
-	
-	public void fillSpecialty() {
-		specialtiesDCBM.removeAllElements();
-		specialtiesDCBM.addElement(null);
-	    for (Specialty specialty : dataManager.getSpecialties()) {
-	    	specialtiesDCBM.addElement(specialty);
-        }
 	}
 	
 	public void createEmployee() {

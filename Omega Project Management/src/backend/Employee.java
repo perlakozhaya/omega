@@ -1,7 +1,5 @@
 package backend;
 
-import java.util.*;
-
 public class Employee implements Comparable<Employee> {
 	private String employeeCode;
 	private Specialty specialty;

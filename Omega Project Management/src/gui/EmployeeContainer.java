@@ -16,6 +16,7 @@ public class EmployeeContainer extends JPanel {
 	private JScrollPane scrollPane;
 	private JList<Employee> empLST;
 	private DefaultListModel<Employee> empDLM;
+	private DefaultComboBoxModel<Specialty> specialtiesDCBM;
 	private JLabel hoursLB;
 	private JTextField hoursFLD;
 	private JButton empAddBTN, createEmp, createSpecialty;
@@ -35,6 +36,7 @@ public class EmployeeContainer extends JPanel {
 		setLayout(null);
 		setBackground(new Color(227, 227, 227));
 		
+		specialtiesDCBM = new DefaultComboBoxModel<Specialty>();
 		empDLM = new DefaultListModel<>();
 		empLST = new JList<Employee>(empDLM);
 	    scrollPane = new JScrollPane(empLST);
@@ -64,7 +66,7 @@ public class EmployeeContainer extends JPanel {
 	    add(createSpecialty);
 	    
 	    createEmpC = new CreateEmployeeContainer(formFrame, dataManager, this);
-	    createSpecialtyC = new CreateSpecialtyContainer();
+	    createSpecialtyC = new CreateSpecialtyContainer(formFrame, dataManager, this);
 	    
 	    cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
@@ -102,6 +104,7 @@ public class EmployeeContainer extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cardLayout.show(cardPanel, "CreateEmployee");
+                fillSpecialty();
                 revalidate();
                 repaint();
             }
@@ -143,11 +146,20 @@ public class EmployeeContainer extends JPanel {
 		}
 	}
 	
+	public void fillSpecialty() {
+		specialtiesDCBM.removeAllElements();
+		specialtiesDCBM.addElement(null);
+	    for (Specialty specialty : dataManager.getSpecialties()) {
+	    	specialtiesDCBM.addElement(specialty);
+        }
+	}
+	
 	public void handleEmployee(Procedure selectedProcedure, Employee selectedEmployee) {
 		String hoursString = getHoursFLD().trim();
 		
 		if(selectedEmployee == null) {
 			formFrame.showError("Select an employee and try again");
+			return;
 		}
 		
 		if (hoursString.isEmpty()) {
@@ -188,5 +200,9 @@ public class EmployeeContainer extends JPanel {
 	
 	public JPanel getCardPanel() {
 		return cardPanel;
+	}
+	
+	public DefaultComboBoxModel<Specialty> getSpecialtyComboModel(){
+		return specialtiesDCBM;
 	}
 }

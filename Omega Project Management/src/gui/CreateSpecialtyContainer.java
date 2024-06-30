@@ -1,16 +1,28 @@
 package gui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 import backend.*;
 
+@SuppressWarnings("serial")
 public class CreateSpecialtyContainer extends JPanel {
 	private JLabel specialtyNameLabel, specialtyLabel, emptyLabel;
 	private JTextField specialtyNameField, salaryField;
 	private JButton addButton;
 	
-	public CreateSpecialtyContainer() {
+	private FormFrame formFrame;
+	private DataManager dataManager;
+	private EmployeeContainer empC;
+	
+	public CreateSpecialtyContainer(FormFrame formFrame, DataManager dataManager, EmployeeContainer empC) {
+		this.formFrame = formFrame;
+		this.dataManager = dataManager;
+		this.empC = empC;
+		
 	    setLayout(new GridLayout(2, 3, 10, 0));
 	    
 	    specialtyNameLabel = new JLabel("Specialty Name");
@@ -34,17 +46,43 @@ public class CreateSpecialtyContainer extends JPanel {
 	    addButton = new JButton("Add");
 	    add(addButton);
 	    
-//      addButton.addActionListener(new ActionListener() {
-//    	@Override
-//    	public void actionPerformed(ActionEvent e) {
-//    		if(createSpecialtyC.addToJobs()) {
-//    			cardLayout.show(cardPanel, "Empty");
-//    		}
-//    	}
-//    });
+      addButton.addActionListener(new ActionListener() {
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+    		createSpecialty();
+    		specialtyNameField.setText("");
+    		salaryField.setText("");
+    		empC.cardLayout.show(empC.getCardPanel(), "Empty");
+    		revalidate();
+            repaint();
+    	}
+    	
+      });
 	}
 	
-    // Add Specialty to Specialty.jobs
+	public void createSpecialty() {
+		String specName = specialtyNameField.getText().trim();
+		double wagePerhour = formFrame.parsePositiveDouble(salaryField.getText().trim(), "Invalid Input");		
+		
+		if (specName.isEmpty()) {
+	        formFrame.showError("Name cannot be empty!\n");
+	        return;
+	    }
+
+	    if (wagePerhour == 0) {
+	        formFrame.showError("0 are not valid.\n");
+	        return;
+	    }
+	    
+	    if(!dataManager.addSpecialty(new Specialty(specName, wagePerhour))) {
+	    	formFrame.showError("Specialty already exists.\n");
+	        return;
+	    }else {
+	    	empC.fillSpecialty();
+	    }
+	}
+
+	// Add Specialty to Specialty.jobs
 //	public boolean addToJobs() {
 //		String specialtyName = specialtyNameField.getText().trim();
 //		String salaryString = salaryField.getText();

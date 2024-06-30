@@ -2,11 +2,14 @@ package backend;
 
 import java.util.*;
 
+import javax.swing.DefaultComboBoxModel;
+
+@SuppressWarnings("deprecation")
 public class DataManager extends Observable {
 	private Set<Project> projects;
 	private Set<Employee> employees;
 	private Set<Specialty> specialties;
-	
+		
 	public DataManager() {
 		projects = new TreeSet<>();
 		employees = new TreeSet<>();
@@ -89,19 +92,20 @@ public class DataManager extends Observable {
 	}
 	
 	public boolean updateEmployeeInProcedure(Procedure procedure, Employee employee, double hoursWorked) {
-        if(employees.contains(employee)) {
-        	for(ProcedureEmployee pe : procedure.getEmployees()) {
-        		if(pe.getEmployee().equals(employee)) {
-            		pe.setHoursWorked(hoursWorked);
-            		setChanged();
-            		notifyObservers();
-            		return true;
-        		}
-        	}
-        	return false;
-        }
-        return false;
+	    if (!employees.contains(employee)) {
+	        return false;
+	    }
+	    for (ProcedureEmployee pe : procedure.getEmployees()) {
+	        if (pe.getEmployee().equals(employee)) {
+	            pe.setHoursWorked(hoursWorked);
+	            setChanged();
+	            notifyObservers();
+	            return true;
+	        }
+	    }
+	    return false; // in employees list but not in procedure's list
 	}
+
 	
 	public boolean addEmployee(Employee employee) {
 		if(!employees.contains(employee)) {
@@ -124,8 +128,9 @@ public class DataManager extends Observable {
     }
 	
 	public void changeStatus(Procedure procedure) {
-	    final String[] statusOrder = {"Incomplete", "Not Started", "In Progress", "Done"};
+	    final String[] statusOrder = {"Not Started", "In Progress", "Done"};
 	    String currentStatus = procedure.getStatus();
+	    
 	    for (int i = 0; i < statusOrder.length - 1; i++) {
 	        if (statusOrder[i].equals(currentStatus)) {
 	            procedure.setStatus(statusOrder[i + 1]);
@@ -147,4 +152,5 @@ public class DataManager extends Observable {
 	public Set<Specialty> getSpecialties() {
 		return specialties;
 	}
+
 }

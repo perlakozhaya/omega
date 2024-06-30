@@ -72,7 +72,7 @@ public class ProcedureContainer extends JPanel {
 	    logisticButton = new JButton("Logistics");
 	    buttonsPanel.add(logisticButton);
 	    
-	    centerPanel = new JPanel();
+	    setCenterPanel(new JPanel());
 	    centerPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	    detailsC.add(centerPanel, BorderLayout.CENTER);
 	    
@@ -210,5 +210,17 @@ public class ProcedureContainer extends JPanel {
 	
 	public LogisticContainer getLogisticContainer() {
 		return logisticC;
+	}
+
+	public JPanel getCenterPanel() {
+		return centerPanel;
+	}
+
+	public void setCenterPanel(JPanel centerPanel) {
+		this.centerPanel = centerPanel;
+	}
+
+	public CardLayout getCardLayout() {
+		return cardLayout;
 	}
 }

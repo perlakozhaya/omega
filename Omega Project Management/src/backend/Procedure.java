@@ -4,7 +4,7 @@ import java.util.*;
 public class Procedure implements Comparable<Procedure> {
   private String procedureName;
   private double procedureDuration;
-  private String status = "Incomplete";
+  private String status = "Incomplete";// E
   private Set<ProcedureEmployee> employees;
   private Set<ProcedureItem> items;
   private Set<ProcedureLogistic> logistics;
@@ -100,14 +100,14 @@ public class Procedure implements Comparable<Procedure> {
     this.logistics = logistics;
   }
   public String getStatus() {
-	    return status;
-	  }
-	  public void setStatus(String status) {
-	    this.status = status;
+    return status;
   }
-
-	@Override
-	public int compareTo(Procedure p) {
-		return this.procedureName.compareTo(p.procedureName);
-	}
+  public void setStatus(String status) {
+	this.status = status;
+  }
+  
+  @Override
+  public int compareTo(Procedure p) {
+	return this.procedureName.compareTo(p.procedureName);
+  }
 }
