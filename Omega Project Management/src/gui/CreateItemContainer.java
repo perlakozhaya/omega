@@ -1,41 +1,92 @@
 package gui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 import backend.*;
 
 public class CreateItemContainer extends JPanel {
-	private JLabel specialtyNameLabel, specialtyLabel, emptyLabel;
-	private JTextField specialtyNameField, salaryField;
-	private JButton addButton;
+	private JLabel itemNameLB, costPerUnitLB, emptyLB;
+	private JTextField itemNameFLD, costPerUnitFLD;
+	private JButton itemAddBTN;
 	
-	public CreateItemContainer() {
+	private FormFrame formFrame;
+	private DataManager dataManager;
+	private ItemContainer itemC;
+	
+	public CreateItemContainer(FormFrame formFrame, DataManager dataManager, ItemContainer itemC) {
+		this.formFrame = formFrame;
+		this.dataManager = dataManager;
+		this.itemC = itemC;
+		
 	    setLayout(new GridLayout(2, 3, 10, 0));
 	    
-	    specialtyNameLabel = new JLabel("Item Name");
-	    specialtyNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    add(specialtyNameLabel);
+	    itemNameLB = new JLabel("Item Name");
+	    itemNameLB.setHorizontalAlignment(SwingConstants.CENTER);
+	    add(itemNameLB);
 	    
-	    specialtyLabel = new JLabel("Cost/Unit");
-	    specialtyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    add(specialtyLabel);
+	    costPerUnitLB = new JLabel("Cost per Unit");
+	    costPerUnitLB.setHorizontalAlignment(SwingConstants.CENTER);
+	    add(costPerUnitLB);
 	    
-	    emptyLabel = new JLabel("              ");
-	    emptyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    add(emptyLabel);
+	    emptyLB = new JLabel("              ");
+	    emptyLB.setHorizontalAlignment(SwingConstants.CENTER);
+	    add(emptyLB);
 	    
-	    specialtyNameField = new JTextField();
-	    add(specialtyNameField);
+	    itemNameFLD = new JTextField();
+	    add(itemNameFLD);
 	    
-	    salaryField = new JTextField();
-	    add(salaryField);
+	    costPerUnitFLD = new JTextField();
+	    add(costPerUnitFLD);
 	    
-	    addButton = new JButton("Add");
-	    add(addButton);
+	    itemAddBTN = new JButton("Add");
+	    add(itemAddBTN);
+	    
+// ---------------------------------------------------------------
+	    
+        itemAddBTN.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				createItem();
+				itemNameFLD.setText("");
+				costPerUnitFLD.setText("");
+//        		itemC.cardLayout.show(itemC.getCardPanel(), "Empty");
+//        		revalidate();
+//                repaint();
+            }
+        });
 	}
 	
-	public JButton getAddBTN() {
-		return addButton;
+	public void createItem() {
+		String itemName = itemNameFLD.getText().trim();
+	    String costString = costPerUnitFLD.getText().trim();
+
+	    if (itemName.isEmpty()) {
+	        formFrame.showError("Item name cannot be empty!\n");
+	        return;
+	    }
+
+	    if (costString.isEmpty()) {
+	        formFrame.showError("Please enter a cost per unit.\n");
+	        return;
+	    }
+	    
+	    try {
+            double costPerUnit = formFrame.parsePositiveDouble(costString, "Cost must be a positive number!");
+            
+    		if(!dataManager.addItem(new Item(itemName, costPerUnit))) {
+    			formFrame.showError("Item already exists.\n");
+    			return;
+    		}
+    		
+    		itemC.fillItem();
+    		
+	    } catch (IllegalArgumentException ex) {
+	        formFrame.showError("Cost must be a positive number!");
+	        return;
+	    }
 	}
 }

@@ -80,8 +80,8 @@ public class ProcedureContainer extends JPanel {
 	    centerPanel.setLayout(cardLayout);
 	    
 	    employeeC = new EmployeeContainer(dataManager, formFrame);
-	    itemC = new ItemContainer();
-	    logisticC = new LogisticContainer();
+	    itemC = new ItemContainer(dataManager, formFrame);
+	    logisticC = new LogisticContainer(dataManager, formFrame);
 
 	    centerPanel.add(new JPanel(), "Empty");
 	    centerPanel.add(employeeC, "Employee Container");

@@ -3,14 +3,11 @@ package gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
 import javax.swing.*;
 
 import backend.*;
 
-@SuppressWarnings("serial")
 public class CreateEmployeeContainer extends JPanel {
 	private JLabel empNameLB, specialtyLB, emptyLB;
 	private JTextField empNameFLD;
@@ -29,7 +26,7 @@ public class CreateEmployeeContainer extends JPanel {
 		
 	    setLayout(new GridLayout(2, 3, 10, 0));
 	    
-	    empNameLB = new JLabel("Name");
+	    empNameLB = new JLabel("Employee Name");
 	    empNameLB.setHorizontalAlignment(SwingConstants.CENTER);
 	    add(empNameLB);
 	    
@@ -81,7 +78,7 @@ public class CreateEmployeeContainer extends JPanel {
 	    Specialty selectedSpecialty = getSelectedSpecialty();
 
 	    if (empName.isEmpty()) {
-	        formFrame.showError("Name cannot be empty!\n");
+	        formFrame.showError("Employee name cannot be empty!\n");
 	        return;
 	    }
 

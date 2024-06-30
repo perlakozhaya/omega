@@ -10,13 +10,9 @@ public class ProcedureItem extends ProcedureDetail {
 		this.item = item; 
 	}
 
-	public double getCostPerUnit() {
-		return item.getCostPerUnit();
-	}
-	
 	@Override
 	public double getCost() {
-		return getCostPerUnit() * quantity;
+		return item.getCostPerUnit() * quantity;
 	}
 
 	public double getQuantity() {

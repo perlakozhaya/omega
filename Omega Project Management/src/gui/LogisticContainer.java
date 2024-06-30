@@ -1,41 +1,139 @@
 package gui;
 
 import java.awt.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Set;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import backend.*;
 
 @SuppressWarnings("serial")
 public class LogisticContainer extends JPanel {
 	private JScrollPane scrollPane;
-	private JList<String> list;
-	private JLabel quantityLabel;
-	private JTextField quantityField;
-	private JPanel cardPanel;
+	private JList<Logistic> logisticLST;
+	private DefaultListModel<Logistic> logisticDLM;
+	private JLabel quantityLB;
+	private JTextField quantityFLD;
+	private JButton logisticAddBTN;
 	
-	public LogisticContainer() {
-		list = new JList<String>(new String[] {"Avocat", "batikha", "chemem", "Avocat", "batikha", "chemem", "Avocat", "batikha", "chemem", "Avocat", "batikha", "chemem"});
-
+	private DataManager dataManager;
+	private FormFrame formFrame;
+	
+	public LogisticContainer(DataManager dataManager, FormFrame formFrame) {
+		this.dataManager = dataManager;
+		this.formFrame = formFrame;
+		
 		setLayout(null);
 		setBackground(new Color(227, 227, 227));
-	    scrollPane = new JScrollPane(list);
+
+		logisticDLM = new DefaultListModel<Logistic>();
+		logisticLST = new JList<Logistic>(logisticDLM);
+		
+	    scrollPane = new JScrollPane(logisticLST);
 	    scrollPane.setBounds(0, 14, 220, 140);
 	    add(scrollPane);
 	    
-	    quantityField = new JTextField("0");
-	    quantityField.setHorizontalAlignment(SwingConstants.CENTER);
-	    quantityField.setBounds(240, 80, 140, 19);
-	    add(quantityField);
-	    quantityField.setColumns(10);
+	    quantityLB = new JLabel("Quantity");
+	    quantityLB.setBounds(285, 15, 100, 13);
+	    add(quantityLB);
 	    
-	    quantityLabel = new JLabel("Quantity");
-	    quantityLabel.setBounds(285, 65, 100, 13);
-	    add(quantityLabel);
-
-        cardPanel = new JPanel();
+	    quantityFLD = new JTextField("0");
+	    quantityFLD.setHorizontalAlignment(SwingConstants.CENTER);
+	    quantityFLD.setBounds(240, 33, 140, 19);
+	    add(quantityFLD);
+	    quantityFLD.setColumns(10);
+	    
+	    logisticAddBTN = new JButton("Add Logistic");
+	    logisticAddBTN.setBounds(240, 55, 140, 21);
+	    add(logisticAddBTN);
+	    
+//		--------------------------------------------------------------------
         
-        cardPanel.setBounds(0, 170, 395, 50);
-        add(cardPanel);
+        fillLogistic();
+        
+        logisticAddBTN.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Procedure selectedProcedure = formFrame.getSelectedProcedure();
+				Logistic selectedLogistic = getSelectedLogistic();
+				handleLogistic(selectedProcedure, selectedLogistic);
+		        fillLogistic();
+			}
+        });
+        
+        logisticLST.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				fillQuantity();
+			}
+        	
+        });
 	}
 	
+	public void fillQuantity() {
+		Procedure selectedProcedure = formFrame.getSelectedProcedure();
+		Logistic selectedLogistic = getSelectedLogistic();
+        boolean found = false;
+        for (ProcedureLogistic pl : selectedProcedure.getLogistics()) {
+            if (pl.getLogistic().equals(selectedLogistic)) {
+                setQuantityFLD(pl.getQuantity() + "");
+                found = true;
+                break;
+            }
+        }
+        if (!found) setQuantityFLD("0");
+    }
+
+	public void fillLogistic() {
+    	Set<Logistic> logistics = dataManager.getLogistics();
+    	logisticDLM.removeAllElements();
+		logisticDLM.addElement(null);
+		if(!logistics.isEmpty()) {
+			for(Logistic l : dataManager.getLogistics()) {
+				logisticDLM.addElement(l);
+			}			
+		}
+	}
+	
+	public void handleLogistic(Procedure selectedProcedure, Logistic selectedLogistic) {
+		String quantityString = getQuantityFLD().trim();
+		
+		if(selectedLogistic == null) {
+			formFrame.showError("Select logistic and try again");
+			return;
+		}
+		
+		if (quantityString.isEmpty()) {
+        	formFrame.showError("Logistic quantity cannot be empty!");
+        	return;
+        }
+        
+        try {
+            double quantity = formFrame.parsePositiveDouble(quantityString, "Quantity must be a positive number!");
+            
+    		boolean updated = dataManager.updateLogisticInProcedure(selectedProcedure, selectedLogistic, quantity);
+    		if(!updated) {
+    			dataManager.addLogisticToProcedure(selectedProcedure, selectedLogistic, quantity);
+    		}
+	    } catch (IllegalArgumentException ex) {
+	        formFrame.showError("Quantity must be a positive number!");
+	        return;
+	    }
+	}
+	
+	public Logistic getSelectedLogistic() {
+		return (Logistic) logisticLST.getSelectedValue();
+	}
+	
+	public String getQuantityFLD() {
+		return quantityFLD.getText();
+	}
+	
+	public void setQuantityFLD(String text) {
+		quantityFLD.setText(text);
+	}
 }

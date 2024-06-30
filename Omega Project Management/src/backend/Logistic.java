@@ -1,39 +1,37 @@
 package backend;
-import java.util.*;
 
-public class Logistic {
+public class Logistic implements Comparable<Logistic> {
 	private String logisticName;
-	public static Map<String, Double> logistics = new HashMap<>();
+	private double costPerUnit;
 	
-	public Logistic(String logisticName, double pricePerUnit) {
+	public Logistic(String logisticName, double costPerUnit) {
 		this.logisticName = logisticName;
-		addLogistic(logisticName, pricePerUnit);
+		this.costPerUnit = costPerUnit;
 	}
 	
-	public void addLogistic(String logisticName, double costPerUnit) {
-		if (logisticName == null || logisticName.isEmpty()) {
-            throw new IllegalArgumentException("logisticName cannot be null or empty");
-        }
-        if (costPerUnit <= 0) {
-            throw new IllegalArgumentException("Cost per unit must be positive");
-        }
-        logistics.put(logisticName, costPerUnit);
+	public String getLogisticName() {
+		return logisticName;
 	}
 	
-	public void removeLogistic() {
-        if (logistics.containsKey(logisticName)) {
-            logistics.remove(logisticName);
-        } else {
-            throw new IllegalArgumentException("logisticName not found");
-        }
-    }
+	public void setLogisticName(String logisticName) {
+		this.logisticName = logisticName;
+	}
 	
-	public double getCostPerUnit() {
-        if (logistics.containsKey(logisticName)) {
-            return logistics.get(logisticName);
-        } else {
-            throw new IllegalArgumentException("logisticName not found");
-        }
+    public double getCostPerUnit() {
+        return costPerUnit;
     }
-}
+    
+    public void setCostPerUnit(double costPerUnit) {
+    	this.costPerUnit = costPerUnit;
+    }
 
+	@Override
+	public int compareTo(Logistic l) {
+		return this.logisticName.compareTo(l.logisticName);
+	}
+	
+	@Override
+	public String toString() {
+		return logisticName;
+	}
+}
