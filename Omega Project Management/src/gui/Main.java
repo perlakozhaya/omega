@@ -83,5 +83,8 @@ public class Main {
 
         DisplayFrame displayFrame = new DisplayFrame(dataManager);
         displayFrame.setVisible(true);
+        
+        ProgressFrame progressFrame = new ProgressFrame(dataManager);
+        progressFrame.setVisible(true);
     }
 }

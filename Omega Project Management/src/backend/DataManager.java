@@ -106,7 +106,6 @@ public class DataManager extends Observable {
 	    return false; // in employees list but not in procedure's list
 	}
 
-	
 	public boolean addEmployee(Employee employee) {
 		if(!employees.contains(employee)) {
 			employees.add(employee);

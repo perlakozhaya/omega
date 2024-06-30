@@ -15,9 +15,7 @@ import java.util.Observer;
 public class DisplayFrame extends JFrame implements Observer {
     private DataManager dataManager;
     private JTextArea displayArea;
-    
-    private DefaultComboBoxModel<Specialty> specialtiesDCBM;
-    
+        
     private JPanel contentPane;
     private JTextField txtCurrentTotal;
     private JTextField durationFLD;
