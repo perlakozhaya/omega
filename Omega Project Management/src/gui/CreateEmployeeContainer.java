@@ -19,12 +19,13 @@ public class CreateEmployeeContainer extends JPanel {
 	private JButton empAddBTN;
 	
 	private FormFrame formFrame;
-	private EmployeeContainer empC;
 	private DataManager dataManager;
+	private EmployeeContainer empC;
 	
-	public CreateEmployeeContainer(FormFrame formFrame, DataManager dataManager) {
+	public CreateEmployeeContainer(FormFrame formFrame, DataManager dataManager, EmployeeContainer empC) {
 		this.formFrame = formFrame;
 		this.dataManager = dataManager;
+		this.empC = empC;
 		
 	    setLayout(new GridLayout(2, 3, 10, 0));
 	    
@@ -58,9 +59,11 @@ public class CreateEmployeeContainer extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				createEmployee();
-//        		empC.cardLayout.show(empC.getCardPanel(), "Empty");
-//        		revalidate();
-//                repaint();
+				empNameFLD.setText("");
+				specialtiesBOX.setSelectedIndex(-1);
+        		empC.cardLayout.show(empC.getCardPanel(), "Empty");
+        		revalidate();
+                repaint();
             }
         });
 	}
@@ -91,6 +94,8 @@ public class CreateEmployeeContainer extends JPanel {
 	    	formFrame.showError("Employee already exists with this name.\n");
 	        return;
 	    }
+	    
+	    empC.fillEmployee();
 	}
 
 	public Specialty getSelectedSpecialty() {

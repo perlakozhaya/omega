@@ -63,7 +63,7 @@ public class EmployeeContainer extends JPanel {
 	    createSpecialty.setBounds(240, 133, 140, 20);
 	    add(createSpecialty);
 	    
-	    createEmpC = new CreateEmployeeContainer(formFrame, dataManager);
+	    createEmpC = new CreateEmployeeContainer(formFrame, dataManager, this);
 	    createSpecialtyC = new CreateSpecialtyContainer();
 	    
 	    cardLayout = new CardLayout();
