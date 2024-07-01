@@ -39,7 +39,7 @@ public class ProgressFrame extends JFrame implements Observer {
         contentPane.setLayout(new BorderLayout());
 
         headerPNL = new JPanel();
-        headerPNL.setBackground(new Color(255, 255, 128));
+        headerPNL.setBackground(Color.LIGHT_GRAY);
         headerPNL.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.add(headerPNL, BorderLayout.NORTH);
         headerPNL.setLayout(new GridLayout(1, 7));
@@ -72,7 +72,6 @@ public class ProgressFrame extends JFrame implements Observer {
 
         centerPNL = new JPanel();
         centerPNL.setBorder(new EmptyBorder(10, 5, 5, 5));
-        centerPNL.setBackground(new Color(128, 255, 255));
         contentPane.add(centerPNL, BorderLayout.CENTER);
         centerPNL.setLayout(null);
 
