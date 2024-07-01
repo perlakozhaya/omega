@@ -42,7 +42,7 @@ public class ProgressFrame extends JFrame implements Observer {
         headerPNL.setBackground(Color.LIGHT_GRAY);
         headerPNL.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.add(headerPNL, BorderLayout.NORTH);
-        headerPNL.setLayout(new GridLayout(1, 7));
+        headerPNL.setLayout(new GridLayout(1, 6));
 
         costLB = new JLabel("COST");
         costLB.setHorizontalAlignment(SwingConstants.CENTER);
@@ -55,7 +55,6 @@ public class ProgressFrame extends JFrame implements Observer {
         costFLD.setFont(new Font("Serif", Font.PLAIN, 18));
         headerPNL.add(costFLD);
 
-        headerPNL.add(new JLabel());
         headerPNL.add(new JLabel());
         headerPNL.add(new JLabel());
 
