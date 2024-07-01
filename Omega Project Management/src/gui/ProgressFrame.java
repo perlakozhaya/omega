@@ -30,7 +30,6 @@ public class ProgressFrame extends JFrame implements Observer {
     public ProgressFrame(DataManager dataManager) {
         this.dataManager = dataManager;
         dataManager.addObserver(this);
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 720, 420);
         contentPane = new JPanel();
@@ -47,11 +46,13 @@ public class ProgressFrame extends JFrame implements Observer {
 
         costLB = new JLabel("COST");
         costLB.setHorizontalAlignment(SwingConstants.CENTER);
+        costLB.setFont(new Font("Serif", Font.PLAIN, 18));
         headerPNL.add(costLB);
 
         costFLD = new JTextField();
         costFLD.setEditable(false);
         costFLD.setHorizontalAlignment(SwingConstants.CENTER);
+        costFLD.setFont(new Font("Serif", Font.PLAIN, 18));
         headerPNL.add(costFLD);
 
         headerPNL.add(new JLabel());
@@ -60,11 +61,13 @@ public class ProgressFrame extends JFrame implements Observer {
 
         durationLB = new JLabel("DURATION");
         durationLB.setHorizontalAlignment(SwingConstants.CENTER);
+        durationLB.setFont(new Font("Serif", Font.PLAIN, 18));
         headerPNL.add(durationLB);
 
         durationFLD = new JTextField();
         durationFLD.setHorizontalAlignment(SwingConstants.CENTER);
         durationFLD.setEditable(false);
+        durationFLD.setFont(new Font("Serif", Font.PLAIN, 18));
         headerPNL.add(durationFLD);
 
         centerPNL = new JPanel();
@@ -77,6 +80,7 @@ public class ProgressFrame extends JFrame implements Observer {
 
         projects = new JComboBox<>(projectsDCBM);
         projects.setBounds(319, 5, 100, 25);
+        projects.setFont(new Font("Serif", Font.PLAIN, 18));
         centerPNL.add(projects);
 
         tableDTM = new DefaultTableModel(addTableContent(), new String[]{"Task", "Procedure", "Cost", "Duration", "Status"}) {
@@ -88,6 +92,9 @@ public class ProgressFrame extends JFrame implements Observer {
 
         table = new JTable(tableDTM);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setRowHeight(25);
+        table.setFont(new Font("Serif", Font.PLAIN, 18));
+        table.getTableHeader().setFont(new Font("Serif", Font.PLAIN, 18));
         table.setModel(tableDTM);
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -237,7 +244,7 @@ public class ProgressFrame extends JFrame implements Observer {
         durationFLD.setText(currentProjectDuration() + " / " + totalProjectDuration());
 
         fillProjectBox();
-
+        
         tableDTM.setDataVector(addTableContent(), new String[]{"Task", "Procedure", "Cost", "Duration", "Status"});
     }
 }

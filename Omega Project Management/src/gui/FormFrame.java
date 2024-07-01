@@ -45,7 +45,6 @@ public class FormFrame extends JFrame {
         setBounds(10, 200, 420, 480);
         setResizable(true);
         setLayout(new BorderLayout());
-
         this.dataManager = dataManager;
 //        dataManager.addObserver(this);
 
