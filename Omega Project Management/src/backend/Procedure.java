@@ -45,8 +45,10 @@ public class Procedure implements Comparable<Procedure> {
 	  double total = 0.0;
 	  Iterator<ProcedureEmployee> i = employees.iterator();
 	  while(i.hasNext()) {
-		  if(i.next().procedure.status != "Execute") {
-			  total += i.next().getCost();			  
+		  ProcedureEmployee pe = i.next();
+		  
+		  if(pe.procedure.status != "Execute") {
+			  total += pe.getCost();			  
 		  }
 	  }
 	  return total;
@@ -65,8 +67,10 @@ public class Procedure implements Comparable<Procedure> {
 	  double total = 0.0;
 	  Iterator<ProcedureItem> i = items.iterator();
 	  while(i.hasNext()) {
-		  if(i.next().procedure.status != "Execute") {
-			  total += i.next().getCost();			  
+		  ProcedureItem pi = i.next();
+		  
+		  if(pi.procedure.status != "Execute") {
+			  total += pi.getCost();			  
 		  }
 	  }
 	  return total;
@@ -85,8 +89,10 @@ public class Procedure implements Comparable<Procedure> {
 	  double total = 0.0;
 	  Iterator<ProcedureLogistic> i = logistics.iterator();
 	  while(i.hasNext()) {
-		  if(i.next().procedure.status != "Execute") {
-			  total += i.next().getCost();			  
+		  ProcedureLogistic pl = i.next();
+		  
+		  if(pl.procedure.status != "Execute") {
+			  total += pl.getCost();			  
 		  }
 	  }
 	  return total;

@@ -42,6 +42,16 @@ public class Task implements Comparable<Task> {
     }
     return duration;
   }
+
+  public double currentTaskDuration() {
+	  double duration = 0.0;
+	  for(Procedure p : procedures) {
+		  if(p.getStatus() == "Done") {
+			  duration += p.getProcedureDuration();
+		  }
+	  }
+	  return duration;
+  }
   
   @Override
   public String toString() {

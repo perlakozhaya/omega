@@ -45,6 +45,14 @@ public class Project implements Comparable<Project> {
     return duration;
   }
   
+  public double currentProjectDuration() {
+	  double duration = 0.0;
+	  for(Task t : tasks) {
+		  duration += t.currentTaskDuration();      
+	  }
+	  return duration;
+  }
+  
   @Override
   public int compareTo(Project p) {
     return this.projectName.compareTo(p.projectName);
