@@ -26,6 +26,14 @@ public class Task implements Comparable<Task> {
     }
     return total;
   }
+
+  public double currentTaskCost() {
+	  double total = 0.0;
+	  for(Procedure p : procedures) {
+		  total += p.currentProcedureCost();      
+	  }
+	  return total;
+  }
   
   public double taskDuration() {
     double duration = 0.0;

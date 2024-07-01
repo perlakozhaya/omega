@@ -28,6 +28,14 @@ public class Project implements Comparable<Project> {
     }
     return total;
   }
+
+  public double currentProjectCost() {
+	  double total = 0.0;
+	  for(Task t : tasks) {
+		  total += t.currentTaskCost();      
+	  }
+	  return total;
+  }
   
   public double projectDuration() {
     double duration = 0.0;

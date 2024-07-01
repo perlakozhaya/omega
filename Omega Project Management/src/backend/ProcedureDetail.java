@@ -13,4 +13,8 @@ public abstract class ProcedureDetail implements Comparable<ProcedureDetail> {
 	public int compareTo(ProcedureDetail o) {
 		return this.procedure.compareTo(o.procedure);
 	}
+	
+	public Procedure getprocedure() {
+		return procedure;
+	}
 }

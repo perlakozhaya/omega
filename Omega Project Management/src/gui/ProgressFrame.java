@@ -79,14 +79,7 @@ public class ProgressFrame extends JFrame implements Observer{
         projects.setBounds(319, 5, 100, 25);
         centerPNL.add(projects);
         
-        String[] columnNames = {"Task", "Procedure", "Cost", "Duration", "Status"};
-        
-//        Object[][] data = {
-//            {"Task1", "Procedure1", 100.0, 1.0, "EXECUTE"},
-//            {"Task2", "Procedure2", 200.0, 2.0, "EXECUTE"}
-//        };
-
-        tableDTM = new DefaultTableModel(null, columnNames) {
+        tableDTM = new DefaultTableModel(addTableContent(), new String[] {"Task", "Procedure", "Cost", "Duration", "Status"}) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // Make cells non-editable
@@ -95,13 +88,13 @@ public class ProgressFrame extends JFrame implements Observer{
         
         table = new JTable(tableDTM);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+        table.setModel(tableDTM);
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(5, 35, 685, 305);
         centerPNL.add(scrollPane);
 
-        // Add the ListSelectionListener to the table
+//         Add the ListSelectionListener to the table
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
         	@Override
         	public void valueChanged(ListSelectionEvent event) {
@@ -111,8 +104,8 @@ public class ProgressFrame extends JFrame implements Observer{
         		int selectedColumn = table.getSelectedColumn();
         		
         		if (selectedRow != -1 && selectedColumn == table.getColumn("Status").getModelIndex()) {
-        			String currentStatus = (String) table.getValueAt(selectedRow, selectedColumn);
-        			String newStatus = dataManager.changeStatus(currentStatus);
+//        			String currentStatus = (String) table.getValueAt(selectedRow, selectedColumn);
+        			String newStatus = dataManager.changeStatus(getProcedureCell());
         			table.setValueAt(newStatus, selectedRow, selectedColumn);
         			
         			// Reset the selection (optional)
@@ -154,6 +147,15 @@ public class ProgressFrame extends JFrame implements Observer{
 		}
 	}
 
+	public double currentProjectCost() {
+		if(projects.getSelectedItem() != null) {
+			Project p = (Project) projects.getSelectedItem();
+			return p.currentProjectCost();
+		}else {
+			return 0.0;
+		}
+	}
+
 	public double totalProjectDuration() {
 		if(projects.getSelectedItem() != null) {
 			Project p = (Project) projects.getSelectedItem();
@@ -163,13 +165,51 @@ public class ProgressFrame extends JFrame implements Observer{
 		}
 	}
 	
+	public Object[][] addTableContent() {
+		
+		if(projects.getSelectedItem() != null) {
+			
+		    Project selectedProject = (Project) projects.getSelectedItem();
+		    Set<Task> tasks = selectedProject.getTasks();
+		    ArrayList<Object[]> list = new ArrayList<>();
+	
+		    for (Task task : tasks) {
+		        Set<Procedure> procedures = task.getProcedures();
+	
+		        for (Procedure procedure : procedures) {
+		            Object[] row = new Object[5];
+		            row[0] = task;
+		            row[1] = procedure;
+		            row[2] = procedure.procedureCost();
+		            row[3] = procedure.getProcedureDuration();
+		            row[4] = procedure.getStatus();
+	
+		            list.add(row);
+		        }
+		    }
+		    return list.toArray(new Object[0][]);
+		}
+	    return null;
+	}
+
+	public Procedure getProcedureCell() {
+		int rowIndex = table.getSelectedRow();
+		int columnIndex = 1;
+				
+		Procedure procedure = (Procedure) tableDTM.getValueAt(rowIndex, columnIndex);
+		
+		return procedure;
+	}
+	
 	@Override
 	public void update(Observable o, Object arg) {
-		costFLD.setText(projects.getSelectedItem() + " / " + totalProjectCost());
+		costFLD.setText(currentProjectCost() + " / " + totalProjectCost());
 		durationFLD.setText(0.0 + " / " + totalProjectDuration());
 
 		fillProjectBox();
 		
+		tableDTM.setDataVector(addTableContent(), new String[] {"Task", "Procedure", "Cost", "Duration", "Status"});
+        
 	}
 
 }

@@ -4,7 +4,7 @@ import java.util.*;
 public class Procedure implements Comparable<Procedure> {
   private String procedureName;
   private double procedureDuration;
-  private String status = "Incomplete";// E
+  private String status = "Execute";
   private Set<ProcedureEmployee> employees;
   private Set<ProcedureItem> items;
   private Set<ProcedureLogistic> logistics;
@@ -41,13 +41,35 @@ public class Procedure implements Comparable<Procedure> {
     return total;
   }
   
+  public double currentEmployeesCost() {
+	  double total = 0.0;
+	  Iterator<ProcedureEmployee> i = employees.iterator();
+	  while(i.hasNext()) {
+		  if(i.next().procedure.status != "Execute") {
+			  total += i.next().getCost();			  
+		  }
+	  }
+	  return total;
+  }
+  
   public double itemsCost() {
     double total = 0.0;
     Iterator<ProcedureItem> i = items.iterator();
     while(i.hasNext()) {
-      total += i.next().getCost();
+    	total += i.next().getCost();			  
     }
     return total;
+  }
+
+  public double currentItemsCost() {
+	  double total = 0.0;
+	  Iterator<ProcedureItem> i = items.iterator();
+	  while(i.hasNext()) {
+		  if(i.next().procedure.status != "Execute") {
+			  total += i.next().getCost();			  
+		  }
+	  }
+	  return total;
   }
   
   public double logisticsCost() {
@@ -58,9 +80,24 @@ public class Procedure implements Comparable<Procedure> {
     }
     return total;
   }
+
+  public double currentLogisticsCost() {
+	  double total = 0.0;
+	  Iterator<ProcedureLogistic> i = logistics.iterator();
+	  while(i.hasNext()) {
+		  if(i.next().procedure.status != "Execute") {
+			  total += i.next().getCost();			  
+		  }
+	  }
+	  return total;
+  }
   
   public double procedureCost() {
     return employeesCost() + itemsCost() + logisticsCost();
+  }
+  
+  public double currentProcedureCost() {
+	  return currentEmployeesCost() + currentItemsCost() + currentLogisticsCost();
   }
   
   @Override

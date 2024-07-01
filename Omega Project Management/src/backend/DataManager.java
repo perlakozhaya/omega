@@ -188,8 +188,8 @@ public class DataManager extends Observable {
     	return false;
 	}
 	
-	public void changeStatus(Procedure procedure) {
-	    final String[] statusOrder = {"Not Started", "Ongoing", "Done"};
+	public String changeStatus(Procedure procedure) {
+	    final String[] statusOrder = {"Execute", "Ongoing", "Done"};
 	    String currentStatus = procedure.getStatus();
 	    
 	    for (int i = 0; i < statusOrder.length - 1; i++) {
@@ -197,9 +197,10 @@ public class DataManager extends Observable {
 	            procedure.setStatus(statusOrder[i + 1]);
 	            setChanged();
 	            notifyObservers();
-	            return;
-	        }
+	            return statusOrder[i + 1];
+	        } 
 	    }
+	    return currentStatus;
 	}
 	
 	public Set<Project> getProjects() {

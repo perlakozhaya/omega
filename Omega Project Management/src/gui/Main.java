@@ -92,9 +92,6 @@ public class Main {
 
         FormFrame formFrame = new FormFrame(dataManager);
         formFrame.setVisible(true);
-
-        DisplayFrame displayFrame = new DisplayFrame(dataManager);
-        displayFrame.setVisible(true);
         
         ProgressFrame progressFrame = new ProgressFrame(dataManager);
         progressFrame.setVisible(true);
