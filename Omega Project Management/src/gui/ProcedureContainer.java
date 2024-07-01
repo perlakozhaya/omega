@@ -22,8 +22,6 @@ public class ProcedureContainer extends JPanel {
 	private LogisticContainer logisticC; 
 	private CardLayout cardLayout;
 	
-	private String currentCard;
-	
 	private DataManager dataManager;
     private FormFrame formFrame;
 		
@@ -83,13 +81,10 @@ public class ProcedureContainer extends JPanel {
 	    itemC = new ItemContainer(dataManager, formFrame);
 	    logisticC = new LogisticContainer(dataManager, formFrame);
 
-	    centerPanel.add(new JPanel(), "Empty");
 	    centerPanel.add(employeeC, "Employee Container");
 	    centerPanel.add(itemC, "Item Container");
 	    centerPanel.add(logisticC, "Logistic Container");
-	    
-	    cardLayout.show(centerPanel, "Empty");
-	    
+	    	    
 	    procedureApplyBTN.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -190,14 +185,6 @@ public class ProcedureContainer extends JPanel {
 	
 	public void setDurationField(String text) {
 		procedureDurationFLD.setText(text);
-	}
-
-	public String getCurrentCard() {
-		return currentCard;
-	}
-
-	public void setCurrentCard(String currentCard) {
-		this.currentCard = currentCard;
 	}
 	
 	public EmployeeContainer getEmployeeContainer() {

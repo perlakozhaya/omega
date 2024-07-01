@@ -51,36 +51,36 @@ public class CreateEmployeeContainer extends JPanel {
         empAddBTN.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				createEmployee();
-				empNameFLD.setText("");
-				specialtiesBOX.setSelectedIndex(-1);
-        		empC.cardLayout.show(empC.getCardPanel(), "Empty");
-        		revalidate();
-                repaint();
+				if(createEmployee()) {
+					empNameFLD.setText("");
+					specialtiesBOX.setSelectedIndex(-1);
+					empC.cardLayout.show(empC.getCardPanel(), "Empty");					
+				}
             }
         });
 	}
 	
-	public void createEmployee() {
+	public boolean createEmployee() {
 	    String empName = empNameFLD.getText().trim();
 	    Specialty selectedSpecialty = getSelectedSpecialty();
 
 	    if (empName.isEmpty()) {
 	        formFrame.showError("Employee name cannot be empty!\n");
-	        return;
+	        return false;
 	    }
 
 	    if (selectedSpecialty == null) {
 	        formFrame.showError("Please choose a specialty.\n");
-	        return;
+	        return false;
 	    }
 	    
 	    if(!dataManager.addEmployee(new Employee(empName, selectedSpecialty))) {
 	    	formFrame.showError("Employee already exists with this name.\n");
-	        return;
+	        return false;
 	    }
 	    
 	    empC.fillEmployee();
+	    return true;
 	}
 
 	public Specialty getSelectedSpecialty() {

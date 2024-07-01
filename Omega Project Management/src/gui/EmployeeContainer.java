@@ -39,6 +39,7 @@ public class EmployeeContainer extends JPanel {
 		specialtiesDCBM = new DefaultComboBoxModel<Specialty>();
 		empDLM = new DefaultListModel<>();
 		empLST = new JList<Employee>(empDLM);
+		empLST.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	    scrollPane = new JScrollPane(empLST);
 	    scrollPane.setBounds(0, 14, 220, 140);
 	    add(scrollPane);
@@ -105,8 +106,6 @@ public class EmployeeContainer extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 cardLayout.show(cardPanel, "CreateEmployee");
                 fillSpecialty();
-                revalidate();
-                repaint();
             }
         });
 
@@ -115,14 +114,16 @@ public class EmployeeContainer extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cardLayout.show(cardPanel, "CreateSpecialty");
-                revalidate();
-                repaint();
             }
         });
 	}
 	
 	public void fillHours() {
-		Procedure selectedProcedure = formFrame.getSelectedProcedure();
+        Procedure selectedProcedure = formFrame.getSelectedProcedure();
+        if (selectedProcedure == null) {
+            setHoursFLD("0");
+            return;
+        }
         Employee selectedEmployee = getSelectedEmployee();
         boolean found = false;
         for (ProcedureEmployee pe : selectedProcedure.getEmployees()) {
@@ -155,6 +156,11 @@ public class EmployeeContainer extends JPanel {
 	}
 	
 	public void handleEmployee(Procedure selectedProcedure, Employee selectedEmployee) {
+		if (selectedProcedure == null) {
+            formFrame.showError("No procedure selected. Please select a procedure first.");
+            return;
+        }
+		
 		String hoursString = getHoursFLD().trim();
 		
 		if(selectedEmployee == null) {

@@ -49,28 +49,27 @@ public class CreateSpecialtyContainer extends JPanel {
         specialtyAddBTN.addActionListener(new ActionListener() {
     	@Override
 	    	public void actionPerformed(ActionEvent e) {
-	    		createSpecialty();
-	    		specialtyNameFLD.setText("");
-	    		wagePerHourFLD.setText("");
-	    		empC.cardLayout.show(empC.getCardPanel(), "Empty");
-	    		revalidate();
-	            repaint();
+	    		if(createSpecialty()) {
+	    			specialtyNameFLD.setText("");
+	    			wagePerHourFLD.setText("");
+	    			empC.cardLayout.show(empC.getCardPanel(), "Empty");	    			
+	    		}
 	    	}
       });
 	}
 	
-	public void createSpecialty() {
+	public boolean createSpecialty() {
 		String specialtyName = specialtyNameFLD.getText().trim();
 		String wageString = wagePerHourFLD.getText().trim();
 		
 		if (specialtyName.isEmpty()) {
 	        formFrame.showError("Specialty Name cannot be empty!\n");
-	        return;
+	        return false;
 	    }
 
 	    if (wageString.isEmpty()) {
 	        formFrame.showError("Please enter a wage per hour.\n");
-	        return;
+	        return false;
 	    }
 	    
 	    try {
@@ -78,13 +77,14 @@ public class CreateSpecialtyContainer extends JPanel {
 	    	
 	    	if(!dataManager.addSpecialty(new Specialty(specialtyName, wagePerhour))) {
 	    		formFrame.showError("Specialty already exists.\n");
-	    		return;
+	    		return false;
 	    	}
     		empC.fillSpecialty();
+    		return true;
     		
 	    } catch (IllegalArgumentException ex) {
 	        formFrame.showError("Wage must be a positive number!");
-	        return;
+	        return false;
 	    }
 	}
 }

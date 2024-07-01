@@ -32,6 +32,7 @@ public class LogisticContainer extends JPanel {
 
 		logisticDLM = new DefaultListModel<Logistic>();
 		logisticLST = new JList<Logistic>(logisticDLM);
+		logisticLST.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 	    scrollPane = new JScrollPane(logisticLST);
 	    scrollPane.setBounds(0, 14, 220, 140);
@@ -76,6 +77,10 @@ public class LogisticContainer extends JPanel {
 	
 	public void fillQuantity() {
 		Procedure selectedProcedure = formFrame.getSelectedProcedure();
+		if (selectedProcedure == null) {
+			setQuantityFLD("0");
+            return;
+        }
 		Logistic selectedLogistic = getSelectedLogistic();
         boolean found = false;
         for (ProcedureLogistic pl : selectedProcedure.getLogistics()) {
@@ -100,6 +105,11 @@ public class LogisticContainer extends JPanel {
 	}
 	
 	public void handleLogistic(Procedure selectedProcedure, Logistic selectedLogistic) {
+		if (selectedProcedure == null) {
+            formFrame.showError("No procedure selected. Please select a procedure first.");
+            return;
+        }
+		
 		String quantityString = getQuantityFLD().trim();
 		
 		if(selectedLogistic == null) {

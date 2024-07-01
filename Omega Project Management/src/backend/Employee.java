@@ -1,5 +1,7 @@
 package backend;
 
+import java.io.Serializable;
+
 public class Employee implements Comparable<Employee> {
 	private String employeeCode;
 	private Specialty specialty;

@@ -162,8 +162,6 @@ public class FormFrame extends JFrame {
                     procedureC.setDurationField("0");
                 }
                 cardLayout.show(centerPanel, "Procedure");
-                procedureC.getCardLayout().show(procedureC.getCenterPanel(), "Empty");
-
             }
         });
     }
