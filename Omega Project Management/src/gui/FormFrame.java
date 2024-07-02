@@ -4,6 +4,7 @@ import backend.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
@@ -32,7 +33,7 @@ public class FormFrame extends JFrame {
     
     // Create Menu Bar
     private JMenuBar menuBar;
-    private JMenu file;
+    private JMenu fileMenu;
     private JMenuItem save;
     private JMenuItem exit;
     
@@ -50,13 +51,37 @@ public class FormFrame extends JFrame {
 
         // Add menu bar items
         menuBar = new JMenuBar();
-        file = new JMenu("File");
+        fileMenu = new JMenu("File");
         save = new JMenuItem("Save");
         exit = new JMenuItem("Exit");
-        file.add(save);
-        file.add(exit);
-        menuBar.add(file);
+        fileMenu.add(save);
+        fileMenu.add(exit);
+        menuBar.add(fileMenu);
         setJMenuBar(menuBar);
+        
+        save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	File file = new File("C:/Users/Perla Kozhaya/Documents/Université/S4_local/NFA035-Programmation_Java_bibliothèques_et_patterns/omega/Omega Project Management/src/data.dat");
+                if (!file.exists()) {
+                    try {
+                        file.createNewFile();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                        System.err.println("Error creating file: " + ex.getMessage());
+                    }
+                }
+                dataManager.saveDataToFile(file.getName());
+            }
+        });
+
+        // Exit application on exit menu item click
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
         
         // Initialize and configure combo panel
         comboBoxPanel = new JPanel();

@@ -1,7 +1,8 @@
 package backend;
+import java.io.Serializable;
 import java.util.*;
 
-public class Procedure implements Comparable<Procedure> {
+public class Procedure implements Comparable<Procedure>, Serializable {
   private String procedureName;
   private double procedureDuration;
   private String status = "Execute";

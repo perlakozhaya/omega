@@ -2,7 +2,7 @@ package backend;
 
 import java.io.Serializable;
 
-public class Item implements Comparable<Item> {
+public class Item implements Comparable<Item>, Serializable {
 	private String itemName;
 	private double costPerUnit;
 

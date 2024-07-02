@@ -1,6 +1,8 @@
 package backend;
 
-public class ProcedureLogistic extends ProcedureDetail {
+import java.io.Serializable;
+
+public class ProcedureLogistic extends ProcedureDetail implements Serializable {
 	private double quantity;
 	private Logistic logistic;
 	

@@ -1,6 +1,8 @@
 package backend;
 
-public abstract class ProcedureDetail implements Comparable<ProcedureDetail> {
+import java.io.Serializable;
+
+public abstract class ProcedureDetail implements Comparable<ProcedureDetail>, Serializable {
 	protected Procedure procedure;
 	
 	public ProcedureDetail(Procedure procedure) {

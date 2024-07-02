@@ -1,6 +1,8 @@
 package backend;
 
-public class ProcedureItem extends ProcedureDetail {
+import java.io.Serializable;
+
+public class ProcedureItem extends ProcedureDetail implements Serializable {
 	private double quantity;
 	private Item item;
 	

@@ -1,12 +1,13 @@
 package backend;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 
 import javax.swing.DefaultComboBoxModel;
 
-@SuppressWarnings("deprecation")
-public class DataManager extends Observable {
+public class DataManager extends Observable implements Serializable {
+    private static final long serialVersionUID = 1L;
+
 	private Set<Project> projects;
 	private Set<Employee> employees;
 	private Set<Specialty> specialties;
@@ -203,6 +204,28 @@ public class DataManager extends Observable {
 	    }
 	    return currentStatus;
 	}
+	
+	public void saveDataToFile(String fileName) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(this);
+            System.out.println("Data saved successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error saving data: " + e.getMessage());
+        }
+    }
+	
+	public static DataManager loadDataFromFile(String fileName) {
+        DataManager dataManager = null;
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            dataManager = (DataManager) ois.readObject();
+            System.out.println("Data loaded successfully.");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.err.println("Error loading data: " + e.getMessage());
+        }
+        return dataManager;
+    }
 	
 	public Set<Project> getProjects() {
 	     return projects;

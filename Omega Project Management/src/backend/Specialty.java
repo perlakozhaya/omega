@@ -1,6 +1,8 @@
 package backend;
 
-public class Specialty implements Comparable<Specialty> {
+import java.io.Serializable;
+
+public class Specialty implements Comparable<Specialty>, Serializable {
 	private String specialtyName;
 	private double wagePerHour;
 	

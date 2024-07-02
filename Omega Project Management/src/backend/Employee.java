@@ -2,7 +2,7 @@ package backend;
 
 import java.io.Serializable;
 
-public class Employee implements Comparable<Employee> {
+public class Employee implements Comparable<Employee>, Serializable {
 	private String employeeCode;
 	private Specialty specialty;
 	

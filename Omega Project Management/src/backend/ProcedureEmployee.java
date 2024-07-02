@@ -1,6 +1,8 @@
 package backend;
 
-public class ProcedureEmployee extends ProcedureDetail {
+import java.io.Serializable;
+
+public class ProcedureEmployee extends ProcedureDetail implements Serializable {
 	  private Employee employee; 
 	  private double hoursWorked;
 	  

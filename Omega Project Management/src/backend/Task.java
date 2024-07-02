@@ -1,8 +1,9 @@
 package backend;
+import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class Task implements Comparable<Task> {
+public class Task implements Comparable<Task>, Serializable {
   private String taskName;
   private Set<Procedure> procedures;
   

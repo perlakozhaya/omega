@@ -1,5 +1,8 @@
 package gui;
 
+import java.io.File;
+import java.io.IOException;
+
 import backend.*;
 
 public class Main {
@@ -62,7 +65,17 @@ public class Main {
 		p1.addTask(t2);
 		p2.addTask(t3);
 		
-        DataManager dataManager = new DataManager();
+		File file = new File("C:/Users/Perla Kozhaya/Documents/Université/S4_local/NFA035-Programmation_Java_bibliothèques_et_patterns/omega/Omega Project Management/src/data.dat");
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                System.err.println("Error creating file: " + ex.getMessage());
+            }
+        }
+        DataManager dataManager = DataManager.loadDataFromFile(file.getName());
+        
 		dataManager.addProject(p1);
 		dataManager.addProject(p2);
 		

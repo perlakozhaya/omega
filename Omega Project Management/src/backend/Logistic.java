@@ -1,6 +1,8 @@
 package backend;
 
-public class Logistic implements Comparable<Logistic> {
+import java.io.Serializable;
+
+public class Logistic implements Comparable<Logistic>, Serializable {
 	private String logisticName;
 	private double costPerUnit;
 	

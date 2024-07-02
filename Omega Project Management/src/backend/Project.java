@@ -1,10 +1,11 @@
 package backend;
+import java.io.Serializable;
 import java.util.*;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 
-public class Project implements Comparable<Project> {
+public class Project implements Comparable<Project>, Serializable {
   private String projectName;
   private Set<Task> tasks;
   
