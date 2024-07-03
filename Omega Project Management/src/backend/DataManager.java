@@ -10,14 +10,14 @@ public class DataManager extends Observable implements Serializable {
 	private Set<Employee> employees;
 	private Set<Specialty> specialties;
 	private Set<Item> items;
-    private Set<Logistic> logistics;
+    private Set<Resource> resources;
 
 	public DataManager() {
 		projects = new TreeSet<>();
 		employees = new TreeSet<>();
 		specialties = new TreeSet<>();
 		items = new TreeSet<>();
-		logistics = new TreeSet<>();
+		resources = new TreeSet<>();
 	}
 	
 	public void addProject(Project project) {
@@ -161,24 +161,24 @@ public class DataManager extends Observable implements Serializable {
 		return false;
 	}
 	
-	public void addLogistic(Logistic logistic) {
-		logistics.add(logistic);
+	public void addResource(Resource resource) {
+		resources.add(resource);
 		setChanged();
 		notifyObservers();
 	}
 	
-	public void addLogisticToProcedure(Procedure procedure, Logistic logistic, double quantity) {
-		procedure.addLogistic(logistic, quantity);
+	public void addResourceToProcedure(Procedure procedure, Resource resource, double quantity) {
+		procedure.addResource(resource, quantity);
 		setChanged();
 		notifyObservers();
 	}
 	
-	public boolean updateLogisticInProcedure(Procedure procedure, Logistic logistic, double quantity) {
-        if(!logistics.contains(logistic)) {
+	public boolean updateResourceInProcedure(Procedure procedure, Resource resource, double quantity) {
+        if(!resources.contains(resource)) {
         	return false;
         }
-    	for(ProcedureLogistic pl : procedure.getLogistics()) {
-    		if(pl.getLogistic().equals(logistic)) {
+    	for(ProcedureResource pl : procedure.getResources()) {
+    		if(pl.getResource().equals(resource)) {
         		pl.setQuantity(quantity);
         		setChanged();
         		notifyObservers();
@@ -241,7 +241,7 @@ public class DataManager extends Observable implements Serializable {
 		return items;
 	}
 	
-	public Set<Logistic> getLogistics() {
-		return logistics;
+	public Set<Resource> getResources() {
+		return resources;
 	}
 }

@@ -16,10 +16,10 @@ public class ProcedureContainer extends JPanel {
     private JButton procedureApplyBTN;
 	
 	private JPanel detailsC, buttonsPanel, centerPanel;
-	private JButton empButton, itemButton, logisticButton;
+	private JButton empButton, itemButton, resourceButton;
 	private EmployeeContainer employeeC; 
 	private ItemContainer itemC; 
-	private LogisticContainer logisticC; 
+	private ResourceContainer resourceC; 
 	private CardLayout cardLayout;
 	
 	private DataManager dataManager;
@@ -67,8 +67,8 @@ public class ProcedureContainer extends JPanel {
 	    itemButton = new JButton("Items");
 	    buttonsPanel.add(itemButton);
 	    
-	    logisticButton = new JButton("Logistics");
-	    buttonsPanel.add(logisticButton);
+	    resourceButton = new JButton("Resources");
+	    buttonsPanel.add(resourceButton);
 	    
 	    setCenterPanel(new JPanel());
 	    centerPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -79,11 +79,11 @@ public class ProcedureContainer extends JPanel {
 	    
 	    employeeC = new EmployeeContainer(dataManager, formFrame);
 	    itemC = new ItemContainer(dataManager, formFrame);
-	    logisticC = new LogisticContainer(dataManager, formFrame);
+	    resourceC = new ResourceContainer(dataManager, formFrame);
 
 	    centerPanel.add(employeeC, "Employee Container");
 	    centerPanel.add(itemC, "Item Container");
-	    centerPanel.add(logisticC, "Logistic Container");
+	    centerPanel.add(resourceC, "Resource Container");
 	    	    
 	    procedureApplyBTN.addActionListener(new ActionListener() {
 			@Override
@@ -108,10 +108,10 @@ public class ProcedureContainer extends JPanel {
 	    	}   	
 	    });
 
-	    logisticButton.addActionListener(new ActionListener() {
+	    resourceButton.addActionListener(new ActionListener() {
 	    	@Override
 	    	public void actionPerformed(ActionEvent e) {
-	    		cardLayout.show(centerPanel, "Logistic Container");
+	    		cardLayout.show(centerPanel, "Resource Container");
 	    	}   	
 	    });
 	}
@@ -195,8 +195,8 @@ public class ProcedureContainer extends JPanel {
 		return itemC;
 	}
 	
-	public LogisticContainer getLogisticContainer() {
-		return logisticC;
+	public ResourceContainer getResourceContainer() {
+		return resourceC;
 	}
 
 	public JPanel getCenterPanel() {

@@ -115,7 +115,6 @@ public class ProgressFrame extends JFrame implements Observer {
 
                     update(null, null);
 
-//                    table.clearSelection();
                 }
                 table.clearSelection();
             }
