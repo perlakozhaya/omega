@@ -3,6 +3,8 @@ package backend;
 import java.io.Serializable;
 
 public class Employee implements Comparable<Employee>, Serializable {
+	private static final long serialVersionUID = -5556123175420299149L;
+	
 	private String employeeCode;
 	private Specialty specialty;
 	

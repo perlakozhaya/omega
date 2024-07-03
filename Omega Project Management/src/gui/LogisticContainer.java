@@ -3,11 +3,12 @@ package gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Set;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import java.util.*;
 
 import backend.*;
 
@@ -16,8 +17,10 @@ public class LogisticContainer extends JPanel {
 	private JScrollPane scrollPane;
 	private JList<Logistic> logisticLST;
 	private DefaultListModel<Logistic> logisticDLM;
+	
 	private JLabel quantityLB;
 	private JTextField quantityFLD;
+	
 	private JButton logisticAddBTN;
 	
 	private DataManager dataManager;

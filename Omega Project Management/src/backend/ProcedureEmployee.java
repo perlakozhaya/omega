@@ -3,30 +3,35 @@ package backend;
 import java.io.Serializable;
 
 public class ProcedureEmployee extends ProcedureDetail implements Serializable {
-	  private Employee employee; 
-	  private double hoursWorked;
+	private static final long serialVersionUID = -6889775114948764064L;
+	
+	private Employee employee; 
+	private double hoursWorked;
 	  
-	  public ProcedureEmployee(Procedure procedure, Employee employee, double hoursWorked) { 
+	public ProcedureEmployee(Procedure procedure, Employee employee, double hoursWorked) { 
 	    super(procedure);
 	    this.employee = employee;
 	    this.hoursWorked = hoursWorked; 
-	  }
+	}
 
-	  @Override
-	  public double getCost() {
+	@Override
+	public double getCost() {
 	    return employee.getSpecialty().getWagePerHour() * hoursWorked;
-	  }
+	}
 	  
-	  public Employee getEmployee() {
+	public Employee getEmployee() {
 	    return employee;
-	  }
-	  public void setEmployee(Employee employee) {
+	}
+	
+	public void setEmployee(Employee employee) {
 	    this.employee = employee;
-	  }
-	  public double getHoursWorked() {
+	}
+	
+	public double getHoursWorked() {
 	    return hoursWorked;
-	  }
-	  public void setHoursWorked(double hoursWorked) {
+	}
+	
+	public void setHoursWorked(double hoursWorked) {
 	    this.hoursWorked = hoursWorked;
-	  }
+	}
 }

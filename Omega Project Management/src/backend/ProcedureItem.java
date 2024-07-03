@@ -3,6 +3,8 @@ package backend;
 import java.io.Serializable;
 
 public class ProcedureItem extends ProcedureDetail implements Serializable {
+	private static final long serialVersionUID = -4574400223855581756L;
+	
 	private double quantity;
 	private Item item;
 	
@@ -20,12 +22,15 @@ public class ProcedureItem extends ProcedureDetail implements Serializable {
 	public double getQuantity() {
 		return quantity;
 	}
+	
 	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
+	
 	public Item getItem() {
 		return item;
 	}
+	
 	public void setItem(Item item) {
 		this.item = item;
 	}

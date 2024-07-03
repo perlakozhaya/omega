@@ -3,11 +3,12 @@ package gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Set;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import java.util.*;
 
 import backend.*;
 
@@ -16,13 +17,15 @@ public class EmployeeContainer extends JPanel {
 	private JScrollPane scrollPane;
 	private JList<Employee> empLST;
 	private DefaultListModel<Employee> empDLM;
-	private DefaultComboBoxModel<Specialty> specialtiesDCBM;
+	
 	private JLabel hoursLB;
 	private JTextField hoursFLD;
 	private JButton empAddBTN, createEmp, createSpecialty;
+	
 	private JPanel cardPanel;
 	private CreateEmployeeContainer createEmpC;
 	private CreateSpecialtyContainer createSpecialtyC;
+	private DefaultComboBoxModel<Specialty> specialtiesDCBM;
 	
 	private DataManager dataManager;
 	private FormFrame formFrame;

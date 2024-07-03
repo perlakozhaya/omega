@@ -3,6 +3,8 @@ package backend;
 import java.io.Serializable;
 
 public class Item implements Comparable<Item>, Serializable {
+	private static final long serialVersionUID = -2913881979138753865L;
+	
 	private String itemName;
 	private double costPerUnit;
 

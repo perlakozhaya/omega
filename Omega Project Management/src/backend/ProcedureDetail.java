@@ -3,6 +3,8 @@ package backend;
 import java.io.Serializable;
 
 public abstract class ProcedureDetail implements Comparable<ProcedureDetail>, Serializable {
+	private static final long serialVersionUID = -6586074805560794845L;
+	
 	protected Procedure procedure;
 	
 	public ProcedureDetail(Procedure procedure) {
@@ -16,7 +18,7 @@ public abstract class ProcedureDetail implements Comparable<ProcedureDetail>, Se
 		return this.procedure.compareTo(o.procedure);
 	}
 	
-	public Procedure getprocedure() {
+	public Procedure getProcedure() {
 		return procedure;
 	}
 }

@@ -3,6 +3,8 @@ package backend;
 import java.io.Serializable;
 
 public class Logistic implements Comparable<Logistic>, Serializable {
+	private static final long serialVersionUID = -3928439069670128151L;
+	
 	private String logisticName;
 	private double costPerUnit;
 	

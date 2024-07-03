@@ -3,11 +3,12 @@ package gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Set;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import java.util.*;
 
 import backend.*;
 
@@ -16,9 +17,12 @@ public class ItemContainer extends JPanel {
 	private JScrollPane scrollPane;
 	private JList<Item> itemLST;
 	private DefaultListModel<Item> itemDLM;
+	
 	private JLabel quantityLB;
 	private JTextField quantityFLD;
+	
 	private JButton itemAddBTN, createItem;
+	
 	private JPanel cardPanel;
 	private CreateItemContainer createItemC;
 	

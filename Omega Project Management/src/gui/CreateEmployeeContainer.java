@@ -8,11 +8,12 @@ import javax.swing.*;
 
 import backend.*;
 
+@SuppressWarnings("serial")
 public class CreateEmployeeContainer extends JPanel {
 	private JLabel empNameLB, specialtyLB, emptyLB;
 	private JTextField empNameFLD;
-	private JComboBox<Specialty> specialtiesBOX;
 	private JButton empAddBTN;
+	private JComboBox<Specialty> specialtiesBOX;
 	
 	private FormFrame formFrame;
 	private DataManager dataManager;

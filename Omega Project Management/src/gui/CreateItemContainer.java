@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import backend.*;
 
+@SuppressWarnings("serial")
 public class CreateItemContainer extends JPanel {
 	private JLabel itemNameLB, costPerUnitLB, emptyLB;
 	private JTextField itemNameFLD, costPerUnitFLD;
@@ -44,18 +45,13 @@ public class CreateItemContainer extends JPanel {
 	    
 	    itemAddBTN = new JButton("Add");
 	    add(itemAddBTN);
-	    
-// ---------------------------------------------------------------
-	    
+	    	    
         itemAddBTN.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				createItem();
 				itemNameFLD.setText("");
 				costPerUnitFLD.setText("");
-//        		itemC.cardLayout.show(itemC.getCardPanel(), "Empty");
-//        		revalidate();
-//                repaint();
             }
         });
 	}

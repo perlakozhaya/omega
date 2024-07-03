@@ -3,6 +3,8 @@ package backend;
 import java.io.Serializable;
 
 public class Specialty implements Comparable<Specialty>, Serializable {
+	private static final long serialVersionUID = 6108047430685575848L;
+	
 	private String specialtyName;
 	private double wagePerHour;
 	
@@ -14,12 +16,15 @@ public class Specialty implements Comparable<Specialty>, Serializable {
 	public String getSpecialtyName() {
 		return specialtyName;
 	}
+	
 	public void setSpecialtyName(String specialtyName) {
 		this.specialtyName = specialtyName;
 	}
+	
 	public double getWagePerHour() {
 		return wagePerHour;
 	}
+	
 	public void setWagePerHour(double wagePerHour) {
 		this.wagePerHour = wagePerHour;
 	}

@@ -3,8 +3,6 @@ package backend;
 import java.io.*;
 import java.util.*;
 
-import javax.swing.DefaultComboBoxModel;
-
 public class DataManager extends Observable implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -109,7 +107,7 @@ public class DataManager extends Observable implements Serializable {
 	            return true;
 	        }
 	    }
-	    return false; // in employees list but not in procedure's list
+	    return false;
 	}
 
 	public boolean addEmployee(Employee employee) {
@@ -179,9 +177,9 @@ public class DataManager extends Observable implements Serializable {
         if(!logistics.contains(logistic)) {
         	return false;
         }
-    	for(ProcedureLogistic pi : procedure.getLogistics()) {
-    		if(pi.getLogistic().equals(logistic)) {
-        		pi.setQuantity(quantity);
+    	for(ProcedureLogistic pl : procedure.getLogistics()) {
+    		if(pl.getLogistic().equals(logistic)) {
+        		pl.setQuantity(quantity);
         		setChanged();
         		notifyObservers();
         		return true;

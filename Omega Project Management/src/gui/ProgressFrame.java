@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 import backend.*;
 
-@SuppressWarnings({ "serial", "deprecation" })
+@SuppressWarnings("serial")
 public class ProgressFrame extends JFrame implements Observer {
     private DataManager dataManager;
 
@@ -30,6 +30,7 @@ public class ProgressFrame extends JFrame implements Observer {
     public ProgressFrame(DataManager dataManager) {
         this.dataManager = dataManager;
         dataManager.addObserver(this);
+        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 720, 420);
         contentPane = new JPanel();
