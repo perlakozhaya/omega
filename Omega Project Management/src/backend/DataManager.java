@@ -5,8 +5,8 @@ import java.util.*;
 
 import javax.swing.DefaultComboBoxModel;
 
+@SuppressWarnings("serial")
 public class DataManager extends Observable implements Serializable {
-    private static final long serialVersionUID = 1L;
 
 	private Set<Project> projects;
 	private Set<Employee> employees;

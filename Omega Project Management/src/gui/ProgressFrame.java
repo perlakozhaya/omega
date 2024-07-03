@@ -87,7 +87,7 @@ public class ProgressFrame extends JFrame implements Observer {
                 return false; // Make cells non-editable
             }
         };
-
+        
         table = new JTable(tableDTM);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setRowHeight(25);
@@ -114,8 +114,9 @@ public class ProgressFrame extends JFrame implements Observer {
 
                     update(null, null);
 
-                    table.clearSelection();
+//                    table.clearSelection();
                 }
+                table.clearSelection();
             }
         });
 
