@@ -151,11 +151,14 @@ public class EmployeeContainer extends JPanel {
 	}
 	
 	public void fillSpecialty() {
+    	Set<Specialty> specialties = dataManager.getSpecialties();
 		specialtiesDCBM.removeAllElements();
 		specialtiesDCBM.addElement(null);
-	    for (Specialty specialty : dataManager.getSpecialties()) {
-	    	specialtiesDCBM.addElement(specialty);
-        }
+		if(!specialties.isEmpty()) {
+			for (Specialty specialty : dataManager.getSpecialties()) {
+				specialtiesDCBM.addElement(specialty);
+			}			
+		}
 	}
 	
 	public void handleEmployee(Procedure selectedProcedure, Employee selectedEmployee) {

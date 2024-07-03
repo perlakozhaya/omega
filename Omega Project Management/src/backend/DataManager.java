@@ -3,8 +3,8 @@ package backend;
 import java.io.*;
 import java.util.*;
 
+@SuppressWarnings("serial")
 public class DataManager extends Observable implements Serializable {
-    private static final long serialVersionUID = 1L;
 
 	private Set<Project> projects;
 	private Set<Employee> employees;
@@ -203,8 +203,8 @@ public class DataManager extends Observable implements Serializable {
 	    return currentStatus;
 	}
 	
-	public void saveDataToFile(String fileName) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+	public void saveDataToFile(File file) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(this);
             System.out.println("Data saved successfully.");
         } catch (IOException e) {
@@ -213,9 +213,9 @@ public class DataManager extends Observable implements Serializable {
         }
     }
 	
-	public static DataManager loadDataFromFile(String fileName) {
+	public static DataManager loadDataFromFile(File file) {
         DataManager dataManager = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             dataManager = (DataManager) ois.readObject();
             System.out.println("Data loaded successfully.");
         } catch (IOException | ClassNotFoundException e) {

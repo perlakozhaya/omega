@@ -67,7 +67,7 @@ public class FormFrame extends JFrame {
                         System.err.println("Error creating file: " + ex.getMessage());
                     }
                 }
-                dataManager.saveDataToFile(file.getPath());
+                dataManager.saveDataToFile(file);
             }
         });
 
