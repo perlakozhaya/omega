@@ -32,7 +32,7 @@ public class ProgressFrame extends JFrame implements Observer {
         dataManager.addObserver(this);
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 720, 420);
+        setBounds(220, 430, 720, 300);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -88,7 +88,7 @@ public class ProgressFrame extends JFrame implements Observer {
                 return false; // Make cells non-editable
             }
         };
-        
+
         table = new JTable(tableDTM);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setRowHeight(25);

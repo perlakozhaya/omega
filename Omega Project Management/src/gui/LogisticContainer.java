@@ -13,31 +13,31 @@ import java.util.*;
 import backend.*;
 
 @SuppressWarnings("serial")
-public class ResourceContainer extends JPanel {
+public class LogisticContainer extends JPanel {
 	private JScrollPane scrollPane;
-	private JList<Resource> resourceLST;
-	private DefaultListModel<Resource> resourceDLM;
+	private JList<Logistic> logisticLST;
+	private DefaultListModel<Logistic> logisticDLM;
 	
 	private JLabel quantityLB;
 	private JTextField quantityFLD;
 	
-	private JButton resourceAddBTN;
+	private JButton logisticAddBTN;
 	
 	private DataManager dataManager;
 	private FormFrame formFrame;
 	
-	public ResourceContainer(DataManager dataManager, FormFrame formFrame) {
+	public LogisticContainer(DataManager dataManager, FormFrame formFrame) {
 		this.dataManager = dataManager;
 		this.formFrame = formFrame;
 		
 		setLayout(null);
 		setBackground(new Color(227, 227, 227));
 
-		resourceDLM = new DefaultListModel<Resource>();
-		resourceLST = new JList<Resource>(resourceDLM);
-		resourceLST.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		logisticDLM = new DefaultListModel<Logistic>();
+		logisticLST = new JList<Logistic>(logisticDLM);
+		logisticLST.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-	    scrollPane = new JScrollPane(resourceLST);
+	    scrollPane = new JScrollPane(logisticLST);
 	    scrollPane.setBounds(0, 14, 220, 140);
 	    add(scrollPane);
 	    
@@ -51,25 +51,25 @@ public class ResourceContainer extends JPanel {
 	    add(quantityFLD);
 	    quantityFLD.setColumns(10);
 	    
-	    resourceAddBTN = new JButton("Add Resource");
-	    resourceAddBTN.setBounds(240, 55, 140, 21);
-	    add(resourceAddBTN);
+	    logisticAddBTN = new JButton("Add Logistic");
+	    logisticAddBTN.setBounds(240, 55, 140, 21);
+	    add(logisticAddBTN);
 	    
 //		--------------------------------------------------------------------
         
-        fillResource();
+        fillLogistic();
         
-        resourceAddBTN.addActionListener(new ActionListener() {
+        logisticAddBTN.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Procedure selectedProcedure = formFrame.getSelectedProcedure();
-				Resource selectedResource = getSelectedResource();
-				handleResource(selectedProcedure, selectedResource);
-		        fillResource();
+				Logistic selectedLogistic = getSelectedLogistic();
+				handleLogistic(selectedProcedure, selectedLogistic);
+		        fillLogistic();
 			}
         });
         
-        resourceLST.addListSelectionListener(new ListSelectionListener() {
+        logisticLST.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				fillQuantity();
@@ -84,10 +84,10 @@ public class ResourceContainer extends JPanel {
 			setQuantityFLD("0");
             return;
         }
-		Resource selectedResource = getSelectedResource();
+		Logistic selectedLogistic = getSelectedLogistic();
         boolean found = false;
-        for (ProcedureResource pl : selectedProcedure.getResources()) {
-            if (pl.getResource().equals(selectedResource)) {
+        for (ProcedureLogistic pl : selectedProcedure.getLogistics()) {
+            if (pl.getLogistic().equals(selectedLogistic)) {
                 setQuantityFLD(pl.getQuantity() + "");
                 found = true;
                 break;
@@ -96,18 +96,18 @@ public class ResourceContainer extends JPanel {
         if (!found) setQuantityFLD("0");
     }
 
-	public void fillResource() {
-    	Set<Resource> resources = dataManager.getResources();
-    	resourceDLM.removeAllElements();
-		resourceDLM.addElement(null);
-		if(!resources.isEmpty()) {
-			for(Resource l : dataManager.getResources()) {
-				resourceDLM.addElement(l);
+	public void fillLogistic() {
+    	Set<Logistic> logistics = dataManager.getLogistics();
+    	logisticDLM.removeAllElements();
+		logisticDLM.addElement(null);
+		if(!logistics.isEmpty()) {
+			for(Logistic l : dataManager.getLogistics()) {
+				logisticDLM.addElement(l);
 			}			
 		}
 	}
 	
-	public void handleResource(Procedure selectedProcedure, Resource selectedResource) {
+	public void handleLogistic(Procedure selectedProcedure, Logistic selectedLogistic) {
 		if (selectedProcedure == null) {
             formFrame.showError("No procedure selected. Please select a procedure first.");
             return;
@@ -115,22 +115,22 @@ public class ResourceContainer extends JPanel {
 		
 		String quantityString = getQuantityFLD().trim();
 		
-		if(selectedResource == null) {
-			formFrame.showError("Select resource and try again");
+		if(selectedLogistic == null) {
+			formFrame.showError("Select logistic and try again");
 			return;
 		}
 		
 		if (quantityString.isEmpty()) {
-        	formFrame.showError("Resource quantity cannot be empty!");
+        	formFrame.showError("Logistic quantity cannot be empty!");
         	return;
         }
         
         try {
             double quantity = formFrame.parsePositiveDouble(quantityString, "Quantity must be a positive number!");
             
-    		boolean updated = dataManager.updateResourceInProcedure(selectedProcedure, selectedResource, quantity);
+    		boolean updated = dataManager.updateLogisticInProcedure(selectedProcedure, selectedLogistic, quantity);
     		if(!updated) {
-    			dataManager.addResourceToProcedure(selectedProcedure, selectedResource, quantity);
+    			dataManager.addLogisticToProcedure(selectedProcedure, selectedLogistic, quantity);
     		}
 	    } catch (IllegalArgumentException ex) {
 	        formFrame.showError("Quantity must be a positive number!");
@@ -138,8 +138,8 @@ public class ResourceContainer extends JPanel {
 	    }
 	}
 	
-	public Resource getSelectedResource() {
-		return (Resource) resourceLST.getSelectedValue();
+	public Logistic getSelectedLogistic() {
+		return (Logistic) logisticLST.getSelectedValue();
 	}
 	
 	public String getQuantityFLD() {

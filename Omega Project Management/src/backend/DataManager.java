@@ -3,21 +3,21 @@ package backend;
 import java.io.*;
 import java.util.*;
 
-@SuppressWarnings("serial")
 public class DataManager extends Observable implements Serializable {
+    private static final long serialVersionUID = 1L;
 
 	private Set<Project> projects;
 	private Set<Employee> employees;
 	private Set<Specialty> specialties;
 	private Set<Item> items;
-    private Set<Resource> resources;
+    private Set<Logistic> logistics;
 
 	public DataManager() {
 		projects = new TreeSet<>();
 		employees = new TreeSet<>();
 		specialties = new TreeSet<>();
 		items = new TreeSet<>();
-		resources = new TreeSet<>();
+		logistics = new TreeSet<>();
 	}
 	
 	public void addProject(Project project) {
@@ -161,24 +161,24 @@ public class DataManager extends Observable implements Serializable {
 		return false;
 	}
 	
-	public void addResource(Resource resource) {
-		resources.add(resource);
+	public void addLogistic(Logistic logistic) {
+		logistics.add(logistic);
 		setChanged();
 		notifyObservers();
 	}
 	
-	public void addResourceToProcedure(Procedure procedure, Resource resource, double quantity) {
-		procedure.addResource(resource, quantity);
+	public void addLogisticToProcedure(Procedure procedure, Logistic logistic, double quantity) {
+		procedure.addLogistic(logistic, quantity);
 		setChanged();
 		notifyObservers();
 	}
 	
-	public boolean updateResourceInProcedure(Procedure procedure, Resource resource, double quantity) {
-        if(!resources.contains(resource)) {
+	public boolean updateLogisticInProcedure(Procedure procedure, Logistic logistic, double quantity) {
+        if(!logistics.contains(logistic)) {
         	return false;
         }
-    	for(ProcedureResource pl : procedure.getResources()) {
-    		if(pl.getResource().equals(resource)) {
+    	for(ProcedureLogistic pl : procedure.getLogistics()) {
+    		if(pl.getLogistic().equals(logistic)) {
         		pl.setQuantity(quantity);
         		setChanged();
         		notifyObservers();
@@ -241,7 +241,7 @@ public class DataManager extends Observable implements Serializable {
 		return items;
 	}
 	
-	public Set<Resource> getResources() {
-		return resources;
+	public Set<Logistic> getLogistics() {
+		return logistics;
 	}
 }

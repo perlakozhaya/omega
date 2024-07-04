@@ -41,7 +41,7 @@ public class FormFrame extends JFrame {
 
     	setTitle("Project Management Form");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(10, 200, 420, 480);
+        setBounds(120, 10, 420, 420);
         setResizable(true);
         setLayout(new BorderLayout());
 

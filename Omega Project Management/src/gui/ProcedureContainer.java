@@ -19,7 +19,7 @@ public class ProcedureContainer extends JPanel {
 	private JButton empButton, itemButton, resourceButton;
 	private EmployeeContainer employeeC; 
 	private ItemContainer itemC; 
-	private ResourceContainer resourceC; 
+	private LogisticContainer resourceC; 
 	private CardLayout cardLayout;
 	
 	private DataManager dataManager;
@@ -79,7 +79,7 @@ public class ProcedureContainer extends JPanel {
 	    
 	    employeeC = new EmployeeContainer(dataManager, formFrame);
 	    itemC = new ItemContainer(dataManager, formFrame);
-	    resourceC = new ResourceContainer(dataManager, formFrame);
+	    resourceC = new LogisticContainer(dataManager, formFrame);
 
 	    centerPanel.add(employeeC, "Employee Container");
 	    centerPanel.add(itemC, "Item Container");
@@ -195,7 +195,7 @@ public class ProcedureContainer extends JPanel {
 		return itemC;
 	}
 	
-	public ResourceContainer getResourceContainer() {
+	public LogisticContainer getResourceContainer() {
 		return resourceC;
 	}
 

@@ -11,13 +11,13 @@ public class Procedure implements Comparable<Procedure>, Serializable {
 	private String status = "Execute";
 	private Set<ProcedureEmployee> employees;
 	private Set<ProcedureItem> items;
-	private Set<ProcedureResource> resources;
+	private Set<ProcedureLogistic> logistics;
 	  	public Procedure(String procedureName, double procedureDuration) {
 		this.procedureName = procedureName;
 	    this.procedureDuration = procedureDuration;
 	    employees = new HashSet<>();
 	    items = new HashSet<>();
-	    resources = new HashSet<>();	}
+	    logistics = new HashSet<>();	}
   
 	public void addEmployee(Employee employee, double hoursWorked) {
 		ProcedureEmployee pe = new ProcedureEmployee(this, employee, hoursWorked);
@@ -29,9 +29,9 @@ public class Procedure implements Comparable<Procedure>, Serializable {
 		items.add(pi);
 	}
   
-	public void addResource(Resource resource, double quantity) {
-		ProcedureResource pl = new ProcedureResource(this, resource, quantity);
-		resources.add(pl);
+	public void addLogistic(Logistic logistic, double quantity) {
+		ProcedureLogistic pl = new ProcedureLogistic(this, logistic, quantity);
+		logistics.add(pl);
 	}
   
 	public double employeesCost() {
@@ -76,20 +76,20 @@ public class Procedure implements Comparable<Procedure>, Serializable {
 		return total;
 	}
   
-	public double resourcesCost() {
+	public double logisticsCost() {
 		double total = 0.0;
-		Iterator<ProcedureResource> i = resources.iterator();
+		Iterator<ProcedureLogistic> i = logistics.iterator();
 		while(i.hasNext()) {
 			total += i.next().getCost();
 		}
 		return total;
 	}
 
-	public double currentResourcesCost() {
+	public double currentLogisticsCost() {
 		double total = 0.0;
-		Iterator<ProcedureResource> i = resources.iterator();
+		Iterator<ProcedureLogistic> i = logistics.iterator();
 		while(i.hasNext()) {
-			ProcedureResource pr = i.next();
+			ProcedureLogistic pr = i.next();
 			if(pr.procedure.status != "Execute") {
 				total += pr.getCost();			  
 			}
@@ -98,11 +98,11 @@ public class Procedure implements Comparable<Procedure>, Serializable {
 	}
   
 	public double procedureCost() {
-		return employeesCost() + itemsCost() + resourcesCost();
+		return employeesCost() + itemsCost() + logisticsCost();
 	}
   
 	public double currentProcedureCost() {
-		return currentEmployeesCost() + currentItemsCost() + currentResourcesCost();
+		return currentEmployeesCost() + currentItemsCost() + currentLogisticsCost();
 	}
   
 	public String getProcedureName() {
@@ -137,8 +137,8 @@ public class Procedure implements Comparable<Procedure>, Serializable {
 		return items;
 	}
 
-	public Set<ProcedureResource> getResources() {
-		return resources;
+	public Set<ProcedureLogistic> getLogistics() {
+		return logistics;
 	}
 
 	@Override
