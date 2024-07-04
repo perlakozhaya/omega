@@ -49,7 +49,7 @@ public class TaskContainer extends JPanel {
         String taskName = getTaskField().trim();
         
         if (taskName.isEmpty()) {
-        	formFrame.showError("Task Name cannot be empty!");
+        	formFrame.showMessage("Task Name cannot be empty!");
         	return;
         }
         

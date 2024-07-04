@@ -1,7 +1,6 @@
 package gui;
 
 import java.io.*;
-import java.util.*;
 
 import backend.*;
 
@@ -24,12 +23,6 @@ public class Main {
 		if (dataManager == null) {
             dataManager = new DataManager();
         }
-		
-		// chefle he leh null
-		Set<Task> allTasks = dataManager.getTasks();
-		for(Task t : allTasks) {
-			System.out.println(t);
-		}
 		
         FormFrame formFrame = new FormFrame(dataManager);
         formFrame.setVisible(true);

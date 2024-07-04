@@ -16,10 +16,10 @@ public class ProcedureContainer extends JPanel {
     private JButton procedureApplyBTN;
 	
 	private JPanel detailsC, buttonsPanel, centerPanel;
-	private JButton empButton, itemButton, resourceButton;
+	private JButton empButton, itemButton, logisticButton;
 	private EmployeeContainer employeeC; 
 	private ItemContainer itemC; 
-	private LogisticContainer resourceC; 
+	private LogisticContainer logisticC; 
 	private CardLayout cardLayout;
 	
 	private DataManager dataManager;
@@ -67,8 +67,8 @@ public class ProcedureContainer extends JPanel {
 	    itemButton = new JButton("Items");
 	    buttonsPanel.add(itemButton);
 	    
-	    resourceButton = new JButton("Resources");
-	    buttonsPanel.add(resourceButton);
+	    logisticButton = new JButton("Logistics");
+	    buttonsPanel.add(logisticButton);
 	    
 	    setCenterPanel(new JPanel());
 	    centerPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -79,11 +79,11 @@ public class ProcedureContainer extends JPanel {
 	    
 	    employeeC = new EmployeeContainer(dataManager, formFrame);
 	    itemC = new ItemContainer(dataManager, formFrame);
-	    resourceC = new LogisticContainer(dataManager, formFrame);
+	    logisticC = new LogisticContainer(dataManager, formFrame);
 
 	    centerPanel.add(employeeC, "Employee Container");
 	    centerPanel.add(itemC, "Item Container");
-	    centerPanel.add(resourceC, "Resource Container");
+	    centerPanel.add(logisticC, "Logistic Container");
 	    	    
 	    procedureApplyBTN.addActionListener(new ActionListener() {
 			@Override
@@ -108,10 +108,10 @@ public class ProcedureContainer extends JPanel {
 	    	}   	
 	    });
 
-	    resourceButton.addActionListener(new ActionListener() {
+	    logisticButton.addActionListener(new ActionListener() {
 	    	@Override
 	    	public void actionPerformed(ActionEvent e) {
-	    		cardLayout.show(centerPanel, "Resource Container");
+	    		cardLayout.show(centerPanel, "Logistic Container");
 	    	}   	
 	    });
 	}
@@ -121,7 +121,7 @@ public class ProcedureContainer extends JPanel {
         String durationString = getDurationField().trim();
         
         if (procedureName.isEmpty() || durationString.isEmpty()) {
-        	formFrame.showError("Procedure name/duration empty!");
+        	formFrame.showMessage("Procedure name/duration empty!");
         	return;
         }
         
@@ -133,7 +133,7 @@ public class ProcedureContainer extends JPanel {
             	updateProcedure(selectedTask, selectedProcedure, procedureName, procedureDuration);
             }
 	    } catch (IllegalArgumentException ex) {
-	        formFrame.showError("Procedure Duration must be a positive number!");
+	        formFrame.showMessage("Procedure Duration must be a positive number!");
 	        return;
 	    }
     }
@@ -195,8 +195,8 @@ public class ProcedureContainer extends JPanel {
 		return itemC;
 	}
 	
-	public LogisticContainer getResourceContainer() {
-		return resourceC;
+	public LogisticContainer getLogisticContainer() {
+		return logisticC;
 	}
 
 	public JPanel getCenterPanel() {

@@ -61,12 +61,12 @@ public class CreateItemContainer extends JPanel {
 	    String costString = costPerUnitFLD.getText().trim();
 
 	    if (itemName.isEmpty()) {
-	        formFrame.showError("Item name cannot be empty!\n");
+	        formFrame.showMessage("Item name cannot be empty!\n");
 	        return;
 	    }
 
 	    if (costString.isEmpty()) {
-	        formFrame.showError("Please enter a cost per unit.\n");
+	        formFrame.showMessage("Please enter a cost per unit.\n");
 	        return;
 	    }
 	    
@@ -74,13 +74,13 @@ public class CreateItemContainer extends JPanel {
             double costPerUnit = formFrame.parsePositiveDouble(costString, "Cost must be a positive number!");
             
     		if(!dataManager.addItem(new Item(itemName, costPerUnit))) {
-    			formFrame.showError("Item already exists.\n");
+    			formFrame.showMessage("Item already exists.\n");
     			return;
     		}
     		itemC.fillItem();
     		
 	    } catch (IllegalArgumentException ex) {
-	        formFrame.showError("Cost must be a positive number!");
+	        formFrame.showMessage("Cost must be a positive number!");
 	        return;
 	    }
 	}

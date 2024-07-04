@@ -63,12 +63,12 @@ public class CreateSpecialtyContainer extends JPanel {
 		String wageString = wagePerHourFLD.getText().trim();
 		
 		if (specialtyName.isEmpty()) {
-	        formFrame.showError("Specialty Name cannot be empty!\n");
+	        formFrame.showMessage("Specialty Name cannot be empty!\n");
 	        return false;
 	    }
 
 	    if (wageString.isEmpty()) {
-	        formFrame.showError("Please enter a wage per hour.\n");
+	        formFrame.showMessage("Please enter a wage per hour.\n");
 	        return false;
 	    }
 	    
@@ -76,14 +76,14 @@ public class CreateSpecialtyContainer extends JPanel {
 	    	double wagePerhour = formFrame.parsePositiveDouble(wageString, "Wage must be a positive number!");	
 	    	
 	    	if(!dataManager.addSpecialty(new Specialty(specialtyName, wagePerhour))) {
-	    		formFrame.showError("Specialty already exists.\n");
+	    		formFrame.showMessage("Specialty already exists.\n");
 	    		return false;
 	    	}
     		empC.fillSpecialty();
     		return true;
     		
 	    } catch (IllegalArgumentException ex) {
-	        formFrame.showError("Wage must be a positive number!");
+	        formFrame.showMessage("Wage must be a positive number!");
 	        return false;
 	    }
 	}

@@ -139,19 +139,19 @@ public class ItemContainer extends JPanel {
 	
 	public void handleItem(Procedure selectedProcedure, Item selectedItem) {
 		if (selectedProcedure == null) {
-            formFrame.showError("No procedure selected. Please select a procedure first.");
+            formFrame.showMessage("No procedure selected. Please select a procedure first.");
             return;
         }
 		
 		String quantityString = getQuantityFLD().trim();
 		
 		if(selectedItem == null) {
-			formFrame.showError("Select an item and try again");
+			formFrame.showMessage("Select an item and try again");
 			return;
 		}
 		
 		if (quantityString.isEmpty()) {
-        	formFrame.showError("Item quantity cannot be empty!");
+        	formFrame.showMessage("Item quantity cannot be empty!");
         	return;
         }
         
@@ -163,7 +163,7 @@ public class ItemContainer extends JPanel {
     			dataManager.addItemToProcedure(selectedProcedure, selectedItem, quantity);
     		}
 	    } catch (IllegalArgumentException ex) {
-	        formFrame.showError("Quantity must be a positive number!");
+	        formFrame.showMessage("Quantity must be a positive number!");
 	        return;
 	    }
 	}

@@ -7,8 +7,6 @@ public class DataManager extends Observable implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Set<Project> projects;
-    private Set<Task> tasks;
-	private Set<Procedure> procedures;
 	private Set<Employee> employees;
 	private Set<Specialty> specialties;
 	private Set<Item> items;
@@ -16,8 +14,6 @@ public class DataManager extends Observable implements Serializable {
 
 	public DataManager() {
 		projects = new TreeSet<>();
-		tasks = new TreeSet<>();
-		procedures = new TreeSet<>();
 		employees = new TreeSet<>();
 		specialties = new TreeSet<>();
 		items = new TreeSet<>();
@@ -207,13 +203,14 @@ public class DataManager extends Observable implements Serializable {
 	    return currentStatus;
 	}
 	
-	public void saveDataToFile(File file) {
+	public boolean saveDataToFile(File file) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(this);
-            System.out.println("Data saved successfully.");
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error saving data: " + e.getMessage());
+            return false;
         }
     }
 	
@@ -221,7 +218,6 @@ public class DataManager extends Observable implements Serializable {
         DataManager dataManager = null;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             dataManager = (DataManager) ois.readObject();
-            System.out.println("Data loaded successfully.");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             System.err.println("Error loading data: " + e.getMessage());
@@ -229,36 +225,29 @@ public class DataManager extends Observable implements Serializable {
         return dataManager;
     }
 	
-	public void getAllTasks() {
-		Set<Project> allProjects = getProjects();
-		
-		if(!allProjects.isEmpty()) {
-			for(Project project : allProjects) {
+	public Set<Task> getAllTasks() {	
+		Set<Task> tasks = new TreeSet<>();
+		if(!projects.isEmpty()) {
+			for(Project project : projects) {
 				tasks.addAll(project.getTasks());
 			}
 		}
+		return tasks;
 	}
 	
-	public void getAllProcedures() {
-		Set<Task> allTasks = getTasks();
-		
+	public Set<Procedure> getAllProcedures() {
+		Set<Task> allTasks = getAllTasks();
+		Set<Procedure> procedures = new TreeSet<>();
 		if(!allTasks.isEmpty()) {
 			for(Task task : allTasks) {
 				procedures.addAll(task.getProcedures());
 			}
 		}
+		return procedures;
 	}
 	
 	public Set<Project> getProjects() {
 		return projects;
-	}
-	
-	public Set<Task> getTasks() {
-		return tasks;
-	}
-	
-	public Set<Procedure> getProcedures() {
-		return procedures;
 	}
 
 	public Set<Employee> getEmployees() {

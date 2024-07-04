@@ -66,17 +66,17 @@ public class CreateEmployeeContainer extends JPanel {
 	    Specialty selectedSpecialty = getSelectedSpecialty();
 
 	    if (empName.isEmpty()) {
-	        formFrame.showError("Employee name cannot be empty!\n");
+	        formFrame.showMessage("Employee name cannot be empty!\n");
 	        return false;
 	    }
 
 	    if (selectedSpecialty == null) {
-	        formFrame.showError("Please choose a specialty.\n");
+	        formFrame.showMessage("Please choose a specialty.\n");
 	        return false;
 	    }
 	    
 	    if(!dataManager.addEmployee(new Employee(empName, selectedSpecialty))) {
-	    	formFrame.showError("Employee already exists with this name.\n");
+	    	formFrame.showMessage("Employee already exists with this name.\n");
 	        return false;
 	    }
 	    

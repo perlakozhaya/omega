@@ -39,7 +39,7 @@ public class FormFrame extends JFrame {
     public FormFrame(DataManager dataManager) {
     	this.dataManager = dataManager;
 
-    	setTitle("Project Management Form");
+    	setTitle("Form Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(120, 10, 420, 420);
         setResizable(true);
@@ -67,7 +67,9 @@ public class FormFrame extends JFrame {
                         System.err.println("Error creating file: " + ex.getMessage());
                     }
                 }
-                dataManager.saveDataToFile(file);
+                if(dataManager.saveDataToFile(file)) {
+                	showMessage("Data saved successfully!");
+                }
             }
         });
 
@@ -221,7 +223,7 @@ public class FormFrame extends JFrame {
         return number;
     }
 
-    public void showError(String message) {
+    public void showMessage(String message) {
         JOptionPane.showMessageDialog(FormFrame.this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
     

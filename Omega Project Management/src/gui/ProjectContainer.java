@@ -11,7 +11,7 @@ import backend.*;
 public class ProjectContainer extends JPanel {
     private JLabel projectNameLB;
     private JTextField projectNameFLD;
-    private JButton projectApplyBTN;
+    private JButton projectApplyBTN, projectDeleteBTN;
     
     private DataManager dataManager;
     private FormFrame formFrame;
@@ -30,17 +30,43 @@ public class ProjectContainer extends JPanel {
         
         projectApplyBTN = new JButton("Apply Changes");
         projectApplyBTN.setBounds(130, 180, 150, 30);
+        
+        projectDeleteBTN = new JButton("Delete Project");
+        projectDeleteBTN.setBounds(130, 220, 150, 30);
 
         add(projectNameLB);
         add(projectNameFLD);
         add(projectApplyBTN);
+        add(projectDeleteBTN);
         
         projectApplyBTN.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Project selectedProject = formFrame.getSelectedProject();
-				handleProject(selectedProject);
-			}
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		Project selectedProject = formFrame.getSelectedProject();
+        		handleProject(selectedProject);
+        	}
+        });
+        
+        projectDeleteBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Project selectedProject = formFrame.getSelectedProject();
+                if(selectedProject != null) {
+                	int response = JOptionPane.showConfirmDialog(null, 
+                			"Are you sure you want to delete this project?", 
+                			"Confirm Deletion",
+                			JOptionPane.YES_NO_OPTION,
+                			JOptionPane.WARNING_MESSAGE);
+                	
+                	if (response == JOptionPane.YES_OPTION) {
+                		dataManager.removeProject(selectedProject);
+                		formFrame.fillProject();
+                	}                	
+                }
+                else {
+                	formFrame.showMessage("Select a project to delete.");
+                }
+            }
         });
 	}
 	
@@ -48,7 +74,7 @@ public class ProjectContainer extends JPanel {
         String projectName = getProjectField().trim();
         
         if (projectName.isEmpty()) {
-        	formFrame.showError("Project Name cannot be empty!");
+        	formFrame.showMessage("Project Name cannot be empty!");
         	return;
         }
         

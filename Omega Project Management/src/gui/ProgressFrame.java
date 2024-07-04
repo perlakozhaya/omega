@@ -31,8 +31,9 @@ public class ProgressFrame extends JFrame implements Observer {
         this.dataManager = dataManager;
         dataManager.addObserver(this);
         
+        setTitle("Progress Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(220, 430, 720, 300);
+        setBounds(330, 430, 720, 285);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 

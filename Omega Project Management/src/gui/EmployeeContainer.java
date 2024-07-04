@@ -160,19 +160,19 @@ public class EmployeeContainer extends JPanel {
 	
 	public void handleEmployee(Procedure selectedProcedure, Employee selectedEmployee) {
 		if (selectedProcedure == null) {
-            formFrame.showError("No procedure selected. Please select a procedure first.");
+            formFrame.showMessage("No procedure selected. Please select a procedure first.");
             return;
         }
 		
 		String hoursString = getHoursFLD().trim();
 		
 		if(selectedEmployee == null) {
-			formFrame.showError("Select an employee and try again");
+			formFrame.showMessage("Select an employee and try again");
 			return;
 		}
 		
 		if (hoursString.isEmpty()) {
-        	formFrame.showError("Worked hours cannot be empty!");
+        	formFrame.showMessage("Worked hours cannot be empty!");
         	return;
         }
         
@@ -180,7 +180,7 @@ public class EmployeeContainer extends JPanel {
             double workedHours = formFrame.parsePositiveDouble(hoursString, "Worked hours must be a positive number!");
             
             if(workedHours > selectedProcedure.getProcedureDuration()) {
-    			formFrame.showError("An employee work hours cannot exceed the procedure duration!");
+    			formFrame.showMessage("An employee work hours cannot exceed the procedure duration!");
     			return;
     		}
             
@@ -190,7 +190,7 @@ public class EmployeeContainer extends JPanel {
     			dataManager.addEmployeeToProcedure(selectedProcedure, selectedEmployee, workedHours);
     		}
 	    } catch (IllegalArgumentException ex) {
-	        formFrame.showError("Worked hours must be a positive number!");
+	        formFrame.showMessage("Worked hours must be a positive number!");
 	        return;
 	    }
 	}
