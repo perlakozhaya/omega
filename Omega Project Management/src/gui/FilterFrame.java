@@ -12,7 +12,7 @@ import java.util.*;
 import backend.*;
 
 @SuppressWarnings("serial")
-public class FilterFrame extends JFrame {
+public class FilterFrame extends JFrame implements Observer {
 	private JPanel procedureFilter, procedureDetail;
 	private JPanel buttonsPanel;
 	
@@ -29,6 +29,7 @@ public class FilterFrame extends JFrame {
 	
 	public FilterFrame(DataManager dataManager) {
 		this.dataManager = dataManager;
+		dataManager.addObserver(this);
 		
 		setTitle("Filter Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,6 +68,20 @@ public class FilterFrame extends JFrame {
                 return false;
             }
         };
+        
+        itemDTM = new DefaultTableModel(fillItemTable(), new String[]{"Item", "Cost/Unit"}) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        logisticDTM = new DefaultTableModel(fillLogisticTable(), new String[]{"Logistic", "Cost/Unit"}) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
         detailTable = new JTable(employeeDTM);
         JScrollPane scrollPane = new JScrollPane(detailTable);
@@ -78,15 +93,12 @@ public class FilterFrame extends JFrame {
 		add(procedureFilter);
 		add(procedureDetail);
 		
+		fillProcedures();
+		
 		proceduresCB.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Procedure selectedProcedure = getSelectedProcedure();
-				Task selectedProcedureTask = getProcedureTask(selectedProcedure);
-				Project selectedProcedureProject = getProcedureProject(selectedProcedureTask);
-				
-				procedureProject.setText("Project: " + selectedProcedureProject.getProjectName());
-				procedureTask.setText("Task: " + selectedProcedureTask.getTaskName());
+				updateProcedureParent();
 			}
 		});
 		
@@ -100,12 +112,6 @@ public class FilterFrame extends JFrame {
 		itemButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                itemDTM = new DefaultTableModel(fillItemTable(), new String[]{"Item", "Cost/Unit"}) {
-                    @Override
-                    public boolean isCellEditable(int row, int column) {
-                        return false;
-                    }
-                };
                 detailTable.setModel(itemDTM);
             }
         });
@@ -113,12 +119,6 @@ public class FilterFrame extends JFrame {
 		logisticButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                logisticDTM = new DefaultTableModel(fillLogisticTable(), new String[]{"Logistic", "Cost/Unit"}) {
-                    @Override
-                    public boolean isCellEditable(int row, int column) {
-                        return false;
-                    }
-                };
                 detailTable.setModel(logisticDTM);
             }
         });
@@ -159,9 +159,24 @@ public class FilterFrame extends JFrame {
 		return null;
 	}
 	
-	public Procedure getSelectedProcedure() {
-		return (Procedure) proceduresCB.getSelectedItem();
-	}
+	public void updateProcedureParent() {
+        Procedure selectedProcedure = (Procedure) proceduresCB.getSelectedItem();
+        if (selectedProcedure != null) {
+            Task selectedProcedureTask = getProcedureTask(selectedProcedure);
+            Project selectedProcedureProject = getProcedureProject(selectedProcedureTask);
+
+            if (selectedProcedureTask != null && selectedProcedureProject != null) {
+                procedureProject.setText("Project: " + selectedProcedureProject.getProjectName());
+                procedureTask.setText("Task: " + selectedProcedureTask.getTaskName());
+            } else {
+                procedureProject.setText("Project: ");
+                procedureTask.setText("Task: ");
+            }
+        } else {
+            procedureProject.setText("Project: ");
+            procedureTask.setText("Task: ");
+        }
+    }
 	
 	public Object[][] fillEmployeeTable() {
 		Set<Employee> employees = dataManager.getEmployees();
@@ -206,5 +221,14 @@ public class FilterFrame extends JFrame {
 	    }
 
 	    return logisticTable;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		fillProcedures();
+		updateProcedureParent();
+		employeeDTM.setDataVector(fillEmployeeTable(), new String[]{"Employee", "Wage/Hour"});
+        itemDTM.setDataVector(fillItemTable(), new String[]{"Item", "Cost/Unit"});
+        logisticDTM.setDataVector(fillLogisticTable(), new String[]{"Logistic", "Cost/Unit"});
 	}
 }
