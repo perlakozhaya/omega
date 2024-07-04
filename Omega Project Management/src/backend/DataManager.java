@@ -6,7 +6,9 @@ import java.util.*;
 public class DataManager extends Observable implements Serializable {
     private static final long serialVersionUID = 1L;
 
-	private Set<Project> projects;
+    private Set<Project> projects;
+    private Set<Task> tasks;
+	private Set<Procedure> procedures;
 	private Set<Employee> employees;
 	private Set<Specialty> specialties;
 	private Set<Item> items;
@@ -14,6 +16,8 @@ public class DataManager extends Observable implements Serializable {
 
 	public DataManager() {
 		projects = new TreeSet<>();
+		tasks = new TreeSet<>();
+		procedures = new TreeSet<>();
 		employees = new TreeSet<>();
 		specialties = new TreeSet<>();
 		items = new TreeSet<>();
@@ -225,8 +229,36 @@ public class DataManager extends Observable implements Serializable {
         return dataManager;
     }
 	
+	public void getAllTasks() {
+		Set<Project> allProjects = getProjects();
+		
+		if(!allProjects.isEmpty()) {
+			for(Project project : allProjects) {
+				tasks.addAll(project.getTasks());
+			}
+		}
+	}
+	
+	public void getAllProcedures() {
+		Set<Task> allTasks = getTasks();
+		
+		if(!allTasks.isEmpty()) {
+			for(Task task : allTasks) {
+				procedures.addAll(task.getProcedures());
+			}
+		}
+	}
+	
 	public Set<Project> getProjects() {
-	     return projects;
+		return projects;
+	}
+	
+	public Set<Task> getTasks() {
+		return tasks;
+	}
+	
+	public Set<Procedure> getProcedures() {
+		return procedures;
 	}
 
 	public Set<Employee> getEmployees() {
