@@ -53,8 +53,8 @@ public class FilterFrame extends JFrame implements Observer {
         
         procedureProject = new JLabel("Project: ");
         procedureTask = new JLabel("Task: ");
-        procedureProject.setBounds(10, 50, 100, 30);
-        procedureTask.setBounds(120, 50, 100, 30);
+        procedureProject.setBounds(10, 50, 140, 30);
+        procedureTask.setBounds(180, 50, 140, 30);
         
         // Initialize checkboxes
         empCheckBox = new JCheckBox("Employees");

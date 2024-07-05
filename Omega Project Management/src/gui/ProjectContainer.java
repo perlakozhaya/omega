@@ -44,6 +44,7 @@ public class ProjectContainer extends JPanel {
         	public void actionPerformed(ActionEvent e) {
         		Project selectedProject = formFrame.getSelectedProject();
         		handleProject(selectedProject);
+        		formFrame.setSelectedProject(selectedProject);
         	}
         });
         

@@ -79,7 +79,7 @@ public class ProgressFrame extends JFrame implements Observer {
         projectsDCBM = new DefaultComboBoxModel<Project>();
 
         projects = new JComboBox<>(projectsDCBM);
-        projects.setBounds(319, 5, 100, 25);
+        projects.setBounds(290, 5, 140, 25);
         projects.setFont(new Font("Serif", Font.PLAIN, 18));
         centerPNL.add(projects);
 
