@@ -61,6 +61,10 @@ public class FilterFrame extends JFrame implements Observer {
         itemCheckBox = new JCheckBox("Items");
         logisticCheckBox = new JCheckBox("Logistics");
 
+        empCheckBox.setSelected(true);
+        itemCheckBox.setSelected(true);
+        logisticCheckBox.setSelected(true);
+        
         // Set bounds for checkboxes
         empCheckBox.setBounds(10, 90, 100, 30);
         itemCheckBox.setBounds(120, 90, 100, 30);
@@ -74,7 +78,7 @@ public class FilterFrame extends JFrame implements Observer {
         // Initialize and position the JList and its model
         listModel = new DefaultListModel<>();
         list = new JList<>(listModel);
-        list.setFont(new Font("Serif", Font.PLAIN, 18));
+        list.setFont(new Font("Serif", Font.PLAIN, 16));
         JScrollPane listScrollPane = new JScrollPane(list);
         listScrollPane.setBounds(10, 130, 320, 150);
         procedureFilter.add(listScrollPane);
@@ -252,22 +256,25 @@ public class FilterFrame extends JFrame implements Observer {
         if (selectedProcedure != null) {
             if (empCheckBox.isSelected()) {
                 Set<ProcedureEmployee> employees = selectedProcedure.getEmployees();
+                listModel.addElement("EMPLOYEES");
                 for (ProcedureEmployee employee : employees) {
-                    listModel.addElement("Employee: " + employee.getEmployee().getEmployeeCode());
+                    listModel.addElement(employee.getEmployee().getEmployeeCode() + ", Worked: " + employee.getHoursWorked());
                 }
                 totalCost += selectedProcedure.employeesCost();
             }
             if (itemCheckBox.isSelected()) {
                 Set<ProcedureItem> items = selectedProcedure.getItems();
+                listModel.addElement("ITEMS");
                 for (ProcedureItem item : items) {
-                    listModel.addElement("Item: " + item.getItem().getItemName());
+                    listModel.addElement(item.getItem().getItemName() + ", Quantity: " + item.getQuantity());
                 }
                 totalCost += selectedProcedure.itemsCost();
             }
             if (logisticCheckBox.isSelected()) {
                 Set<ProcedureLogistic> logistics = selectedProcedure.getLogistics();
+                listModel.addElement("LOGISTICS");
                 for (ProcedureLogistic logistic : logistics) {
-                    listModel.addElement("Logistic: " + logistic.getLogistic().getLogisticName());
+                    listModel.addElement(logistic.getLogistic().getLogisticName() + ", Unit: " + logistic.getQuantity());
                 }
                 totalCost += selectedProcedure.logisticsCost();
             }
