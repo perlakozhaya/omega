@@ -23,6 +23,13 @@ public class Main {
 		if (dataManager == null) {
             dataManager = new DataManager();
         }
+		
+//		dataManager.getProjects().clear();
+//		dataManager.getSpecialties().clear();
+//		dataManager.getLogistics().clear();
+//		dataManager.getItems().clear();
+//		dataManager.getEmployees().clear();
+		
 //	    dataManager.addLogistic(new Logistic("Electricity Usage", 0.12)); // cost per kWh for manufacturing
 //	    dataManager.addLogistic(new Logistic("Component Procurement", 5.00)); // cost per electronic component
 //	    dataManager.addLogistic(new Logistic("PCB Manufacturing", 10.00)); // cost per printed circuit board
@@ -88,7 +95,7 @@ public class Main {
 //	    dataManager.addEmployee(new Employee("Fadi Gerges", electricalEngineer));
 //	    dataManager.addEmployee(new Employee("Nour Adib", electricalEngineer));
 //	    dataManager.addEmployee(new Employee("Amal Daher", technician));
-	    
+		
         FormFrame formFrame = new FormFrame(dataManager);
         formFrame.setVisible(true);
         

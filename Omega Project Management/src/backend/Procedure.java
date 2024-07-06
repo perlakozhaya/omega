@@ -42,19 +42,7 @@ public class Procedure implements Comparable<Procedure>, Serializable {
 		}
 		return total;
 	}
-  
-	public double currentEmployeesCost() {
-		double total = 0.0;
-		Iterator<ProcedureEmployee> i = employees.iterator();
-		while(i.hasNext()) {
-			ProcedureEmployee pe = i.next();
-			if(pe.procedure.status != "Execute") {
-				total += pe.getCost();			  
-			}
-		}
-		return total;
-	}
-  
+
 	public double itemsCost() {
 		double total = 0.0;
 		Iterator<ProcedureItem> i = items.iterator();
@@ -64,18 +52,6 @@ public class Procedure implements Comparable<Procedure>, Serializable {
 		return total;
 	}
 
-	public double currentItemsCost() {
-		double total = 0.0;
-		Iterator<ProcedureItem> i = items.iterator();
-		while(i.hasNext()) {
-			ProcedureItem pi = i.next();
-			if(pi.procedure.status != "Execute") {
-				total += pi.getCost();			  
-			}
-		}
-		return total;
-	}
-  
 	public double logisticsCost() {
 		double total = 0.0;
 		Iterator<ProcedureLogistic> i = logistics.iterator();
@@ -85,25 +61,10 @@ public class Procedure implements Comparable<Procedure>, Serializable {
 		return total;
 	}
 
-	public double currentLogisticsCost() {
-		double total = 0.0;
-		Iterator<ProcedureLogistic> i = logistics.iterator();
-		while(i.hasNext()) {
-			ProcedureLogistic pr = i.next();
-			if(pr.procedure.status != "Execute") {
-				total += pr.getCost();			  
-			}
-		}
-		return total;
-	}
-  
 	public double procedureCost() {
 		return employeesCost() + itemsCost() + logisticsCost();
 	}
-  
-	public double currentProcedureCost() {
-		return currentEmployeesCost() + currentItemsCost() + currentLogisticsCost();
-	}
+
   
 	public String getProcedureName() {
 		return procedureName;

@@ -292,7 +292,7 @@ public class FilterFrame extends JFrame implements Observer {
         for (Employee employee : employees) {
             Object[] row = new Object[3];
             row[0] = employee;
-            row[1] = employee.getSpecialty().getSpecialtyName();
+            row[1] = employee.getSpecialty();
             row[2] = employee.getSpecialty().getWagePerHour();
             employeeTable[index++] = row;
         }

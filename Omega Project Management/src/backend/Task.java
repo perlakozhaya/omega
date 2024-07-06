@@ -33,7 +33,9 @@ public class Task implements Comparable<Task>, Serializable {
 	public double currentTaskCost() {
 		double total = 0.0;
 		for(Procedure p : procedures) {
-			total += p.currentProcedureCost();      
+			if(!p.getStatus().equals("Execute")) {
+				total += p.procedureCost();      				
+			}
 		}
 		return total;
 	}
@@ -49,7 +51,7 @@ public class Task implements Comparable<Task>, Serializable {
 	public double currentTaskDuration() {
 		double duration = 0.0;
 		for(Procedure p : procedures) {
-			if(p.getStatus() == "Done") {
+			if(p.getStatus().equals("Done")) {
 				duration += p.getProcedureDuration();
 			}
 		}

@@ -226,7 +226,7 @@ public class DataManager extends Observable implements Serializable {
         }
         return dataManager;
     }
-	
+
 	public Set<Task> getAllTasks() {	
 		Set<Task> tasks = new TreeSet<>();
 		if(!projects.isEmpty()) {
