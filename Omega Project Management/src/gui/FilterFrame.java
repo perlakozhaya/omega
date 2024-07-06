@@ -39,7 +39,7 @@ public class FilterFrame extends JFrame implements Observer {
         
         setTitle("Filter Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(535, 10, 715, 420);
+        setBounds(580, 10, 920, 420);
         setLayout(new GridLayout(1, 2));
         
         procedureFilter = new JPanel();
@@ -48,13 +48,13 @@ public class FilterFrame extends JFrame implements Observer {
         
         proceduresDCBM = new DefaultComboBoxModel<>();
         proceduresCB = new JComboBox<>(proceduresDCBM);
-        proceduresCB.setBounds(10, 10, 100, 30);
+        proceduresCB.setBounds(10, 10, 180, 30);
         procedureFilter.add(proceduresCB);
         
-        procedureProject = new JLabel("Project: ");
-        procedureTask = new JLabel("Task: ");
-        procedureProject.setBounds(10, 50, 140, 30);
-        procedureTask.setBounds(180, 50, 140, 30);
+        procedureProject = new JLabel("PROJECT: ");
+        procedureTask = new JLabel("TASK: ");
+        procedureProject.setBounds(10, 50, 200, 30);
+        procedureTask.setBounds(220, 50, 200, 30);
         
         // Initialize checkboxes
         empCheckBox = new JCheckBox("Employees");
@@ -67,8 +67,8 @@ public class FilterFrame extends JFrame implements Observer {
         
         // Set bounds for checkboxes
         empCheckBox.setBounds(10, 90, 100, 30);
-        itemCheckBox.setBounds(120, 90, 100, 30);
-        logisticCheckBox.setBounds(230, 90, 100, 30);
+        itemCheckBox.setBounds(170, 90, 100, 30);
+        logisticCheckBox.setBounds(290, 90, 100, 30);
 
         // Add checkboxes to the panel
         procedureFilter.add(empCheckBox);
@@ -80,14 +80,14 @@ public class FilterFrame extends JFrame implements Observer {
         list = new JList<>(listModel);
         list.setFont(new Font("Serif", Font.PLAIN, 16));
         JScrollPane listScrollPane = new JScrollPane(list);
-        listScrollPane.setBounds(10, 130, 320, 150);
+        listScrollPane.setBounds(10, 130, 370, 150);
         procedureFilter.add(listScrollPane);
 
         // Initialize and position the current cost label and field
         currentCostLabel = new JLabel("Current cost:");
-        currentCostLabel.setBounds(10, 290, 100, 30);
+        currentCostLabel.setBounds(10, 310, 100, 30);
         currentCostField = new JTextField();
-        currentCostField.setBounds(120, 290, 100, 30);
+        currentCostField.setBounds(120, 310, 100, 30);
         currentCostField.setEditable(false);
         procedureFilter.add(currentCostLabel);
         procedureFilter.add(currentCostField);
@@ -104,7 +104,7 @@ public class FilterFrame extends JFrame implements Observer {
         logisticButton = new JButton("Logistics");
         buttonsPanel.add(logisticButton);
         
-        employeeDTM = new DefaultTableModel(fillEmployeeTable(), new String[]{"Employee", "Wage/Hour"}) {
+        employeeDTM = new DefaultTableModel(fillEmployeeTable(), new String[]{"Employee", "Specialty", "Wage/Hour"}) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -217,6 +217,8 @@ public class FilterFrame extends JFrame implements Observer {
     }
     
     public Project getProcedureProject(Task task) {
+    	if(task == null) return null;
+    	
         Set<Project> allProjects = dataManager.getProjects();
         if(!allProjects.isEmpty()) {
             for(Project project : allProjects) {
@@ -227,7 +229,6 @@ public class FilterFrame extends JFrame implements Observer {
         }
         return null;
     }
-
     
     public void updateProcedureParent() {
         Procedure selectedProcedure = (Procedure) proceduresCB.getSelectedItem();
@@ -236,15 +237,15 @@ public class FilterFrame extends JFrame implements Observer {
             Project selectedProcedureProject = getProcedureProject(selectedProcedureTask);
 
             if (selectedProcedureTask != null && selectedProcedureProject != null) {
-                procedureProject.setText("Project: " + selectedProcedureProject.getProjectName());
-                procedureTask.setText("Task: " + selectedProcedureTask.getTaskName());
+                procedureProject.setText("PROJECT: " + selectedProcedureProject.getProjectName());
+                procedureTask.setText("TASK: " + selectedProcedureTask.getTaskName());
             } else {
-                procedureProject.setText("Project: ");
-                procedureTask.setText("Task: ");
+                procedureProject.setText("PROJECT: ");
+                procedureTask.setText("TASK: ");
             }
         } else {
-            procedureProject.setText("Project: ");
-            procedureTask.setText("Task: ");
+            procedureProject.setText("PROJECT: ");
+            procedureTask.setText("TASK: ");
         }
     }
 
@@ -285,13 +286,14 @@ public class FilterFrame extends JFrame implements Observer {
 
     public Object[][] fillEmployeeTable() {
         Set<Employee> employees = dataManager.getEmployees();
-        Object[][] employeeTable = new Object[employees.size()][2];
+        Object[][] employeeTable = new Object[employees.size()][3];
         int index = 0;
         
         for (Employee employee : employees) {
-            Object[] row = new Object[2];
+            Object[] row = new Object[3];
             row[0] = employee;
-            row[1] = employee.getSpecialty().getWagePerHour();
+            row[1] = employee.getSpecialty().getSpecialtyName();
+            row[2] = employee.getSpecialty().getWagePerHour();
             employeeTable[index++] = row;
         }
         
@@ -333,7 +335,7 @@ public class FilterFrame extends JFrame implements Observer {
         fillProcedures();
         updateProcedureParent();
         updateListAndCost();
-        employeeDTM.setDataVector(fillEmployeeTable(), new String[]{"Employee", "Wage/Hour"});
+        employeeDTM.setDataVector(fillEmployeeTable(), new String[]{"Employee", "Specialty", "Wage/Hour"});
         itemDTM.setDataVector(fillItemTable(), new String[]{"Item", "Cost/Unit"});
         logisticDTM.setDataVector(fillLogisticTable(), new String[]{"Logistic", "Cost/Unit"});
     }

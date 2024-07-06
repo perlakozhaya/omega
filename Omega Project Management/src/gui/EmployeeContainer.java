@@ -44,29 +44,29 @@ public class EmployeeContainer extends JPanel {
 		empLST = new JList<Employee>(empDLM);
 		empLST.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	    scrollPane = new JScrollPane(empLST);
-	    scrollPane.setBounds(0, 14, 220, 140);
+	    scrollPane.setBounds(0, 14, 240, 140);
 	    add(scrollPane);
 	    
 	    hoursLB = new JLabel("Worked Hours");
-	    hoursLB.setBounds(270, 15, 100, 13);
+	    hoursLB.setBounds(280, 15, 120, 13);
 	    add(hoursLB);
 	    
 	    hoursFLD = new JTextField("0");
 	    hoursFLD.setHorizontalAlignment(SwingConstants.CENTER);
-	    hoursFLD.setBounds(240, 33, 140, 19);
+	    hoursFLD.setBounds(260, 33, 160, 19);
 	    add(hoursFLD);
 	    hoursFLD.setColumns(10);
 	    
 	    empAddBTN = new JButton("Add Employee");
-	    empAddBTN.setBounds(240, 55, 140, 21);
+	    empAddBTN.setBounds(260, 55, 160, 21);
 	    add(empAddBTN);
 	    
 	    createEmp = new JButton("Create Employee");
-	    createEmp.setBounds(240, 107, 140, 21);
+	    createEmp.setBounds(260, 107, 160, 21);
 	    add(createEmp);
 	    
 	    createSpecialty = new JButton("Create Specialty");
-	    createSpecialty.setBounds(240, 133, 140, 20);
+	    createSpecialty.setBounds(260, 133, 160, 20);
 	    add(createSpecialty);
 	    
 	    createEmpC = new CreateEmployeeContainer(formFrame, dataManager, this);
@@ -75,7 +75,7 @@ public class EmployeeContainer extends JPanel {
 	    cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
         
-        cardPanel.setBounds(0, 170, 395, 50);
+        cardPanel.setBounds(0, 170, 435, 50);
         cardPanel.add(new JPanel(), "Empty");
         cardPanel.add(createEmpC, "CreateEmployee");
         cardPanel.add(createSpecialtyC, "CreateSpecialty");

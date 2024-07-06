@@ -22,17 +22,17 @@ public class ProjectContainer extends JPanel {
 		setLayout(null);
         
         projectNameLB = new JLabel("Create new Project");
-        projectNameLB.setBounds(130, 80, 150, 30);
+        projectNameLB.setBounds(190, 80, 150, 30);
         projectNameLB.setHorizontalAlignment(SwingConstants.CENTER);
        
         projectNameFLD = new JTextField("Project Name...");
-        projectNameFLD.setBounds(130, 110, 150, 30);
+        projectNameFLD.setBounds(190, 110, 150, 30);
         
         projectApplyBTN = new JButton("Apply Changes");
-        projectApplyBTN.setBounds(130, 180, 150, 30);
+        projectApplyBTN.setBounds(190, 180, 150, 30);
         
         projectDeleteBTN = new JButton("Delete Project");
-        projectDeleteBTN.setBounds(130, 220, 150, 30);
+        projectDeleteBTN.setBounds(190, 220, 150, 30);
 
         add(projectNameLB);
         add(projectNameFLD);

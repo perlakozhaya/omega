@@ -216,8 +216,10 @@ public class DataManager extends Observable implements Serializable {
 	
 	public static DataManager loadDataFromFile(File file) {
         DataManager dataManager = null;
+        
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            dataManager = (DataManager) ois.readObject();
+        	dataManager = (DataManager) ois.readObject();
+            
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             System.err.println("Error loading data: " + e.getMessage());

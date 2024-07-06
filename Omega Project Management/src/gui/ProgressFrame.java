@@ -33,7 +33,7 @@ public class ProgressFrame extends JFrame implements Observer {
         
         setTitle("Progress Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(330, 430, 720, 285);
+        setBounds(310, 430, 880, 285);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -79,7 +79,7 @@ public class ProgressFrame extends JFrame implements Observer {
         projectsDCBM = new DefaultComboBoxModel<Project>();
 
         projects = new JComboBox<>(projectsDCBM);
-        projects.setBounds(290, 5, 140, 25);
+        projects.setBounds(310, 5, 200, 25);
         projects.setFont(new Font("Serif", Font.PLAIN, 18));
         centerPNL.add(projects);
 
@@ -98,7 +98,7 @@ public class ProgressFrame extends JFrame implements Observer {
         table.setModel(tableDTM);
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(5, 35, 685, 305);
+        scrollPane.setBounds(5, 35, 850, 305);
         centerPNL.add(scrollPane);
 
         // Add the ListSelectionListener to the table

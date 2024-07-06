@@ -41,7 +41,7 @@ public class FormFrame extends JFrame {
 
     	setTitle("Form Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(120, 10, 420, 420);
+        setBounds(10, 10, 560, 420);
         setResizable(true);
         setLayout(new BorderLayout());
 
@@ -68,7 +68,7 @@ public class FormFrame extends JFrame {
                     }
                 }
                 if(dataManager.saveDataToFile(file)) {
-                	showMessage("Data saved successfully!");
+                	JOptionPane.showMessageDialog(FormFrame.this, "Save successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });

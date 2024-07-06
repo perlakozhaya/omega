@@ -31,19 +31,19 @@ public class ProcedureContainer extends JPanel {
 	    setLayout(null);
 	    
 	    procedureNameLB = new JLabel("Create new Procedure");
-	    procedureNameLB.setBounds(20, 6, 130, 13);
+	    procedureNameLB.setBounds(80, 6, 130, 13);
 	    
 	    procedureNameFLD = new JTextField("Procedure Name...");
-	    procedureNameFLD.setBounds(20, 22, 130, 25);
+	    procedureNameFLD.setBounds(80, 22, 130, 25);
 
 	    procedureDurationLB = new JLabel("Duration/h");
-	    procedureDurationLB.setBounds(170, 6, 130, 13);
+	    procedureDurationLB.setBounds(230, 6, 130, 13);
 	    
 	    procedureDurationFLD = new JTextField("0");
-	    procedureDurationFLD.setBounds(170, 22, 130, 25);
+	    procedureDurationFLD.setBounds(230, 22, 130, 25);
 	    
 	    procedureApplyBTN = new JButton("Apply");
-        procedureApplyBTN.setBounds(320, 22, 65, 25);
+        procedureApplyBTN.setBounds(380, 22, 65, 25);
 	    
 	    add(procedureNameLB);
 	    add(procedureNameFLD);
@@ -53,8 +53,8 @@ public class ProcedureContainer extends JPanel {
 	    
 	    detailsC = new JPanel();
 	    detailsC.setBackground(new Color(181, 181, 181));
-	    detailsC.setBounds(0, 53, 405, 310);
-	    detailsC.setLayout(new BorderLayout(0, 0));
+	    detailsC.setBounds(40, 53, 445, 310);
+	    detailsC.setLayout(new BorderLayout());
 	    add(detailsC);
 	    
 	    buttonsPanel = new JPanel();

@@ -22,14 +22,14 @@ public class TaskContainer extends JPanel {
 		setLayout(null);
         
         taskNameLB = new JLabel("Create new Task");
-        taskNameLB.setBounds(130, 80, 150, 30);
+        taskNameLB.setBounds(190, 80, 150, 30);
         taskNameLB.setHorizontalAlignment(SwingConstants.CENTER);
         
         taskNameFLD = new JTextField("Task Name...");
-        taskNameFLD.setBounds(130, 110, 150, 30);
+        taskNameFLD.setBounds(190, 110, 150, 30);
         
         taskApplyBTN = new JButton("Apply Changes");
-        taskApplyBTN.setBounds(130, 180, 150, 30);
+        taskApplyBTN.setBounds(190, 180, 150, 30);
 
         add(taskNameLB);
         add(taskNameFLD);
