@@ -2,19 +2,19 @@ package backend;
 
 import java.io.Serializable;
 
-public class ProcedureLogistic extends ProcedureDetail implements Serializable {
+public class ProcedureLogistic implements Comparable<ProcedureLogistic>, Serializable {
 	private static final long serialVersionUID = 5707924760016289173L;
 	
+	private Procedure procedure;
 	private double quantity;
 	private Logistic logistic;
 	
 	public ProcedureLogistic(Procedure procedure, Logistic logistic, double quantity) {
-		super(procedure);
+		this.procedure = procedure;
 		this.logistic = logistic;
 		this.quantity = quantity;
 	}
 
-	@Override
 	public double getCost() {
 		return logistic.getCostPerUnit() * quantity;
 	}
@@ -33,5 +33,14 @@ public class ProcedureLogistic extends ProcedureDetail implements Serializable {
 	
 	public void setLogistic(Logistic logistic) {
 		this.logistic = logistic;
+	}
+	
+	@Override
+	public int compareTo(ProcedureLogistic o) {
+		return this.procedure.compareTo(o.procedure);
+	}
+	
+	public Procedure getProcedure() {
+		return procedure;
 	}
 }

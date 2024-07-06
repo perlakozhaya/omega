@@ -41,7 +41,7 @@ public class FormFrame extends JFrame {
 
     	setTitle("Form Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(10, 10, 560, 420);
+        setBounds(10, 10, 520, 420);
         setResizable(true);
         setLayout(new BorderLayout());
 
@@ -83,7 +83,7 @@ public class FormFrame extends JFrame {
         // Initialize and configure comboboxes panel
         comboBoxPanel = new JPanel();
         comboBoxPanel.setLayout(new BoxLayout(comboBoxPanel, BoxLayout.X_AXIS));
-        comboBoxPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        comboBoxPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         comboBoxPanel.setBackground(Color.LIGHT_GRAY);
         
         projectDCBM = new DefaultComboBoxModel<>();

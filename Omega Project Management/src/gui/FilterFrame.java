@@ -39,7 +39,7 @@ public class FilterFrame extends JFrame implements Observer {
         
         setTitle("Filter Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(580, 10, 920, 420);
+        setBounds(530, 10, 860, 420);
         setLayout(new GridLayout(1, 2));
         
         procedureFilter = new JPanel();
@@ -127,7 +127,7 @@ public class FilterFrame extends JFrame implements Observer {
 
         detailTable = new JTable(employeeDTM);
         detailTable.setRowHeight(25);
-        detailTable.setFont(new Font("Serif", Font.PLAIN, 18));
+        detailTable.setFont(new Font("Serif", Font.PLAIN, 16));
         detailTable.getTableHeader().setFont(new Font("Serif", Font.PLAIN, 18));
         JScrollPane scrollPane = new JScrollPane(detailTable);
         procedureDetail.add(scrollPane, BorderLayout.CENTER);
