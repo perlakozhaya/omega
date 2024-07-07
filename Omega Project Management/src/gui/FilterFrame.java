@@ -39,7 +39,7 @@ public class FilterFrame extends JFrame implements Observer {
         
         setTitle("Filter Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(530, 10, 860, 420);
+        setBounds(530, 10, 820, 420);
         setLayout(new GridLayout(1, 2));
         
         procedureFilter = new JPanel();
@@ -291,7 +291,7 @@ public class FilterFrame extends JFrame implements Observer {
         
         for (Employee employee : employees) {
             Object[] row = new Object[3];
-            row[0] = employee;
+            row[0] = employee.getEmployeeCode();
             row[1] = employee.getSpecialty();
             row[2] = employee.getSpecialty().getWagePerHour();
             employeeTable[index++] = row;

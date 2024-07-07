@@ -33,6 +33,6 @@ public class Employee implements Comparable<Employee>, Serializable {
 	
 	@Override
 	public String toString() {
-		return employeeCode;
+		return employeeCode + " [" + specialty.getSpecialtyName() + "]";
 	}
 }
