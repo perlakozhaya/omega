@@ -1,7 +1,11 @@
 package backend;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.*;
+
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
 
 public class DataManager extends Observable implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -227,7 +231,106 @@ public class DataManager extends Observable implements Serializable {
         return dataManager;
     }
 
-	public Set<Task> getAllTasks() {	
+	public void export_to_pdf(Project p) {
+		StringBuilder html = new StringBuilder();
+		
+        html.append("<!DOCTYPE html>\n");
+        html.append("<html lang=\"en\">\n");
+        html.append("<head>\n");
+        html.append("    <meta charset=\"UTF-8\">\n");
+        html.append("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n");
+        html.append("    <title>Project Details</title>\n");
+        html.append("    <style>\n");
+        html.append("        body {\n");
+        html.append("            font-family: Arial, sans-serif;\n");
+        html.append("            margin: 20px;\n");
+        html.append("        }\n");
+        html.append("        .project, .task, .procedure {\n");
+        html.append("            border: 1px solid #ddd;\n");
+        html.append("            margin-bottom: 20px;\n");
+        html.append("            padding: 20px;\n");
+        html.append("            border-radius: 5px;\n");
+        html.append("        }\n");
+        html.append("        .project-title, .task-title, .procedure-title {\n");
+        html.append("            font-weight: bold;\n");
+        html.append("            font-size: 1.2em;\n");
+        html.append("        }\n");
+        html.append("        .details {\n");
+        html.append("            margin-top: 10px;\n");
+        html.append("        }\n");
+        html.append("        .employees, .materials {\n");
+        html.append("            margin-top: 10px;\n");
+        html.append("        }\n");
+        html.append("    </style>\n");
+        html.append("</head>\n");
+        html.append("<body>\n");
+
+        html.append("    <div class=\"project\">\n");
+        html.append("        <div class=\"project-title\">Project: ").append(p.getProjectName()).append("</div>\n");
+        html.append("        <div class=\"details\">\n");
+        html.append("            <p>Price: $").append(p.projectCost()).append("</p>\n");
+        html.append("            <p>Time: ").append(p.projectDuration()).append("</p>\n");
+        html.append("        </div>\n");
+
+        for (Task task : p.getTasks()) {
+            html.append("        <div class=\"task\">\n");
+            html.append("            <div class=\"task-title\">Task: ").append(task.getTaskName()).append("</div>\n");
+            html.append("            <div class=\"details\">\n");
+            html.append("                <p>Price: $").append(String.format("%.2f",task.taskCost())).append("</p>\n");
+            html.append("                <p>Time: ").append(task.taskDuration()).append("</p>\n");
+            html.append("            </div>\n");
+
+            for (Procedure procedure : task.getProcedures()) {
+                html.append("            <div class=\"procedure\">\n");
+                html.append("                <div class=\"procedure-title\">Procedure: ").append(procedure.getProcedureName()).append("</div>\n");
+                html.append("                <div class=\"details\">\n");
+                html.append("                    <p>Price: $").append(String.format("%.2f",procedure.procedureCost())).append("</p>\n");
+                html.append("                    <p>Time: ").append(procedure.getProcedureDuration()).append("</p>\n");
+                html.append("                    <div class=\"employees\">\n");
+                html.append("                        <p>Employees:</p>\n");
+                html.append("                        <ul>\n");
+
+                Set<ProcedureEmployee> employees = procedure.getEmployees();
+                for (ProcedureEmployee pe : employees) {
+                    html.append("                            <li>").append(pe.getEmployee().getEmployeeCode()).append("</li>\n");
+                }
+
+                html.append("                        </ul>\n");
+                html.append("                    </div>\n");
+                html.append("                    <div class=\"materials\">\n");
+                html.append("                        <p>Materials:</p>\n");
+                html.append("                        <ul>\n");
+
+                Set<ProcedureItem> items = procedure.getItems();
+                for (ProcedureItem pi : items) {
+                    html.append("                            <li>").append(pi.getItem().getItemName()).append("</li>\n");
+                }
+
+                html.append("                        </ul>\n");
+                html.append("                    </div>\n");
+                html.append("                </div>\n");
+                html.append("            </div>\n");
+            }
+
+            html.append("        </div>\n");
+        }
+
+        html.append("    </div>\n");
+        html.append("</body>\n");
+        html.append("</html>\n");
+
+        // Create the PDF from HTML
+        try (FileOutputStream outputStream = new FileOutputStream("src/" + p.getProjectName() + ".pdf")) {
+                // Create converter properties, if needed
+                ConverterProperties converterProperties = new ConverterProperties();
+                // Convert HTML to PDF
+                HtmlConverter.convertToPdf(html.toString(), outputStream, converterProperties);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+ 	public Set<Task> getAllTasks() {	
 		Set<Task> tasks = new TreeSet<>();
 		if(!projects.isEmpty()) {
 			for(Project project : projects) {

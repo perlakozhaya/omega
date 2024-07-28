@@ -32,6 +32,7 @@ public class FormFrame extends JFrame {
     private JMenuBar menuBar;
     private JMenu fileMenu;
     private JMenuItem save;
+    private JMenuItem export;
     private JMenuItem exit;
     
     private DataManager dataManager;
@@ -49,8 +50,10 @@ public class FormFrame extends JFrame {
         menuBar = new JMenuBar();
         fileMenu = new JMenu("File");
         save = new JMenuItem("Save");
+        export = new JMenuItem("Export Project");
         exit = new JMenuItem("Exit");
         fileMenu.add(save);
+        fileMenu.add(export);
         fileMenu.add(exit);
         menuBar.add(fileMenu);
         setJMenuBar(menuBar);
@@ -73,6 +76,16 @@ public class FormFrame extends JFrame {
             }
         });
 
+        export.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Project project = (Project)projectBOX.getSelectedItem();
+				if(project != null) {
+					dataManager.export_to_pdf(project);
+				}
+			}
+        });
+        
         exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -250,4 +263,12 @@ public class FormFrame extends JFrame {
     public void setSelectedProcedure(Procedure procedure) {
     	procedureBOX.setSelectedItem(procedure);
     }
+
+	public JMenuItem getExport() {
+		return export;
+	}
+
+	public void setExport(JMenuItem export) {
+		this.export = export;
+	}
 }
